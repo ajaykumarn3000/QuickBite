@@ -1,0 +1,81 @@
+2024-01-12 02:57:28 - INFO - BEGIN (implicit)
+2024-01-12 02:57:28 - INFO - PRAGMA main.table_info("student")
+2024-01-12 02:57:28 - INFO - [raw sql] ()
+2024-01-12 02:57:28 - DEBUG - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2024-01-12 02:57:28 - INFO - PRAGMA temp.table_info("student")
+2024-01-12 02:57:28 - INFO - [raw sql] ()
+2024-01-12 02:57:28 - DEBUG - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2024-01-12 02:57:28 - INFO - PRAGMA main.table_info("teacher")
+2024-01-12 02:57:28 - INFO - [raw sql] ()
+2024-01-12 02:57:28 - DEBUG - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2024-01-12 02:57:28 - INFO - PRAGMA temp.table_info("teacher")
+2024-01-12 02:57:28 - INFO - [raw sql] ()
+2024-01-12 02:57:28 - DEBUG - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2024-01-12 02:57:28 - INFO - 
+CREATE TABLE student (
+	uid INTEGER NOT NULL, 
+	email TEXT NOT NULL, 
+	passcode TEXT NOT NULL, 
+	PRIMARY KEY (uid), 
+	UNIQUE (email)
+)
+
+
+2024-01-12 02:57:28 - INFO - [no key 0.00004s] ()
+2024-01-12 02:57:28 - INFO - 
+CREATE TABLE teacher (
+	uid INTEGER NOT NULL, 
+	email TEXT NOT NULL, 
+	passcode TEXT NOT NULL, 
+	PRIMARY KEY (uid), 
+	UNIQUE (email)
+)
+
+
+2024-01-12 02:57:28 - INFO - [no key 0.00004s] ()
+2024-01-12 02:57:28 - INFO - COMMIT
+2024-01-12 02:57:28 - INFO - BEGIN (implicit)
+2024-01-12 02:57:28 - INFO - INSERT INTO student (uid, email, passcode) VALUES (?, ?, ?)
+2024-01-12 02:57:28 - INFO - [generated in 0.00012s] (221078, 'kevin.nadar@student.sfit.ac.in', '$2b$12$JbrYP5dUlrBpbvjKFz1O.eWxn8fnsxUjaCqLd20iXq9ZaRRA01MJW')
+2024-01-12 02:57:28 - INFO - COMMIT
+2024-01-12 02:57:28 - INFO - BEGIN (implicit)
+2024-01-12 02:57:28 - INFO - SELECT student.uid AS student_uid, student.email AS student_email, student.passcode AS student_passcode 
+FROM student 
+WHERE student.uid = ?
+2024-01-12 02:57:28 - INFO - [generated in 0.00009s] (221078,)
+2024-01-12 02:57:28 - DEBUG - Col ('student_uid', 'student_email', 'student_passcode')
+2024-01-12 02:57:28 - DEBUG - Row (221078, 'kevin.nadar@student.sfit.ac.in', '$2b$12$JbrYP5dUlrBpbvjKFz1O.eWxn8fnsxUjaCqLd20iXq9ZaRRA01MJW')
+2024-01-12 02:57:28 - INFO - Added student with pid 221078
+2024-01-12 02:57:28 - INFO - INSERT INTO student (uid, email, passcode) VALUES (?, ?, ?)
+2024-01-12 02:57:28 - INFO - [cached since 0.2413s ago] (221077, 'ajay.nadar@student.sfit.ac.in', '$2b$12$h6YkqFe7sc5d13SX926rq.dDkYH3qT/LTBZDkHLR3sTYbcRmloaVO')
+2024-01-12 02:57:28 - INFO - COMMIT
+2024-01-12 02:57:28 - INFO - BEGIN (implicit)
+2024-01-12 02:57:28 - INFO - SELECT student.uid AS student_uid, student.email AS student_email, student.passcode AS student_passcode 
+FROM student 
+WHERE student.uid = ?
+2024-01-12 02:57:28 - INFO - [cached since 0.2394s ago] (221077,)
+2024-01-12 02:57:28 - DEBUG - Col ('student_uid', 'student_email', 'student_passcode')
+2024-01-12 02:57:28 - DEBUG - Row (221077, 'ajay.nadar@student.sfit.ac.in', '$2b$12$h6YkqFe7sc5d13SX926rq.dDkYH3qT/LTBZDkHLR3sTYbcRmloaVO')
+2024-01-12 02:57:28 - INFO - Added student with pid 221077
+2024-01-12 02:57:28 - INFO - INSERT INTO teacher (uid, email, passcode) VALUES (?, ?, ?)
+2024-01-12 02:57:28 - INFO - [generated in 0.00015s] (671973, 'garima.singh@sfit.ac.in', '$2b$12$QWITze7oLmrdyKP0H0tiMeLqKH7eCD7wJBLUEZcV6/PZeW0j1Rlna')
+2024-01-12 02:57:28 - INFO - COMMIT
+2024-01-12 02:57:28 - INFO - BEGIN (implicit)
+2024-01-12 02:57:28 - INFO - SELECT teacher.uid AS teacher_uid, teacher.email AS teacher_email, teacher.passcode AS teacher_passcode 
+FROM teacher 
+WHERE teacher.uid = ?
+2024-01-12 02:57:28 - INFO - [generated in 0.00008s] (671973,)
+2024-01-12 02:57:28 - DEBUG - Col ('teacher_uid', 'teacher_email', 'teacher_passcode')
+2024-01-12 02:57:28 - DEBUG - Row (671973, 'garima.singh@sfit.ac.in', '$2b$12$QWITze7oLmrdyKP0H0tiMeLqKH7eCD7wJBLUEZcV6/PZeW0j1Rlna')
+2024-01-12 02:57:28 - INFO - Added teacher with uid 671973
+2024-01-12 02:57:29 - INFO - INSERT INTO teacher (uid, email, passcode) VALUES (?, ?, ?)
+2024-01-12 02:57:29 - INFO - [cached since 0.2397s ago] (728587, 'sonali.suryawanshi@sfit.ac.in', '$2b$12$kj6/hcMtya/BI4B151YYWurOn4DA7Sh2stb4THmalpT2tARFwVZMW')
+2024-01-12 02:57:29 - INFO - COMMIT
+2024-01-12 02:57:29 - INFO - BEGIN (implicit)
+2024-01-12 02:57:29 - INFO - SELECT teacher.uid AS teacher_uid, teacher.email AS teacher_email, teacher.passcode AS teacher_passcode 
+FROM teacher 
+WHERE teacher.uid = ?
+2024-01-12 02:57:29 - INFO - [cached since 0.2389s ago] (728587,)
+2024-01-12 02:57:29 - DEBUG - Col ('teacher_uid', 'teacher_email', 'teacher_passcode')
+2024-01-12 02:57:29 - DEBUG - Row (728587, 'sonali.suryawanshi@sfit.ac.in', '$2b$12$kj6/hcMtya/BI4B151YYWurOn4DA7Sh2stb4THmalpT2tARFwVZMW')
+2024-01-12 02:57:29 - INFO - Added teacher with uid 728587
