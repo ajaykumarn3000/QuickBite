@@ -8,13 +8,29 @@ import NumberInput from "../elements/NumberInput";
 function Register() {
   const [email, setEmail] = useState("");
   const [domain, setDomain] = useState("@student.sfit.ac.in");
-  const [pid, setPid] = useState();
+  const [pid, setPid] = useState("");
   const [password, setPassword] = useState("");
   // const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Form Logic
+
+    if (email && pid && password) {
+      try {
+        const res = await fetch("http://localhost:5000/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email + domain,
+            pid,
+            password,
+          }),
+        });
+        const data = await res.json();
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
     setEmail("");
     setDomain("@student.sfit.ac.in");

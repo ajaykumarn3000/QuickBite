@@ -5,12 +5,26 @@ import TextInput from "../elements/TextInput";
 import NumberInput from "../elements/NumberInput";
 
 function Login() {
-  const [pid, setPid] = useState();
+  const [pid, setPid] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Form Logic
+    if (pid && password) {
+      try {
+        const res = await fetch("http://localhost:5000/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            pid,
+            password,
+          }),
+        });
+        const data = await res.json();
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
     setPassword("");
     setPid("");
@@ -39,7 +53,7 @@ function Login() {
           Login
         </button>
       </form>
-      <span className="flex w-full justify-around text-md">
+      <span className="flex w-full sm:max-w-[40%] justify-around text-md">
         <p>Already have a account?</p>{" "}
         <Link to="/register" className="text-amber-500 font-semibold">
           Register
