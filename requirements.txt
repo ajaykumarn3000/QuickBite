@@ -1,0 +1,4 @@
+flask~=2.2.5
+werkzeug~=2.2.3
+bcrypt~=3.2.0
+sqlalchemy~=2.0.25
