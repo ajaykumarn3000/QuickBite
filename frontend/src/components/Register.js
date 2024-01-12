@@ -10,32 +10,74 @@ function Register() {
   const [domain, setDomain] = useState("@student.sfit.ac.in");
   const [pid, setPid] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
+  const [viewOtp, setViewOtp] = useState(false);
   // const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (email && pid && password) {
-      try {
-        const res = await fetch("http://localhost:5000/auth/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: email + domain,
-            pid,
-            password,
-          }),
-        });
-        const data = await res.json();
-      } catch (err) {
-        console.log(err);
+    if (!viewOtp) {
+      if (email && pid && password) {
+        try {
+          const res = await fetch("http://localhost:5000/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: email + domain,
+              pid,
+              password,
+            }),
+          });
+          if (res.ok) {
+            setViewOtp(true);
+          } else {
+            const data = await res.json();
+            console.log(data);
+          }
+          const data = await res.json();
+        } catch (err) {
+          console.log(err);
+        }
       }
-    }
+      setEmail("");
+      setDomain("@student.sfit.ac.in");
+      setPassword("");
+      setPid("");
+    } else {
+      if (otp) {
+        try {
+          const res = await fetch("http://localhost:5000/auth/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: email + domain,
+              otp
+            }),
+          });
+          if (res.ok) {
+            const data = await res.json();
+            console.log(data, );
 
-    setEmail("");
-    setDomain("@student.sfit.ac.in");
-    setPassword("");
-    setPid("");
+            setViewOtp(false);
+            setEmail("Successfully Registered");
+          } else {
+            
+            const data = await res.json();
+            setEmail(data.message)
+            console.log(data);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      // setEmail("");
+      setDomain("@student.sfit.ac.in");
+      setPassword("");
+      setPid("");
+      setOtp("");
+      setViewOtp(false);
+    }
   };
 
   return (
@@ -47,18 +89,25 @@ function Register() {
         className="bg-white p-3 m-2 max-w-full shadow-md rounded"
         onSubmit={handleSubmit}
       >
-        <EmailInput
-          name="email"
-          label="Email"
-          hooks={{ email, setEmail, domain, setDomain }}
-        />
-        <NumberInput name="pid" label="PID" hooks={{ pid, setPid }} />
-        <TextInput
-          type="password"
-          name="password"
-          label="Password"
-          hooks={{ password, setPassword }}
-        />
+        {!viewOtp && (
+          <>
+            <EmailInput
+              name="email"
+              label="Email"
+              hooks={{ email, setEmail, domain, setDomain }}
+            />
+            <NumberInput name="pid" label="PID" hooks={{ pid, setPid }} />
+            <TextInput
+              type="password"
+              name="password"
+              label="Password"
+              hooks={{ password, setPassword }}
+            />
+          </>
+        )}
+        {viewOtp && (
+          <NumberInput name="otp" label="OTP" hooks={{ otp, setOtp }} />
+        )}
         {/* <TextInput
           type="password"
           name="confirmPassword"
@@ -74,7 +123,7 @@ function Register() {
       </form>
       <span className="flex w-full sm:max-w-[40%] justify-around text-md">
         <p>Already have a account?</p>{" "}
-        <Link to="/login" className="text-amber-500 font-semibold">
+        <Link to="/user/login" className="text-amber-500 font-semibold">
           Login
         </Link>
       </span>

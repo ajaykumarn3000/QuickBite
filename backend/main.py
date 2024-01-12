@@ -6,6 +6,7 @@ from werkzeug.exceptions import BadRequestKeyError
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 import datetime as dt
+from datetime import datetime
 import random
 import os
 
@@ -18,26 +19,64 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-# app.config['MAIL_PORT'] = 465
-# app.config['MAIL_USERNAME'] = EMAIL_ID = os.environ.get("EMAIL")
-# app.config['MAIL_PASSWORD'] = os.environ.get('PASSWORD')
-# app.config['MAIL_USE_TLS'] = False
-# app.config['MAIL_USE_SSL'] = True
-# mail = Mail(app)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = EMAIL_ID = os.environ.get("ADMIN_MAIL")
+app.config['MAIL_PASSWORD'] = os.environ.get('PASSWORD')
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
+
+otp = ""
+
+
+def send_otp(email):
+    global otp
+    otp = ""
+    for _ in range(6):
+        otp += str(random.randint(0, 9))
+
+    msg = Message(f"QuickBite: Email Verification OTP [{otp}]", sender=EMAIL_ID, recipients=[email])
+    msg.html = f'''<h2>OTP for you Email Verification is-</h2>\n<h1>{otp}</h1>\n\n<h4>Thanks and Regards,</h4><h4>QuickBite.</h4>'''
+    mail.send(msg)
 
 
 @app.route('/auth/register', methods=['POST'])
 @cross_origin()
 def register():
+    global otp
     data = request.json
     for key in data:
         print(f"{key}:", data[key])
+    print(datetime.now())
+    send_otp(data["email"])
+    print(datetime.now())
     return_data = {
-        "pid": data["pid"]
+        "otp": otp
     }
+    print(otp)
     res = make_response(jsonify(return_data), 200)
     return res
+
+
+@app.route('/auth/verify', methods=['POST'])
+@cross_origin()
+def verify_email():
+    global otp
+    data = request.json
+    if str(data["otp"]) == otp:
+        return_data = {
+            "otp": otp
+        }
+        print("Success")
+        res = make_response(jsonify(return_data), 200)
+    else:
+        return_data = {
+            "message": "Incorrect OTP"
+        }
+        res = make_response(jsonify(return_data), 400)
+    return res
+
 
 
 #     if User.query.filter_by(email=email).first():

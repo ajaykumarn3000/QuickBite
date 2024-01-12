@@ -10,7 +10,7 @@ const NumberInput = ({ name, label, hooks }) => {
         className="block border-2 border-gray-400 p-1 rounded text-lg focus:border-amber-400 w-full mb-3"
         type="number"
         name={name}
-        onChange={(e) => hooks.setPid(e.target.value)}
+        onChange={(e) => {if (hooks.setPid) {hooks.setPid(e.target.value)} else {hooks.setOtp(e.target.value)}}}
         value={hooks.pid}
       />
     </div>

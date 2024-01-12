@@ -55,7 +55,7 @@ function Login() {
       </form>
       <span className="flex w-full sm:max-w-[40%] justify-around text-md">
         <p>Already have a account?</p>{" "}
-        <Link to="/register" className="text-amber-500 font-semibold">
+        <Link to="/user/register" className="text-amber-500 font-semibold">
           Register
         </Link>
       </span>
