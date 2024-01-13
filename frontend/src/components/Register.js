@@ -20,11 +20,13 @@ function Register() {
     if (!viewOtp) {
       if (email && pid && password) {
         try {
-          const res = await fetch("http://localhost:5000/auth/register", {
+          const res = await fetch("http://localhost:5000/user/auth/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              email: email + domain,
+              // ? TODO: remove this
+              email: email,
+              // email: email + domain,
               pid,
               password,
             }),
@@ -47,7 +49,7 @@ function Register() {
     } else {
       if (otp) {
         try {
-          const res = await fetch("http://localhost:5000/auth/verify", {
+          const res = await fetch("http://localhost:5000/user/auth/verify", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
