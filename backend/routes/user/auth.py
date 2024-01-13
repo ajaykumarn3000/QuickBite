@@ -1,4 +1,5 @@
 from flask import Blueprint, request, make_response, jsonify
+from flask_cors import cross_origin
 from datetime import datetime
 
 auth_blueprint = Blueprint('user_auth', __name__, url_prefix="/user/auth")
@@ -13,6 +14,7 @@ def user_auth_blueprint(otp):
 
 # User Register
 @auth_blueprint.route('/register', methods=['POST'])
+@cross_origin()
 def user_register():
     print("Incoming request")
     data = request.json
@@ -29,6 +31,7 @@ def user_register():
 
 
 @auth_blueprint.route('/verify', methods=['POST'])
+@cross_origin()
 def verify_email():
     data = request.json
     if otp_auth.verify_otp(str(data["otp"])):
@@ -47,5 +50,6 @@ def verify_email():
 
 # User Login
 @auth_blueprint.route('/login')
+@cross_origin()
 def user_login():
     return 'This is the authentication route'

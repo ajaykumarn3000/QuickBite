@@ -11,8 +11,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quickbite.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = "random string"
 
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
-
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = EMAIL_ID = os.environ.get("ADMIN_MAIL")
