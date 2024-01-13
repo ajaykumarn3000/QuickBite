@@ -27,3 +27,4 @@ app.register_blueprint(user_auth_blueprint(otp_auth))
 
 if __name__ == "__main__":
     app.run(debug=True)
+    print('Remove me after app runs successfully')
