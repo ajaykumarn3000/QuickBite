@@ -89,9 +89,10 @@ class OTP:
             if user['email'] == email:
                 if user["time"] < time.time():
                     return {"message": "OTP Expired"}
-                if user['otp'] == otp:
+                elif user['otp'] == otp:
                     self.user_data.pop(i)
                     user['message'] = False
                     return user
                 else:
                     return {"message": "Incorrect OTP"}
+            return {"message": "User not found"}

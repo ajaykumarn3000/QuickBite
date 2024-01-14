@@ -20,15 +20,15 @@ function Register() {
         if (!viewOtp) {
             if (email && pid && password) {
                 try {
-                    const res = await fetch("http://127.0.0.1:5000/user/auth/register", {
+                    const res = await fetch("http://127.0.0.1:5000/user/register", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json", // Set the Content-Type header
                         },
                         body: JSON.stringify({
-                            email: email,
-                            pid,
-                            password,
+                            username: email,
+                            passcode: password,
+                            user_type: "student",
                         }),
                     });
 
@@ -43,14 +43,10 @@ function Register() {
                     console.log(err);
                 }
             }
-            setEmail("");
-            setDomain("@student.sfit.ac.in");
-            setPassword("");
-            setPid("");
         } else {
             if (otp) {
                 try {
-                    const res = await fetch("http://127.0.0.1:5000/user/auth/verify", {
+                    const res = await fetch("http://127.0.0.1:5000/user/verify", {
                         method: "POST",
                         headers: {"Content-Type": "application/json"},
                         body: JSON.stringify({
@@ -73,13 +69,14 @@ function Register() {
                 } catch (err) {
                     console.log(err);
                 }
-            }
-            // setEmail("");
+                
+            setEmail("");
             setDomain("@student.sfit.ac.in");
             setPassword("");
             setPid("");
             setOtp("");
             setViewOtp(false);
+            }
         }
     };
 
