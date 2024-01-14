@@ -3,7 +3,6 @@ from pandas import read_excel
 from bcrypt import gensalt, hashpw, checkpw
 from sqlalchemy.orm import declarative_base, Session
 from sqlalchemy import create_engine, Column, INTEGER, TEXT
-# from logs.logger import logger
 
 # Path to the workbook containing the user data (uid, name, email)
 WORKBOOK = 'data/Student List 2024.xls'
@@ -20,10 +19,14 @@ student_data = read_excel(WORKBOOK, sheet_name=SPREADSHEET)
 Base = declarative_base()
 # Create a connection to a database using its file path
 engine = create_engine(f'sqlite:///{DATABASE}')
-
+# A session to connect to the database connection
 database = Session(bind=engine)
 
+
 # TODO: Add name of user from excel workbook
+def get_name(uid: int) -> str:
+    """Function which returns the name of the user"""
+    return student_data[student_data['PID'] == uid]['Name'].values[0]
 
 
 def find_id(email: str) -> list[int]:
@@ -55,22 +58,22 @@ class User(Base):
     __tablename__ = 'users'
     # The unique identifier of all users
     uid = Column(INTEGER, primary_key=True)
+    # The name of the user
+    name = Column(TEXT, nullable=False)
     # The sfit affiliated email of the user
     email = Column(TEXT, unique=True, nullable=False)
     # The passcode of choice on registering
     passcode = Column(TEXT, nullable=False)
-    # Enumerations for the two types of Users
-    STUDENT, TEACHER = 'student', 'teacher'
 
     def __init__(self, uid: str, email: str, passcode: str) -> None:
         """Code to be executed when a new user is instantiated"""
         self.uid = int(uid)
+        self.name = get_name(uid=int(uid))
         self.email = email
         self.passcode = hashpw(passcode.encode('utf-8'), gensalt())
 
     def save(self) -> None:
         """Save the user to the database"""
-        print(self.uid, self.email, self.passcode)
         database.add(self)
         database.commit()
 

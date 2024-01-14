@@ -1,14 +1,12 @@
 from routes.user.auth import router as user_auth_router
-from fastapi import FastAPI, Request
+from routes.staff.auth import router as staff_auth_router
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
 origins = [
-    "http://localhost",
-    "https://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1",
+    "*"
 ]
 
 app.add_middleware(
@@ -20,3 +18,4 @@ app.add_middleware(
 )
 
 app.include_router(router=user_auth_router)
+app.include_router(router=staff_auth_router)

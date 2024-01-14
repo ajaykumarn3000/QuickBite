@@ -5,3 +5,4 @@ auth_blueprint = Blueprint('admin_auth', __name__, url_prefix="/admin/auth")
 
 # TODO: Admin Register
 # TODO: Admin Login
+# Already done is staff/auth.py

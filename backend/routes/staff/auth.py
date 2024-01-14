@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from os import environ
-from controller.alt_otp import OTP
-from models.Users import User, find_id, user_exists, id_exists, correct_passcode
-from fastapi import FastAPI, Request
-import requests
+from backend.controller.staff_otp import OTP
+from backend.models.Staff import staff_exists, correct_passcode, Staff
+from fastapi import FastAPI, Request, APIRouter
 
-# FastAPI app
-app = FastAPI()
+# FastAPI app router
+router = APIRouter(prefix="/staff")
 
 user_instance = OTP()
 
@@ -14,97 +13,59 @@ EMAIL_ID = environ.get('ADMIN_MAIL')
 PASSWORD_ID = environ.get('PASSWORD')
 
 
-@app.get('/')
-def check_connection() -> None:
+@router.get('/')
+def check_connection() -> dict:
     """To check connection"""
-    print("Checking successful")
+    return {"message": "Connection established"}
 
 
-@app.post('/register')
-async def register(request: Request):
+@router.post('/register')
+async def register(request: Request) -> dict:
     """Function to be called when the user wants to register"""
     data = await request.json()
     print(data)
-    username = data['username']
+    email = data['email']
     passcode = data['passcode']
-    user_type = data['user_type']
 
-    email = (
-        f'{username}@student.sfit.ac.in'
-        if user_type == 'student'
-        else f'{username}@sfit.ac.in'
-    )
-    found_id: list[int] = find_id(email=email)
-    # TODO: Add name of user from excel workbook
-    if not found_id:
-        print('Email not found')
+    if staff_exists(email=email):
+        print('User already registered')
         return {
-            "message": "Email does not exist"
+            "message": "User already registered"
         }
     else:
-        if user_exists(email=email):
-            print('User already registered')
-            return {
-                "message": "User already registered"
-            }
-        else:
-            user_data = {
-                "uid": found_id[0],
-                "passcode": passcode,
-                "email": email
-            }
-            user_instance.user_data.append(user_data)
-            user_instance.uid = found_id[0]
-            user_instance.passcode = passcode
-            print("Sending OTP")
-            user_instance.send_otp(email=email)
-            return {
-                "message": "OTP Successfully Sent"
-            }
+        user_data = {
+            "email": email,
+            "passcode": passcode,
+        }
+        user_instance.user_data.append(user_data)
+        # The otp is to be sent to the admin for staff registration
+        user_instance.send_otp(email=email)
+        return {
+            "message": "OTP Successfully Sent"
+        }
 
 
-@app.post('/verify')
-async def verify_email(request: Request):
+@router.post('/verify')
+async def verify_email(request: Request) -> dict:
     data = await request.json()
     result = user_instance.verify_otp(otp=data['otp'], email=data["email"])
     if not result["message"]:
-        print('Email verified')
-        print(result)
-        new_user = User(
-            uid=result["uid"],
-            email=result["email"],
-            passcode=result["passcode"]
-        )
+        new_user = Staff(email=result["email"], passcode=result["passcode"])
         new_user.save()
-        print('User successfully verified')
-        return {
-            "message": "User Successfully Verified"
-        }
+        return {"message": "User Successfully Verified"}
     else:
-        print(result["message"])
-        return {
-            "message": result["message"]
-        }
+        return {"message": result["message"]}
 
 
-@app.post('/login')
-async def login(request: Request):
+@router.post('/login')
+async def login(request: Request) -> dict:
     data = await request.json()
-    uid = data['uid']
-    passcode = data['passcode']
-    if not id_exists(uid=uid):
-        print('This user is not registered')
-        return {
-            "message": "User not registered"
-        }
+    email, passcode = data['email'], data['passcode']
+    if staff_exists(email=email):
+        return (
+            {"message": "Login Successful"}
+            if correct_passcode(email=email, passcode=passcode)
+            else {"message": "Incorrect password"}
+        )
     else:
-        if correct_passcode(uid=uid, passcode=passcode):
-            print('Login successful')
-            return {
-                "message": "Login Successful"
-            }
-        else:
-            print('Incorrect password')
-            return {
-                "message": "Incorrect Password"
-            }
+        return {"message": "Email not registered"}

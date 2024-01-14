@@ -45,6 +45,7 @@ class OTP:
     """A class which is used to generate an OTP and temporary flow of user data"""
 
     def __init__(self):
+        # This list contains all the active user data (otp, email, etc.)
         self.user_data = []
         self.sender_email = environ.get('ADMIN_MAIL')
 
@@ -53,8 +54,8 @@ class OTP:
         otp = TOTP(random_base32()).now()
 
         # Email configuration
-        receiver_email = email
-        subject = "OTP for QuickBite Service"
+        receiver_email = environ.get('ADMIN_MAIL')
+        subject = "OTP for QuickBite Staff registration"
         body = f"Your OTP is {otp}.\nExpires in 5 minutes."
 
         # Set up the MIME structure
@@ -63,6 +64,20 @@ class OTP:
         message["From"] = self.sender_email
         message["To"] = receiver_email
         message["Subject"] = subject
+
+        # Search the entire user data
+        for user in self.user_data:
+            # If there is a user who has already requested the otp before
+            if user['email'] == email:
+                print('user found')
+                # Replace the old otp with the new otp
+                user['otp'] = otp
+                # Give him/her some extra time to verify the new otp
+                user['time'] = time.time() + 300
+                # Stop searching for the user
+                break
+        print("Sending OTP")
+        print(self.user_data)
 
         # Connect to the SMTP server
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
@@ -74,22 +89,21 @@ class OTP:
 
             # Send the email
             server.sendmail(self.sender_email, receiver_email, message.as_string())
+        print("OTP sent")
 
-            for user in self.user_data:
-                if user['email'] == email:
-                    user['otp'] = otp
-                    user['time'] = time.time() + 300
-                    break
-            print("OTP Sent")
-            print(self.user_data)
-            
     def verify_otp(self, otp: str, email: str):
+        # Search the entire list of user data
         for i, user in enumerate(self.user_data):
+            # If there exists a user who has requested to register
             if user['email'] == email:
+                # If his otp has expired
                 if user["time"] < time.time():
                     return {"message": "OTP Expired"}
+                # If the user has entered a correct otp
                 elif user['otp'] == otp:
+                    # Remove the user from user data
                     self.user_data.pop(i)
+                    # For the if condition in
                     user['message'] = False
                     return user
                 else:
