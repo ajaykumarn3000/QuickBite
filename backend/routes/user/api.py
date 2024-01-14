@@ -1,26 +1,28 @@
-from flask import Blueprint, request, make_response, jsonify
-from datetime import datetime
+from fastapi import APIRouter, Depends, HTTPException, Header
+from controller.token import verify_access_token
 
-auth_blueprint = Blueprint('user_api', __name__, url_prefix="/user/api")
+router = APIRouter(
+    prefix="/user/api",
+)
 
-# TODO: Get all available Products
-# GET /menu
-# Returns a list of all available products
+# Dependency to check for a valid JWT token in the header
+def check_jwt_token(authorization: str = Header(..., description="JWT token")):
+    token_prefix, token = authorization.split()
+    if token_prefix.lower() != "bearer":
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid token type. Use Bearer authentication.",
+        )
+    return verify_access_token(token)
 
-# TODO: Get the cart details
-# GET /cart
-# Returns a list of all products in the cart
+@router.get('/', dependencies=[Depends(check_jwt_token)])
+def check_connection():
+    """To check connection"""
+    print("Checking successful")
+    return "Checking successful"
 
-# TODO: Add a product to cart
-# POST /cart/<product_id>
-# Removes the product from the cart
-# Returns the added product
-
-# TODO: Remove a product from cart
-# DELETE /cart/<product_id>
-# Removes the product from the cart
-# Returns the removed product
-
-# TODO: Payment
-
-
+@router.get('/menu', dependencies=[Depends(check_jwt_token)])
+def menu():
+    """To check connection"""
+    print("Checking successful")
+    return {"message": "Menu"}

@@ -2,10 +2,13 @@ from os import environ
 from controller.otp import OTP
 from models.Users import User, find_id, user_exists, id_exists, correct_passcode
 from fastapi import APIRouter, Request
+from controller.token import create_access_token, verify_access_token
 
 router = APIRouter(
-    prefix="/user",
+    prefix="/user/auth",
 )
+
+# TODO: Instead of returning message in case of errors, Throw HTTPException along with status code and detail
 
 user_instance = OTP()
 
@@ -76,9 +79,7 @@ async def verify_email(request: Request):
         )
         new_user.save()
         print('User successfully verified')
-        return {
-            "message": "User Successfully Verified"
-        }
+        return {"token": create_access_token(data={"user_type": "user", "uid": str(result["uid"])})}
     else:
         print(result["message"])
         return {
@@ -99,9 +100,7 @@ async def login(request: Request):
     else:
         if correct_passcode(uid=uid, passcode=passcode):
             print('Login successful')
-            return {
-                "message": "Login Successful"
-            }
+            return {"token": create_access_token(data={"user_type": "user", "uid": str(data["uid"])})}
         else:
             print('Incorrect password')
             return {
