@@ -2,7 +2,7 @@
 from os import environ
 from controller.alt_otp import OTP
 from models.Users import User, find_id, user_exists, id_exists, correct_passcode
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 import requests
 
 # FastAPI app
@@ -20,12 +20,15 @@ def check_connection() -> None:
     print("Checking successful")
 
 
-@app.get('/register')
-def register():
+@app.post('/register')
+async def register(request: Request):
     """Function to be called when the user wants to register"""
-    username = 'kevinxaviernadar'
-    passcode = 'kxn_2004'
-    user_type = 'student'
+    data = await request.json()
+    print(data)
+    username = data['username']
+    passcode = data['passcode']
+    user_type = data['user_type']
+
     email = (
         f'{username}@student.sfit.ac.in'
         if user_type == 'student'
@@ -34,38 +37,73 @@ def register():
     found_id: list[int] = find_id(email=email)
     if not found_id:
         print('Email not found')
+        return {
+            "message": "Email does not exist"
+        }
     else:
         if user_exists(email=email):
             print('User already registered')
+            return {
+                "message": "User already registered"
+            }
         else:
+            user_data = {
+                "uid": found_id[0],
+                "passcode": passcode,
+                "email": email
+            }
+            user_instance.user_data.append(user_data)
             user_instance.uid = found_id[0]
             user_instance.passcode = passcode
+            print("Sending OTP")
             user_instance.send_otp(email=email)
-            requests.get('http://127.0.0.1:8000/verify')
+            return {
+                "message": "OTP Successfully Sent"
+            }
 
 
-@app.get('/verify')
-def verify_email():
-    otp = input('Enter the otp: ')
-    if user_instance.verify_otp(otp):
+@app.post('/verify')
+async def verify_email(request: Request):
+    data = await request.json()
+    result = user_instance.verify_otp(otp=data['otp'], email=data["email"])
+    if not result["message"]:
         print('Email verified')
+        print(result)
         new_user = User(
-            uid=user_instance.uid,
-            email=user_instance.email,
-            passcode=user_instance.passcode
+            uid=result["uid"],
+            email=result["email"],
+            passcode=result["passcode"]
         )
         new_user.save()
         print('User successfully verified')
+        return {
+            "message": "User Successfully Verified"
+        }
     else:
-        print('OTP is incorrect')
+        print(result["message"])
+        return {
+            "message": result["message"]
+        }
 
 
-@app.get('/login')
-def login():
-    if not id_exists(uid=221078):
+@app.post('/login')
+async def login(request: Request):
+    data = await request.json()
+    uid = data['uid']
+    passcode = data['passcode']
+    if not id_exists(uid=uid):
         print('This user is not registered')
+        return {
+            "message": "User not registered"
+        }
     else:
-        if correct_passcode(uid=221079, passcode='kxn_2004'):
+        if correct_passcode(uid=uid, passcode=passcode):
             print('Login successful')
+            return {
+                "message": "Login Successful"
+            }
         else:
             print('Incorrect password')
+            return {
+                "message": "Incorrect Password"
+            }

@@ -1,5 +1,6 @@
 import smtplib
 from os import environ
+import time
 from pyotp import TOTP, random_base32
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -44,20 +45,17 @@ class OTP:
     """A class which is used to generate an OTP and temporary flow of user data"""
 
     def __init__(self):
-        self.otp = None
-        self.uid = None
-        self.email = None
-        self.passcode = None
+        self.user_data = []
         self.sender_email = environ.get('ADMIN_MAIL')
 
     def send_otp(self, email: str) -> None:
 
-        self.otp = TOTP(random_base32()).now()
+        otp = TOTP(random_base32()).now()
 
         # Email configuration
-        receiver_email = self.email = email
+        receiver_email = email
         subject = "OTP for QuickBite Service"
-        body = f"Your OTP is {self.otp}.\nExpires in 30 seconds."
+        body = f"Your OTP is {otp}.\nExpires in 5 minutes."
 
         # Set up the MIME structure
         message = MIMEMultipart()
@@ -76,6 +74,22 @@ class OTP:
 
             # Send the email
             server.sendmail(self.sender_email, receiver_email, message.as_string())
+
+            for user in self.user_data:
+                if user['email'] == email:
+                    user['otp'] = otp
+                    user['time'] = time.time() + 300
+                    break
+            print("OTP Sent")
+            print(self.user_data)
             
-    def verify_otp(self, otp: str) -> bool:
-        return otp == self.otp
+    def verify_otp(self, otp: str, email: str):
+        for i, user in enumerate(self.user_data):
+            if user['email'] == email:
+                if user["time"] < time.time():
+                    return {"message": "OTP Expired"}
+                if user['otp'] == otp:
+                    self.user_data.pop(i)
+                    return user
+                else:
+                    return {"message": "Incorrect OTP"}

@@ -42,7 +42,7 @@ def user_exists(email: str) -> list:
 def correct_passcode(uid: int, passcode: str) -> bool:
     """Function which checks if passcode is correct for the given uid"""
     user_passcode = passcode.encode('utf-8')
-    database_passcode = database.query(User).filter_by(uid=uid).first().passcode.encode('utf-8')
+    database_passcode = bytes(database.query(User).filter_by(uid=uid).first().passcode)
     print(user_passcode, database_passcode)
     return checkpw(user_passcode, database_passcode)
 
