@@ -1,90 +1,76 @@
 # -*- coding: utf-8 -*-
-from bcrypt import gensalt, hashpw
+from pandas import read_excel
+from bcrypt import gensalt, hashpw, checkpw
+from sqlalchemy.orm import declarative_base, Session
 from sqlalchemy import create_engine, Column, INTEGER, TEXT
-from sqlalchemy.orm import declarative_base, sessionmaker
-from backend.logs.logger import logger
+# from logs.logger import logger
 
+# Path to the workbook containing the user data (uid, name, email)
+WORKBOOK = 'data/Student List 2024.xls'
+# Name of the spreadsheet containing the data
+SPREADSHEET = 'Student List SEITB'
 # The path to the database file
-PATH_TO_DB = '../backend/database/database.sqlite'
+DATABASE = 'database/database.db'
 # The domain name of the institution
 DOMAIN = 'sfit.ac.in'
 
-# Create connections to the database
+student_data = read_excel(WORKBOOK, sheet_name=SPREADSHEET)
+
+# Instantiate the ORM of the database to a python object
 Base = declarative_base()
-engine = create_engine(f'sqlite:///{PATH_TO_DB}', echo='debug')
-Session = sessionmaker(bind=engine)
-session = Session()
+# Create a connection to a database using its file path
+engine = create_engine(f'sqlite:///{DATABASE}')
+
+database = Session(bind=engine)
 
 
-class User:
-    """A generalised user which shouldn't be instantiated directly."""
-
-    def __init__(self, uid: int, passcode: str) -> None:
-        # Initialise the unique identity of the user
-        self.uid = uid
-        # Initialise the passcode of the user
-        self.passcode = passcode
+def find_id(email: str) -> list[int]:
+    """Function which checks if the sfit email exists or not"""
+    return student_data[student_data['Email'] == email]['PID'].values
 
 
-class Student(User, Base):
-    """A specialised user with a low priority."""
+def id_exists(uid: int) -> list:
+    """Function which checks if the uid is registered or not"""
+    return database.query(User).filter_by(uid=uid).all()
 
-    # The table name in the database
-    __tablename__ = 'student'
-    # The domain of a student email address
-    domain = f'{__tablename__}.{DOMAIN}'
-    # Create the attributes of the student table
+
+def user_exists(email: str) -> list:
+    """Function which checks if sfit email already exists or not"""
+    return database.query(User).filter_by(email=email).all()
+
+
+def correct_passcode(uid: int, passcode: str) -> bool:
+    """Function which checks if passcode is correct for the given uid"""
+    user_passcode = passcode.encode('utf-8')
+    database_passcode = database.query(User).filter_by(uid=uid).first().passcode.encode('utf-8')
+    print(user_passcode, database_passcode)
+    return checkpw(user_passcode, database_passcode)
+
+
+class User(Base):
+    """Class to represent a user in the database"""
+    # The name of the table in the database
+    __tablename__ = 'users'
+    # The unique identifier of all users
     uid = Column(INTEGER, primary_key=True)
+    # The sfit affiliated email of the user
     email = Column(TEXT, unique=True, nullable=False)
+    # The passcode of choice on registering
     passcode = Column(TEXT, nullable=False)
+    # Enumerations for the two types of Users
+    STUDENT, TEACHER = 'student', 'teacher'
 
-    def __init__(self, username: str, uid: int, passcode: str) -> None:
-        # Hash the password before storing into the database
-        hashed_password = hashpw(passcode.encode(), gensalt()).decode()
-        # Specialise a user into a student
-        super().__init__(uid, hashed_password)
-        # Formulate the email address of the student
-        self.email = f'{username}@{Student.domain}'
-        # Log the creation of a new student
-        logger.info(f'Created a student with pid {self.uid}')
+    def __init__(self, uid: str, email: str, passcode: str) -> None:
+        """Code to be executed when a new user is instantiated"""
+        self.uid = int(uid)
+        self.email = email
+        self.passcode = hashpw(passcode.encode('utf-8'), gensalt())
 
-    def add_student(self) -> None:
-        """Add the student to the database"""
-
-        session.add(self)
-        session.commit()
-        # Log the addition of the new student
-        logger.info(f'Added a student with pid {self.uid}')
-
-
-class Teacher(User, Base):
-    """A specialised user with a high priority."""
-
-    # The table name in the database
-    __tablename__ = 'teacher'
-    # NOTE: No need for teacher's domain, same as college
-    # Create the attributes of the teacher's table
-    uid = Column(INTEGER, primary_key=True)
-    email = Column(TEXT, unique=True, nullable=False)
-    passcode = Column(TEXT, nullable=False)
-
-    def __init__(self, username: str, uid: int, passcode: str) -> None:
-        # Hash the password before storing into the database
-        hashed_password = hashpw(passcode.encode(), gensalt()).decode()
-        # Specialise a user into a teacher
-        super().__init__(uid, hashed_password)
-        # Formulate the email address of the teacher
-        self.email = f'{username}@{DOMAIN}'
-        # Log the creation of a new teacher
-        logger.info(f'Created a teacher with uid {self.uid}')
-
-    def add_teacher(self) -> None:
-        """Add a teacher to the database"""
-
-        session.add(self)
-        session.commit()
-        # Log the addition of the new teacher
-        logger.info(f'Added teacher with uid {self.uid}')
+    def save(self) -> None:
+        """Save the user to the database"""
+        print(self.uid, self.email, self.passcode)
+        database.add(self)
+        database.commit()
 
 
 # Create the database/table if not exists, else skip
