@@ -23,6 +23,8 @@ engine = create_engine(f'sqlite:///{DATABASE}')
 
 database = Session(bind=engine)
 
+# TODO: Add name of user from excel workbook
+
 
 def find_id(email: str) -> list[int]:
     """Function which checks if the sfit email exists or not"""
