@@ -20,7 +20,7 @@ function Register() {
         if (!viewOtp) {
             if (email && pid && password) {
                 try {
-                    const res = await fetch("http://127.0.0.1:5000/user/register", {
+                    const res = await fetch("http://127.0.0.1:5000/user/auth/register", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json", // Set the Content-Type header
@@ -46,7 +46,7 @@ function Register() {
         } else {
             if (otp) {
                 try {
-                    const res = await fetch("http://127.0.0.1:5000/user/verify", {
+                    const res = await fetch("http://127.0.0.1:5000/user/auth/verify", {
                         method: "POST",
                         headers: {"Content-Type": "application/json"},
                         body: JSON.stringify({
