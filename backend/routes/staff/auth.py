@@ -2,10 +2,10 @@
 from os import environ
 from controller.staff_otp import OTP
 from models.Staff import staff_exists, correct_passcode, Staff
-from fastapi import FastAPI, Request, APIRouter
+from fastapi import FastAPI, Request, APIRouter, status, HTTPException
 
 # FastAPI app router
-router = APIRouter(prefix="/staff")
+router = APIRouter(prefix="/staff/auth")
 
 user_instance = OTP()
 
@@ -28,10 +28,14 @@ async def register(request: Request) -> dict:
     passcode = data['passcode']
 
     if staff_exists(email=email):
-        print('User already registered')
-        return {
-            "message": "User already registered"
-        }
+        print('Staff already registered')
+        raise HTTPException(
+            status_code=status.HTTP_406_NOT_ACCEPTABLE,
+            detail="Staff already registered",
+        )
+        # return {
+        #     "message": "User already registered"
+        # }
     else:
         user_data = {
             "email": email,
@@ -49,12 +53,9 @@ async def register(request: Request) -> dict:
 async def verify_email(request: Request) -> dict:
     data = await request.json()
     result = user_instance.verify_otp(otp=data['otp'], email=data["email"])
-    if not result["message"]:
-        new_user = Staff(email=result["email"], passcode=result["passcode"])
-        new_user.save()
-        return {"message": "User Successfully Verified"}
-    else:
-        return {"message": result["message"]}
+    new_user = Staff(email=result["email"], passcode=result["passcode"])
+    new_user.save()
+    return {"message": "Staff Successfully Verified"}
 
 
 @router.post('/login')
@@ -62,10 +63,17 @@ async def login(request: Request) -> dict:
     data = await request.json()
     email, passcode = data['email'], data['passcode']
     if staff_exists(email=email):
-        return (
-            {"message": "Login Successful"}
-            if correct_passcode(email=email, passcode=passcode)
-            else {"message": "Incorrect password"}
-        )
+        if correct_passcode(email=email, passcode=passcode):
+            return {"message": "Login Successful"}
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_406_NOT_ACCEPTABLE,
+                detail="Incorrect password",
+            )
+            # return {"message": "Incorrect password"}
     else:
-        return {"message": "Email not registered"}
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Email not registered",
+        )
+        # return {"message": "Email not registered"}

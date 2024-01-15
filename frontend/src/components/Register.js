@@ -15,6 +15,7 @@ function Register() {
     const [otp, setOtp] = useState("");
     const [viewOtp, setViewOtp] = useState(false);
     const { dispatch } = useUserContext();
+    const [error, setError] = useState("");
     // const [confirmPassword, setConfirmPassword] = useState("");
 
     const handleSubmit = async (e) => {
@@ -37,13 +38,15 @@ function Register() {
 
                     if (res.ok) {
                         setViewOtp(true);
+                        setError("");
                     } else {
                         const data = await res.json();
+                        setError(data.detail);
                         console.log(data);
                     }
-                    const data = await res.json();
                 } catch (err) {
                     console.log(err);
+                    setError("Something went wrong");
                 }
             }
         } else {
@@ -57,21 +60,19 @@ function Register() {
                             otp
                         }),
                     });
+                    const data = await res.json();
                     if (res.ok) {
-                        const data = await res.json();
                         console.log(data);
-
                         setViewOtp(false);
-                        setEmail("Successfully Registered");
+                        setError("");
                         dispatch({type: "LOGIN", payload: data});
                     } else {
-
-                        const data = await res.json();
-                        setEmail(data.message)
+                        setError(data.detail);
                         console.log(data);
                     }
                 } catch (err) {
                     console.log(err);
+                    setError("Something went wrong");
                 }
                 
             setEmail("");
@@ -132,6 +133,11 @@ function Register() {
           Login
         </Link>
       </span>
+      {error && (
+        <p className="text-pink-700 font-medium text-md tracking-wide">
+          {error}
+        </p>
+      )}
         </div>
     );
 }

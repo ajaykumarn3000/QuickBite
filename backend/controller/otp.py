@@ -4,8 +4,9 @@ import time
 from pyotp import TOTP, random_base32
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, status
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
+
 """
 app = FastAPI()
 
@@ -82,16 +83,29 @@ class OTP:
                     break
             print("OTP Sent")
             print(self.user_data)
-            
+
     def verify_otp(self, otp: str, email: str):
         for i, user in enumerate(self.user_data):
             if user['email'] == email:
                 if user["time"] < time.time():
-                    return {"message": "OTP Expired"}
+                    raise HTTPException(
+                        status_code=status.HTTP_406_NOT_ACCEPTABLE,
+                        detail="OTP Expired",
+                    )
+                    # return {"message": "OTP Expired"}
                 elif user['otp'] == otp:
                     self.user_data.pop(i)
                     user['message'] = False
                     return user
                 else:
-                    return {"message": "Incorrect OTP"}
-            return {"message": "User not found"}
+                    raise HTTPException(
+                        status_code=status.HTTP_406_NOT_ACCEPTABLE,
+                        detail="Incorrect OTP",
+                    )
+                    # return {"message": "Incorrect OTP"}
+
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found",
+            )
+            # return {"message": "User not found"}

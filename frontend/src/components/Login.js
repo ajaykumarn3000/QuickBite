@@ -10,6 +10,7 @@ function Login() {
   const [pid, setPid] = useState("");
   const [password, setPassword] = useState("");
   const { dispatch } = useUserContext();
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,9 +25,15 @@ function Login() {
           }),
         });
         const data = await res.json();
-        dispatch({type: "LOGIN", payload: data});
+        if (res.ok) {
+          dispatch({ type: "LOGIN", payload: data });
+        } else {
+          console.log(data);
+          setError(data.detail);
+        }
       } catch (err) {
         console.log(err);
+        setError("Something went wrong");
       }
     }
 
@@ -62,7 +69,11 @@ function Login() {
         <Link to="/user/register" className="text-amber-500 font-semibold">
           Register
         </Link>
-      </span>
+      </span>{error && (
+        <p className="text-pink-700 font-medium text-md tracking-wide">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

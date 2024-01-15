@@ -58,8 +58,10 @@ class Staff(Base):
 Base.metadata.create_all(engine)
 
 # If the Admin doesn't exist in the staff table
-if not database.query(Staff).filter_by(uid=0).all():  # Admin has uid equal to 0
+if not database.query(Staff).filter_by(uid=1).all():  # Admin has uid equal to 0
     # Create an instance of an Admin
     admin = Staff(email=environ.get('ADMIN_MAIL'), passcode=environ.get('PASSWORD'))
     # Add the admin to the database
     admin.save()
+
+# Just Testing git stash
