@@ -5,6 +5,8 @@ import TextInput from "../elements/TextInput";
 import EmailInput from "../elements/EmailInput";
 import NumberInput from "../elements/NumberInput";
 
+import useUserContext from "../hooks/useUserContext";
+
 function Register() {
     const [email, setEmail] = useState("");
     const [domain, setDomain] = useState("@student.sfit.ac.in");
@@ -12,6 +14,7 @@ function Register() {
     const [password, setPassword] = useState("");
     const [otp, setOtp] = useState("");
     const [viewOtp, setViewOtp] = useState(false);
+    const { dispatch } = useUserContext();
     // const [confirmPassword, setConfirmPassword] = useState("");
 
     const handleSubmit = async (e) => {
@@ -56,10 +59,11 @@ function Register() {
                     });
                     if (res.ok) {
                         const data = await res.json();
-                        console.log(data,);
+                        console.log(data);
 
                         setViewOtp(false);
                         setEmail("Successfully Registered");
+                        dispatch({type: "LOGIN", payload: data});
                     } else {
 
                         const data = await res.json();

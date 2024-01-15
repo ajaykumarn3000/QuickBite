@@ -4,9 +4,12 @@ import { Link } from "react-router-dom";
 import TextInput from "../elements/TextInput";
 import NumberInput from "../elements/NumberInput";
 
+import useUserContext from "../hooks/useUserContext";
+
 function Login() {
   const [pid, setPid] = useState("");
   const [password, setPassword] = useState("");
+  const { dispatch } = useUserContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +24,7 @@ function Login() {
           }),
         });
         const data = await res.json();
+        dispatch({type: "LOGIN", payload: data});
       } catch (err) {
         console.log(err);
       }

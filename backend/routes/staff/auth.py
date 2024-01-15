@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from os import environ
-from backend.controller.staff_otp import OTP
-from backend.models.Staff import staff_exists, correct_passcode, Staff
+from controller.staff_otp import OTP
+from models.Staff import staff_exists, correct_passcode, Staff
 from fastapi import FastAPI, Request, APIRouter
 
 # FastAPI app router
