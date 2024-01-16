@@ -64,4 +64,4 @@ if not database.query(Staff).filter_by(uid=1).all():  # Admin has uid equal to 0
     # Add the admin to the database
     admin.save()
 
-# Just Testing git stash
+# Just Testing git stash 😂

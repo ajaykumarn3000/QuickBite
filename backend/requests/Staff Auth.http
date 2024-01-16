@@ -1,26 +1,26 @@
 ### Send a POST request to register as a staff member
-POST http://localhost:5000/staff/register
+POST http://localhost:5000/staff/auth/register
 Content-Type: application/json
 
 {
-  "email": "kevin.nadar@icloud.com",
+  "email": "kevin.nadar@pm.me",
   "passcode": "complex_passcode"
 }
 
 ### Send a POST verify the OTP of a staff member
-POST http://localhost:5000/staff/verify
+POST http://localhost:5000/staff/auth/verify
 Content-Type: application/json
 
 {
-  "otp": "242117",
-  "email": "kevin.nadar@icloud.com"
+  "otp": "258523",
+  "email": "kevin.nadar@pm.me"
 }
 
 ### Send a POST request to login as a staff member
-POST http://localhost:5000/staff/login
+POST http://localhost:5000/staff/auth/login
 Content-Type: application/json
 
 {
-  "email": "kevin.nadar@icloud.com",
+  "email": "kevin.nadar@pm.me",
   "passcode": "complex_passcode"
 }

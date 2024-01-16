@@ -8,8 +8,6 @@ router = APIRouter(
     prefix="/user/auth",
 )
 
-# TODO: Instead of returning message in case of errors, Throw HTTPException along with status code and detail
-
 user_instance = OTP()
 
 EMAIL_ID = environ.get('ADMIN_MAIL')
@@ -40,7 +38,6 @@ async def register(request: Request):
         else f'{username}@sfit.ac.in'
     )
     found_id: list[int] = find_id(email=email)
-    # TODO: Add name of user from excel workbook
     if not found_id:
         print('Email not found')
         raise HTTPException(
@@ -64,16 +61,13 @@ async def register(request: Request):
             user_instance.uid = found_id[0]
             user_instance.passcode = passcode
             print("Sending OTP")
-            user_instance.send_otp(email=email)
-            return {
-                "message": "OTP Successfully Sent"
-            }
+            await user_instance.send_otp(email=email)
+            return {"message": "OTP Successfully Sent"}
 
 
 @router.post('/verify')
 async def verify_email(request: Request):
     data = await request.json()
-    print("OTP datatype: ", type(data['otp']))
     result = user_instance.verify_otp(otp=data['otp'], email=data["email"])
     print('Email verified')
     print(result)
@@ -98,9 +92,6 @@ async def login(request: Request):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User not registered",
         )
-        # return {
-        #     "message": "User not registered"
-        # }
     else:
         if correct_passcode(uid=uid, passcode=passcode):
             print('Login successful')
@@ -111,6 +102,3 @@ async def login(request: Request):
                 status_code=status.HTTP_406_NOT_ACCEPTABLE,
                 detail="Incorrect Password",
             )
-            # return {
-            #     "message": "Incorrect Password"
-            # }

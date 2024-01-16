@@ -24,9 +24,17 @@ database = Session(bind=engine)
 
 
 # TODO: Add name of user from excel workbook
-def get_name(uid: int) -> str:
+def get_name_by_uid(uid: int) -> str:
     """Function which returns the name of the user"""
     return student_data[student_data['PID'] == uid]['Name'].values[0]
+
+
+def get_name_by_email(email: str) -> str:
+    """Function which returns the name"""
+    name = student_data[student_data['Email'] == email]['Name'].values[0]
+    name = name.split()[:2]
+    name.reverse()
+    return ' '.join(name).title()
 
 
 def find_id(email: str) -> list[int]:
@@ -68,7 +76,7 @@ class User(Base):
     def __init__(self, uid: str, email: str, passcode: str) -> None:
         """Code to be executed when a new user is instantiated"""
         self.uid = int(uid)
-        self.name = get_name(uid=int(uid))
+        self.name = get_name_by_uid(uid=int(uid))
         self.email = email
         self.passcode = hashpw(passcode.encode('utf-8'), gensalt())
 

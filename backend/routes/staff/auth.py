@@ -43,7 +43,7 @@ async def register(request: Request) -> dict:
         }
         user_instance.user_data.append(user_data)
         # The otp is to be sent to the admin for staff registration
-        user_instance.send_otp(email=email)
+        await user_instance.send_otp(email=email)
         return {
             "message": "OTP Successfully Sent"
         }
