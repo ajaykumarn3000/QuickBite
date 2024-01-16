@@ -1,8 +1,8 @@
 import React from "react";
-import useUserContext from "../hooks/useUserContext";
+import useStaffContext from "../../hooks/useStaffContext";
 
 const Logout = () => {
-  const { dispatch } = useUserContext();
+  const { dispatch } = useStaffContext();
   const onClick = () => {
     dispatch({ type: "LOGOUT" });
   };

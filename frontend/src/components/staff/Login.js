@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import TextInput from "../elements/TextInput";
-import NumberInput from "../elements/NumberInput";
+import TextInput from "../../elements/TextInput";
+import EmailInput from "../../elements/EmailInput";
 
-import useUserContext from "../hooks/useUserContext";
+import useStaffContext from "../../hooks/useStaffContext";
 
 function Login() {
-  const [pid, setPid] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { dispatch } = useUserContext();
+  const { dispatch } = useStaffContext();
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (pid && password) {
+    if (email && password) {
       try {
-        const res = await fetch("http://127.0.0.1:5000/user/auth/login", {
+        const res = await fetch("http://127.0.0.1:5000/staff/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            uid: pid,
+            email: email,
             passcode: password,
           }),
         });
@@ -38,7 +38,7 @@ function Login() {
     }
 
     setPassword("");
-    setPid("");
+    setEmail("");
   };
 
   return (
@@ -50,7 +50,7 @@ function Login() {
         className="bg-white p-3 m-2 max-w-full shadow-md rounded"
         onSubmit={handleSubmit}
       >
-        <NumberInput name="pid" label="PID" hooks={{ pid, setPid }} />
+        <EmailInput name="email" label="Email" hooks={{ email, setEmail }} />
         <TextInput
           type="password"
           name="password"
@@ -66,10 +66,11 @@ function Login() {
       </form>
       <span className="flex w-full sm:max-w-[40%] justify-around text-md">
         <p>Already have a account?</p>{" "}
-        <Link to="/user/register" className="text-amber-500 font-semibold">
+        <Link to="/staff/register" className="text-amber-500 font-semibold">
           Register
         </Link>
-      </span>{error && (
+      </span>
+      {error && (
         <p className="text-pink-700 font-medium text-md tracking-wide">
           {error}
         </p>
