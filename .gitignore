@@ -159,7 +159,7 @@ cython_debug/
 frontend/node_modules
 
 # Ignore macos directory files
-*.DS_Store
+.DS_Store
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
