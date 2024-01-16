@@ -5,12 +5,15 @@ import App from "./components/App";
 
 import "./index.css";
 import { UserProvider } from "./context/userContext";
+import { StaffProvider } from "./context/staffContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <UserProvider>
-      <App />
+      <StaffProvider>
+        <App />
+      </StaffProvider>
     </UserProvider>
   </React.StrictMode>
 );

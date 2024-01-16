@@ -1,7 +1,7 @@
 import React from "react";
 
 const EmailInput = ({ name, label, hooks }) => {
-  return (
+  return hooks.domain ? (
     <div className="EmailInput">
       <label className="block text-gray-600 text-lg ml-2 mb-1" htmlFor={name}>
         {label}
@@ -28,6 +28,20 @@ const EmailInput = ({ name, label, hooks }) => {
           <option value="@sfit.ac.in">@sfit.ac.in</option>
         </select>
       </div>
+    </div>
+  ) : (
+    <div className="EmailInput">
+      <label className="block text-gray-600 text-lg ml-2 mb-1" htmlFor={name}>
+        {label}
+      </label>
+
+        <input
+          className="block border-2 border-gray-400 p-1 rounded text-lg focus:border-amber-400 w-full mb-3"
+          name={name}
+          type="email"
+          value={hooks.email}
+          onChange={(e) => hooks.setEmail(e.target.value)}
+        />
     </div>
   );
 };
