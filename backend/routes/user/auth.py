@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
 from os import environ
-from pydantic import BaseModel, EmailStr
 from fastapi import APIRouter, status, HTTPException
+from pydantic import BaseModel, EmailStr
 
 from backend.controller.otp import OTP
 from backend.controller.token import create_access_token

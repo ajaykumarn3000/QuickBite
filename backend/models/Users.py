@@ -19,6 +19,7 @@ student_data = read_excel(WORKBOOK, sheet_name=SPREADSHEET)
 Base = declarative_base()
 # Create a connection to a database using its file path
 engine = create_engine(f'sqlite:///{DATABASE}')
+# engine = create_engine('postgresql://quickbite_user:5R4sTQ8YoDIJgQJcAEqhKfQaLgCvL3rw@dpg-cmjr0inqd2ns73bkrr00-a.singapore-postgres.render.com/quickbite')
 # A session to connect to the database connection
 database = Session(bind=engine)
 

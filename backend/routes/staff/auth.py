@@ -54,7 +54,7 @@ async def verify_email(request: Request) -> dict:
     data = await request.json()
     result = user_instance.verify_otp(otp=data['otp'], email=data["email"])
     new_user = Staff(email=result["email"], passcode=result["passcode"])
-    new_user.save()
+    new_user.add_item()
     return {"message": "Staff Successfully Verified"}
 
 
