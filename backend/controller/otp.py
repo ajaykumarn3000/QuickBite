@@ -1,13 +1,34 @@
+# -*- coding: utf-8 -*-
+import time, logging
+from os import environ
 from datetime import datetime
 
-from backend.models.Users import get_name_by_email
-from os import environ
-import time
 from pyotp import TOTP, random_base32
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from fastapi import FastAPI, HTTPException, status
+from fastapi import HTTPException, status
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
+
+from backend.models.Users import get_name_by_email
+
+
+def logger_object():
+    """Function to create a logger object to log the backend to the console"""
+    logger = logging.getLogger(__name__)
+
+    logger.setLevel(logging.DEBUG)
+
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.DEBUG)
+
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    console_handler.setFormatter(formatter)
+
+    logger.addHandler(console_handler)
+
+    return logger
+
+
+log = logger_object()
+
 
 # Mail configuration
 mail_config = ConnectionConfig(
@@ -25,14 +46,63 @@ fm = FastMail(mail_config)
 
 
 class OTP:
-    """A class which is used to generate an OTP and temporary flow of user data"""
+    """
+    Class for managing One-Time Password (OTP) functionality.
+
+    Methods:
+    - send_otp(email: str) -> dict: Sends an OTP to the specified email for user registration.
+
+    Attributes:
+    - user_data (List[dict]): List to store user data including email, OTP, and timestamp.
+
+    Example Usage:
+    - otp_instance = OTP()
+    - otp_instance.send_otp(email="user@example.com")
+
+    Security Considerations:
+    - Ensure secure transmission of OTP.
+    - Implement proper rate limiting for OTP requests.
+    - Use HTTPS to encrypt data during transmission.
+
+    Notes:
+    - The OTP is generated using TOTP (Time-based One-Time Password) with a validity of 5 minutes.
+    - The user_data attribute is used to store user-specific data during the OTP generation process.
+    """
 
     def __init__(self):
         self.user_data = []
         self.sender_email = environ.get('ADMIN_MAIL')
 
     async def send_otp(self, email: str) -> dict:
+        """
+        Sends an OTP (One-Time Password) to the specified email for user registration.
 
+        Parameters:
+        - email (str): The email address to which the OTP will be sent.
+
+        Returns:
+        - Success (dict): If the email is sent successfully, returns a message indicating success.
+          Example:
+          {
+              "message": "Email sent successfully"
+          }
+
+        Raises:
+        - HTTPException (status_code=500): If an error occurs while sending the email.
+
+        Example Usage:
+        - Used to send an OTP to the user's email during the registration process.
+
+        Security Considerations:
+        - Ensure secure transmission of OTP.
+        - Implement proper rate limiting for OTP requests.
+        - Use HTTPS to encrypt data during transmission.
+
+        Notes:
+        - The OTP is generated using TOTP (Time-based One-Time Password) with a validity of 5 minutes.
+        - The email contains a personalized HTML template with the user's name and OTP.
+        - If the email sending fails, an HTTPException with status code 500 is raised.
+        """
         name = get_name_by_email(email=email)
         otp = TOTP(random_base32()).now()
         html = f"""
@@ -261,34 +331,31 @@ class OTP:
 
         try:
             await fm.send_message(msg)
-            print("OTP Sent")
-            print(self.user_data)
             return {"message": "Email sent successfully"}
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 
-    def verify_otp(self, otp: str, email: str):
+    def verify_otp(self, otp: str, email: str) -> dict:
         for i, user in enumerate(self.user_data):
-            if user['email'] == email:
-                if user["time"] < time.time():
+            if user['email'] == email:  # Search for the user in user data list
+                if user["time"] < time.time():  # If the otp is expired
+                    log.info(f"PID: {user['uid']}'s OTP has expired")
                     raise HTTPException(
                         status_code=status.HTTP_406_NOT_ACCEPTABLE,
                         detail="OTP Expired",
                     )
-                    # return {"message": "OTP Expired"}
-                elif user['otp'] == otp:
-                    self.user_data.pop(i)
-                    user['message'] = False
-                    return user
-                else:
+                elif user['otp'] == otp:  # If the otp is correct
+                    self.user_data.pop(i)  # Remove the user from the user data
+                    user['message'] = False  # Indicates that the otp is correct
+                    return user  # Return the user data for that user
+                else:  # If password is incorrect
+                    log.info("PID %s's OTP is incorrect", user['uid'])
                     raise HTTPException(
                         status_code=status.HTTP_406_NOT_ACCEPTABLE,
                         detail="Incorrect OTP",
                     )
-                    # return {"message": "Incorrect OTP"}
-
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="User not found",
-            )
-            # return {"message": "User not found"}
+        log.info(f'Email: {email} not requested OTP', user['uid'])
+        raise HTTPException(  # If the user is not found in the user data
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )

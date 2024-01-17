@@ -70,10 +70,8 @@ async def login(request: Request) -> dict:
                 status_code=status.HTTP_406_NOT_ACCEPTABLE,
                 detail="Incorrect password",
             )
-            # return {"message": "Incorrect password"}
     else:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Email not registered",
         )
-        # return {"message": "Email not registered"}

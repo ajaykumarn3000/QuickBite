@@ -1,8 +1,10 @@
-from routes.user.auth import router as user_auth_router
-from routes.user.api import router as user_api_router
-from routes.staff.auth import router as staff_auth_router
+# -*- coding: utf-8 -*-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+from routes.user.api import router as user_api_router
+from routes.user.auth import router as user_auth_router
+from routes.staff.auth import router as staff_auth_router
 
 app = FastAPI()
 
