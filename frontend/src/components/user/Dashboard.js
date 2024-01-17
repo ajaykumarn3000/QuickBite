@@ -1,11 +1,12 @@
 import React from "react";
-import Logout from "./Logout";
+import Navbar from "./Navbar";
+import Menu from "../Menu";
 
 function Dashboard() {
   return (
-    <div>
-      Home
-      <Logout />
+    <div className="UserDashboard">
+      <Navbar />
+      <Menu />
     </div>
   );
 }

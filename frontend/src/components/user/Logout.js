@@ -9,10 +9,12 @@ const Logout = () => {
   return (
     <div className="Logout">
       <button
-        className="logout font-semibold mx-2 text-lg text-yellow-600 hover:text-white hover:bg-red-600 hover:border-red-600 transition-colors border-2 border-yellow-500 rounded px-2 pb-1"
+        className="logout 
+        font-semibold mx-2 text-lg text-gray-400 w-fit 
+        hover:text-white hover:text-red-600 transition-colors flex justify-center items-center"
         onClick={onClick}
       >
-        Logout
+        <span class="material-symbols-rounded">logout</span>
       </button>
     </div>
   );
