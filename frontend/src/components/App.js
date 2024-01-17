@@ -15,7 +15,7 @@ function App() {
   const { user } = useUserContext();
   const { staff } = useStaffContext();
   return (
-    <div className="App h-dvh bg-gray-100">
+    <div className="App h-dvh bg-slate-100">
       <BrowserRouter>
         <Routes>
           {/* User */}
