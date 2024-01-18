@@ -32,10 +32,10 @@ log = logger_object()
 
 class MenuItem(BaseModel):
     """Model to represent a new item to be added to the menu"""
-    item_name: str
-    item_quantity: int
-    item_price: int
-    item_type: str
+    name: str
+    quantity: int
+    price: int
+    type: str
 
 
 @router.get('/')
@@ -113,25 +113,25 @@ def add_item(item: MenuItem):
     - The MenuCard class should have a method add_item to insert the new item into the menu database table.
     - The endpoint returns a 201 Created status upon successful addition of the item.
     """
-    if item_exists(item.item_name):  # Check if  item already exists in the menu
-        log.error(f"Item already exists: {item.item_name}")
+    if item_exists(item.name):  # Check if  item already exists in the menu
+        log.error(f"Item already exists: {item.name}")
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail="Item already exists"
         )
     else:  # If the item does not exist, add it to the menu card database table
         new_item = MenuCard(
-            item.item_name,
-            item.item_quantity,
-            item.item_price,
-            item.item_type
+            item.name,
+            item.quantity,
+            item.price,
+            item.type
         )
         MenuCard.add_item(new_item)
-        log.info(f"Added a new item to the menu: {item.item_name}")
+        log.info(f"Added a new item to the menu: {item.name}")
         return JSONResponse(
             status_code=status.HTTP_201_CREATED,
             content={
                 "message": "Item added to the menu",
-                "item": item.item_name
+                "item": item.name
             }
         )

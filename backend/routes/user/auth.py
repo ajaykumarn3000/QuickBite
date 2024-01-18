@@ -206,7 +206,7 @@ async def verify_email(request: VerifyEmailRequest):
         email=result["email"],
         passcode=result["passcode"]
     ).save()
-    log.info(f"Email: {result['email']}'s uid is {result['uid']}")
+    log.info(f"Email: {result['email']} has been verified")
     return {  # Return a JSON with an access token upon successful verification
         "Message": "User successfully verified",
         "token": create_access_token(

@@ -2,7 +2,7 @@
 from pandas import read_excel
 from bcrypt import gensalt, hashpw, checkpw
 from sqlalchemy.orm import declarative_base, Session
-from sqlalchemy import create_engine, Column, INTEGER, TEXT
+from sqlalchemy import create_engine, Column, Integer, String
 import os
 
 # Path to the workbook containing the user data (uid, name, email)
@@ -57,9 +57,14 @@ def user_exists(email: str) -> list:
 
 def correct_passcode(uid: int, passcode: str) -> bool:
     """Function which checks if passcode is correct for the given uid"""
-    user_passcode = passcode.encode('utf-8')
-    database_passcode = bytes(database.query(User).filter_by(uid=uid).first().passcode)
-    print(user_passcode, database_passcode)
+    user_passcode = passcode.encode()  # Convert it into bytes for bcrypt.
+    database_passcode = (database  # Using the database connection session
+        .query(User)              # Query the staff table in the database
+        .filter_by(uid=uid)        # Filter the staff table by their email
+        .first()                   # Find the first occurrence of the user
+        .passcode                  # Extract the passcode from the user id
+        .encode()                  # Encode the output string into a bytes
+    )
     return checkpw(user_passcode, database_passcode)
 
 
@@ -68,20 +73,20 @@ class User(Base):
     # The name of the table in the database
     __tablename__ = 'users'
     # The unique identifier of all users
-    uid = Column(INTEGER, primary_key=True)
+    uid = Column(Integer, primary_key=True)
     # The name of the user
-    name = Column(TEXT, nullable=False)
+    name = Column(String, nullable=False)
     # The sfit affiliated email of the user
-    email = Column(TEXT, unique=True, nullable=False)
+    email = Column(String, unique=True, nullable=False)
     # The passcode of choice on registering
-    passcode = Column(TEXT, nullable=False)
+    passcode = Column(String, nullable=False)
 
     def __init__(self, uid: str, email: str, passcode: str) -> None:
         """Code to be executed when a new user is instantiated"""
         self.uid = int(uid)
         self.name = get_name_by_uid(uid=int(uid))
         self.email = email
-        self.passcode = hashpw(passcode.encode('utf-8'), gensalt())
+        self.passcode = hashpw(passcode.encode('utf-8'), gensalt()).decode()
 
     def save(self) -> None:
         """Save the user to the database"""

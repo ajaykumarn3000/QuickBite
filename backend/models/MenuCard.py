@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-from sqlalchemy import create_engine, Column, INTEGER, TEXT
+import os
+from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, Session
 
 # The path to the database file
-DATABASE = 'database/database.db'
+LOCAL_DATABASE = 'database/database.db'
+DB_CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING') if os.environ.get('DB_CONNECTION_STRING') else ('sqlite:///' + LOCAL_DATABASE)
 
 # Instantiate the ORM of the database to a python object
 Base = declarative_base()
 # Create a connection to a database using its file path
-engine = create_engine(f'sqlite:///{DATABASE}')
+engine = create_engine(DB_CONNECTION_STRING)
 # A session to connect to the database connection
 database = Session(bind=engine)
 
@@ -20,24 +22,24 @@ def item_exists(item_name: str) -> bool:
 
 class MenuCard(Base):
     """Table which represents all the items which can be made in the canteen"""
-    __tablename__ = 'MenuCard'
+    __tablename__ = 'menucard'
     # The uid is created by an auto incrementing the database key
-    item_id = Column(INTEGER, primary_key=True, autoincrement=True)
+    item_id = Column(Integer, primary_key=True, autoincrement=True)
     # The name of the item on the menu
-    item_name = Column(TEXT, unique=True, nullable=False)
+    item_name = Column(String, unique=True, nullable=False)
     # The quantity of the item on the menu, empty if the item was not made today
-    item_quantity = Column(INTEGER)
+    item_quantity = Column(Integer)
     # The price of the item on the menu for one serving
-    item_price = Column(INTEGER, nullable=False)
+    item_price = Column(Integer, nullable=False)
     # The category of the item on the menu
-    item_type = Column(TEXT, nullable=False)
+    item_type = Column(String, nullable=False)
 
     def __init__(self, name: str, quantity: int, price: int, category: str):
         """Code to be executed when a new item is instantiated"""
-        self.item_name: str = name
-        self.item_quantity: int = quantity
-        self.item_price: int = price
-        self.item_type: str = category
+        self.item_name = name
+        self.item_quantity = quantity
+        self.item_price = price
+        self.item_type = category
 
     def get_items(self):
         """Get all the items from the database"""
