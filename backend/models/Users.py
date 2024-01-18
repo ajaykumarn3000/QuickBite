@@ -3,13 +3,16 @@ from pandas import read_excel
 from bcrypt import gensalt, hashpw, checkpw
 from sqlalchemy.orm import declarative_base, Session
 from sqlalchemy import create_engine, Column, INTEGER, TEXT
+import os
 
 # Path to the workbook containing the user data (uid, name, email)
 WORKBOOK = 'data/Student List 2024.xls'
 # Name of the spreadsheet containing the data
 SPREADSHEET = 'Student List SEITB'
 # The path to the database file
-DATABASE = 'database/database.db'
+LOCAL_DATABASE = 'database/database.db'
+# The connection string to the database
+DB_CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING') if os.environ.get('DB_CONNECTION_STRING') else ('sqlite:///' + LOCAL_DATABASE)
 # The domain name of the institution
 DOMAIN = 'sfit.ac.in'
 
@@ -17,9 +20,8 @@ student_data = read_excel(WORKBOOK, sheet_name=SPREADSHEET)
 
 # Instantiate the ORM of the database to a python object
 Base = declarative_base()
-# Create a connection to a database using its file path
-engine = create_engine(f'sqlite:///{DATABASE}')
-# engine = create_engine('postgresql://quickbite_user:5R4sTQ8YoDIJgQJcAEqhKfQaLgCvL3rw@dpg-cmjr0inqd2ns73bkrr00-a.singapore-postgres.render.com/quickbite')
+# Create a connection to a database using its connection string
+engine = create_engine(DB_CONNECTION_STRING)
 # A session to connect to the database connection
 database = Session(bind=engine)
 
