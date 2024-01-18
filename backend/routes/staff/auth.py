@@ -23,7 +23,6 @@ def check_connection() -> dict:
 async def register(request: Request) -> dict:
     """Function to be called when the user wants to register"""
     data = await request.json()
-    print(data)
     email = data['email']
     passcode = data['passcode']
 
@@ -33,9 +32,6 @@ async def register(request: Request) -> dict:
             status_code=status.HTTP_406_NOT_ACCEPTABLE,
             detail="Staff already registered",
         )
-        # return {
-        #     "message": "User already registered"
-        # }
     else:
         user_data = {
             "email": email,
