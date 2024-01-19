@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-import time, logging
-from os import environ
+import logging
+import time
 from datetime import datetime
+from os import environ
 
-from pyotp import TOTP, random_base32
 from fastapi import HTTPException, status
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
+from pyotp import TOTP, random_base32
 
-from backend.models.Users import get_name_by_email
+from models.Users import get_name_by_email
 
 
 def logger_object():

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from backend.models.MenuCard import MenuCard, item_exists
+from models.MenuCard import MenuCard, item_exists
 
 import logging
 from pydantic import BaseModel

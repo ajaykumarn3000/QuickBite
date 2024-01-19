@@ -4,9 +4,9 @@ from os import environ
 from fastapi import APIRouter, status, HTTPException
 from pydantic import BaseModel, EmailStr
 
-from backend.controller.otp import OTP
-from backend.controller.token import create_access_token
-from backend.models.Users import User, find_id, user_exists, id_exists, correct_passcode
+from controller.otp import OTP
+from controller.token import create_access_token
+from models.Users import User, find_id, user_exists, id_exists, correct_passcode
 
 router = APIRouter(prefix="/user/auth")
 

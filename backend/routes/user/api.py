@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Header
-from backend.controller.token import verify_access_token
+from controller.token import verify_access_token
 
 router = APIRouter(
     prefix="/user/api",
