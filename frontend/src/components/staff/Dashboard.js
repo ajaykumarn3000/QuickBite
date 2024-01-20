@@ -1,11 +1,11 @@
 import React from "react";
 import Logout from "./Logout";
+import Navbar from "../Navbar";
 
 const Dashboard = () => {
   return (
     <div>
-      Dashboard
-      <Logout />
+      <Navbar type="staff"/>
     </div>
   );
 };
