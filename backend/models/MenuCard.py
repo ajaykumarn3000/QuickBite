@@ -20,6 +20,11 @@ def item_exists(item_name: str) -> bool:
     return bool(database.query(MenuCard).filter_by(item_name=item_name).all())
 
 
+def get_item_name_by_item_id(item_id: int) -> str:
+    """Function which returns the name of the item"""
+    return database.query(MenuCard).filter_by(item_id=item_id).all()[0].item_name
+
+
 class MenuCard(Base):
     """Table which represents all the items which can be made in the canteen"""
     __tablename__ = 'menucard'
@@ -41,7 +46,7 @@ class MenuCard(Base):
         self.item_price = price
         self.item_type = category
 
-    def get_items(self):
+    def get_items(self) -> list[dict]:
         """Get all the items from the database"""
         menu_card = database.query(MenuCard).all()
         items = [item.__dict__ for item in menu_card]

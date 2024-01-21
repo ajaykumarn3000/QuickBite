@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
+# from models.cart import Cart
+
 from pandas import read_excel
 from bcrypt import gensalt, hashpw, checkpw
 from sqlalchemy.orm import declarative_base, Session
 from sqlalchemy import create_engine, Column, Integer, String
 import os
 
+
 # Path to the workbook containing the user data (uid, name, email)
-WORKBOOK = 'data/Student List 2024.xls'
+WORKBOOK = './data/Student List 2024.xls'
 # Name of the spreadsheet containing the data
 SPREADSHEET = 'Student List SEITB'
-# The path to the database file
-LOCAL_DATABASE = 'database/database.db'
 # The connection string to the database
-DB_CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING') if os.environ.get('DB_CONNECTION_STRING') else ('sqlite:///' + LOCAL_DATABASE)
+DB_CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING')
 # The domain name of the institution
 DOMAIN = 'sfit.ac.in'
 
@@ -24,12 +25,6 @@ Base = declarative_base()
 engine = create_engine(DB_CONNECTION_STRING)
 # A session to connect to the database connection
 database = Session(bind=engine)
-
-
-# TODO: Add name of user from excel workbook
-def get_name_by_uid(uid: int) -> str:
-    """Function which returns the name of the user"""
-    return student_data[student_data['PID'] == uid]['Name'].values[0]
 
 
 def get_name_by_email(email: str) -> str:
@@ -84,7 +79,7 @@ class User(Base):
     def __init__(self, uid: str, email: str, passcode: str) -> None:
         """Code to be executed when a new user is instantiated"""
         self.uid = int(uid)
-        self.name = get_name_by_uid(uid=int(uid))
+        self.name = get_name_by_email(email=email)
         self.email = email
         self.passcode = hashpw(passcode.encode('utf-8'), gensalt()).decode()
 
