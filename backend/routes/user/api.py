@@ -49,7 +49,8 @@ def check_jwt_token(authorization: str = Header(..., description="JWT token")):
 
 
 @router.get('/', dependencies=[Depends(check_jwt_token)])
-def check_connection():
+def check_connection(decoded_token: dict = Depends(check_jwt_token)):
+    print(decoded_token)
     """To check connection"""
     print("Checking successful")
     return "Checking successful"

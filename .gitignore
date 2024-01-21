@@ -9,6 +9,8 @@ __pycache__/
 *.db
 .vscode
 
+temp/
+
 # Distribution / packaging
 .Python
 build/
