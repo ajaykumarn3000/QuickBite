@@ -334,7 +334,7 @@ class OTP:
             await fm.send_message(msg)
             return {"message": "Email sent successfully"}
         except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
+            raise HTTPException(status_code=500, detail={"from": None, "message": str(e)})
 
     def verify_otp(self, otp: str, email: str) -> dict:
         for i, user in enumerate(self.user_data):
@@ -343,7 +343,7 @@ class OTP:
                     log.info(f"PID: {user['uid']}'s OTP has expired")
                     raise HTTPException(
                         status_code=status.HTTP_406_NOT_ACCEPTABLE,
-                        detail="OTP Expired",
+                        detail={"from": None, "message": "OTP expired"},
                     )
                 elif user['otp'] == otp:  # If the otp is correct
                     self.user_data.pop(i)  # Remove the user from the user data
@@ -353,10 +353,10 @@ class OTP:
                     log.info("PID %s's OTP is incorrect", user['uid'])
                     raise HTTPException(
                         status_code=status.HTTP_406_NOT_ACCEPTABLE,
-                        detail="Incorrect OTP",
+                        detail={"from": "otp", "message": "OTP is incorrect"},
                     )
-        log.info(f'Email: {email} not requested OTP', user['uid'])
+            log.info(f'Email: {email} not requested OTP', user['uid'])
         raise HTTPException(  # If the user is not found in the user data
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found",
+            detail={"from": None, "message": "OTP not requested"}
         )
