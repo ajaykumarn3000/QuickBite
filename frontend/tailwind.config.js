@@ -10,6 +10,7 @@ module.exports = {
           200: "#B3ECD9",
           300: "#80E0BF",
           400: "#4DD4A6",
+          450: "#26C993",
           500: "#00A878", // Same as DEFAULT
           600: "#008262",
           700: "#00604D",
@@ -40,6 +41,12 @@ module.exports = {
           800: "#A6A6A6",
           900: "#999999",
         },
+      },
+      fontFamily: {
+        roboto: ['Roboto', 'Arial', 'sans-serif'],
+        opensans: ['Open Sans', 'Arial', 'sans-serif'],
+        montserrat: ['Montserrat', 'Arial', 'sans-serif'],
+        lato: ['Lato', 'Arial', 'sans-serif'],
       },
     },
   },

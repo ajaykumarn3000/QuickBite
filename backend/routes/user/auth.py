@@ -128,13 +128,14 @@ async def register(request: UserRegisterRequest):
         log.info(f"Email: {email} not found in SE IT B Student Database")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User not found in SE IT B Student Database"
+            detail={"from": "email", "message": f"Email not found Database"}
         )
     elif user_exists(email=email):  # If the user has already registered
         log.info(f"Email: {email} has already registered")
         raise HTTPException(
             status_code=status.HTTP_406_NOT_ACCEPTABLE,
-            detail=f"User has already registered",
+            detail={"from": "email", "message": f"User has already registered"}
+            ,
         )
     else:  # If the user's email is in the student database and isn't registered
         # Add the user's data to the user_instance variable for otp verification
@@ -210,7 +211,7 @@ async def verify_email(request: VerifyEmailRequest):
     return {  # Return a JSON with an access token upon successful verification
         "Message": "User successfully verified",
         "token": create_access_token(
-            data={"user_type": "user", "uid": str(result["uid"])}
+            data={"uid": str(result["uid"])}
         )
     }
 
@@ -271,7 +272,7 @@ async def login(request: UserLoginRequest):
         log.info(f"PID: {request.uid} not registered")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not registered"
+            detail={"from": "uid", "message": f"User not registered"}
         )
     # Check if the provided passcode matches the stored passcode
     elif correct_passcode(uid=request.uid, passcode=request.passcode):
@@ -285,5 +286,5 @@ async def login(request: UserLoginRequest):
         log.info(f"PID: {request.uid} has entered an incorrect password")
         raise HTTPException(
             status_code=status.HTTP_406_NOT_ACCEPTABLE,
-            detail="Incorrect Password",
+            detail={"from": "passcode", "message": f"Incorrect Password"}
         )

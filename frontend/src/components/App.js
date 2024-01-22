@@ -4,8 +4,9 @@ import useUserContext from "../hooks/useUserContext";
 import useStaffContext from "../hooks/useStaffContext";
 // User
 import UserDashboard from "./user/Dashboard";
-import Register from "./user/Register";
-import Login from "./user/Login";
+// import Register from "./user/Register";
+// import Login from "./user/Login";
+import UserAuth from "./user/UserAuth/UserAuth";
 // Staff
 import StaffDashboard from "./staff/Dashboard";
 import RegisterStaff from "./staff/Register";
@@ -21,15 +22,11 @@ function App() {
           {/* User */}
           <Route
             path="/"
-            element={user ? <UserDashboard /> : <Navigate to="/user/login" />}
+            element={user ? <UserDashboard /> : <Navigate to="/auth" />}
           />
           <Route
-            path="/user/register"
-            element={user ? <Navigate to="/" /> : <Register />}
-          />
-          <Route
-            path="/user/login"
-            element={user ? <Navigate to="/" /> : <Login />}
+            path="/auth"
+            element={!user ? <UserAuth /> : <Navigate to="/" />}
           />
 
           {/* Staff */}
