@@ -165,6 +165,7 @@ def remove_item(item: int, user_data=Depends(check_jwt_token)):
             detail=str(e)
         )
 
+
 @router.delete('/cart/delete/{item}', dependencies=[Depends(check_jwt_token)])
 def delete_item(item: int, user_data=Depends(check_jwt_token)):
     """

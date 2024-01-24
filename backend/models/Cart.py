@@ -25,12 +25,27 @@ class Cart(Base):
         # TODO: Update self.cart after every operation
         self.cart = database.query(Cart).filter_by(user_id=self.user_id)
 
-    def cart(self):
-        return database.query(Cart).filter_by(user_id=self.user_id)
+    def __repr__(self):
+        user_id = self.user_id
+        item_id = self.item_id
+        quantity = self.quantity
+        return (
+            f"<Cart(user_id={user_id}, item_id={item_id}, quantity={quantity})>"
+        )
 
-    def get_cart(self):  # To be only used to display item_id, quantity pair
-        return [{"item_id": item.item_id, "item_quantity": item.quantity} for item in self.cart.all()]
-
+    def get_cart(self) -> list[dict]:  # To be only used to display item_id, quantity pair
+        items = []
+        for item in self.cart.all():
+            item = database.get(MenuCard, item.item_id)
+            items.append(
+                {
+                    "icon": item.item_icon,
+                    "name": item.item_name,
+                    "price": item.item_price,
+                    "quantity": item.quantity
+                }
+            )
+        return items
 
     def item_exists(self, item_id: int):
         """Check if an item exists in the database, for that particular user"""

@@ -4,8 +4,7 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, Session
 
 # The path to the database file
-LOCAL_DATABASE = 'database/database.db'
-DB_CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING') if os.environ.get('DB_CONNECTION_STRING') else ('sqlite:///' + LOCAL_DATABASE)
+DB_CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING')
 
 # Instantiate the ORM of the database to a python object
 Base = declarative_base()
@@ -38,6 +37,8 @@ class MenuCard(Base):
     item_price = Column(Integer, nullable=False)
     # The category of the item on the menu
     item_type = Column(String, nullable=False)
+    # The image of the item on the menu
+    item_icon = Column(String)
 
     def __init__(self, name: str, quantity: int, price: int, category: str):
         """Code to be executed when a new item is instantiated"""
@@ -48,10 +49,17 @@ class MenuCard(Base):
 
     def get_items(self) -> list[dict]:
         """Get all the items from the database"""
-        menu_card = database.query(MenuCard).all()
-        items = [item.__dict__ for item in menu_card]
-        for item in items:
-            item.pop('_sa_instance_state', None)
+        items = []
+        for item in database.query(MenuCard).all():
+            items.append(
+                {
+                    "item_id": item.item_id,
+                    "item_name": item.item_name,
+                    "item_price": item.item_price,
+                    "item_quantity": item.item_quantity,
+                    "item_type": item.item_type
+                }
+            )
         return items
 
     def add_item(self) -> None:
