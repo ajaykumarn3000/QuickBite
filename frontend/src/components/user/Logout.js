@@ -14,7 +14,7 @@ const Logout = () => {
         hover:text-white hover:text-red-600 transition-colors flex justify-center items-center"
         onClick={onClick}
       >
-        <span class="material-symbols-rounded">logout</span>
+        <span className="material-symbols-rounded">logout</span>
       </button>
     </div>
   );
