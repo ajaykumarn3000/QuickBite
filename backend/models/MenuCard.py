@@ -50,7 +50,7 @@ class MenuCard(Base):
     def get_items(self) -> list[dict]:
         """Get all the items from the database"""
         items = []
-        for item in database.query(MenuCard).all():
+        for item in database.query(MenuCard).order_by(MenuCard.item_id).all():
             items.append(
                 {
                     "item_id": item.item_id,

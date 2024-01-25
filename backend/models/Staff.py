@@ -5,9 +5,7 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, Session
 
 # The path to the database file
-
-LOCAL_DATABASE = 'database/database.db'
-DB_CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING') if os.environ.get('DB_CONNECTION_STRING') else ('sqlite:///' + LOCAL_DATABASE)
+DB_CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING')
 
 # Instantiate the ORM of the database to a python object
 Base = declarative_base()

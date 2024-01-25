@@ -35,14 +35,15 @@ class Cart(Base):
 
     def get_cart(self) -> list[dict]:  # To be only used to display item_id, quantity pair
         items = []
-        for item in self.cart.all():
-            item = database.get(MenuCard, item.item_id)
+        for cart_item in self.cart.all():
+            menu_item = database.get(MenuCard, cart_item.item_id)
             items.append(
                 {
-                    "icon": item.item_icon,
-                    "name": item.item_name,
-                    "price": item.item_price,
-                    "quantity": item.quantity
+                    "id": cart_item.item_id,
+                    "icon": menu_item.item_icon,
+                    "name": menu_item.item_name,
+                    "price": menu_item.item_price,
+                    "quantity": cart_item.quantity
                 }
             )
         return items
@@ -65,7 +66,7 @@ class Cart(Base):
         except IntegrityError:  # Occurs when the item is not in the menu
             database.rollback()
             raise Exception("Item does not exist in the menu")
-        except InternalError:
+        except InternalError:  # Occurs when item requested is more than in menu
             database.rollback()
             raise Exception("Quantity exceeds available quantity in Menu!")
 
