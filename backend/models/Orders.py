@@ -5,6 +5,7 @@ from sqlite3 import InternalError
 from models.Cart import Cart
 from models.MenuCard import MenuCard
 from sqlalchemy.orm import declarative_base, Session
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy import create_engine, Column, String, Integer, ForeignKey, PrimaryKeyConstraint
 
 DB_CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING')
@@ -23,24 +24,26 @@ class Payments(Base):
     order_id = Column(Integer, nullable=False, autoincrement=True)
 
 
-def crosscheck_cart_items_in_menu(user_id: int):
-    """Checkout the user's cart"""
-    items_requiring_modification = []
-    try:
-        for cart_item in Cart(user_id).cart.all():
-            MenuCard.get_item(cart_item.item_id).item_quantity -= cart_item.quantity
-        database.commit()
-    except InternalError:  # Should occur when item is no longer available
-        database.rollback()
-        items_requiring_modification.append(
-            {
-                "item": cart_item.item_name
-            }
-        )
+def validate_cart_items(user_id: int) -> list[dict]:
+    """Verify whether the items in the cart are available in the menu or not"""
+    items_to_modify = []
+    for cart_item in Cart(user_id).cart.all():
+        item_in_menu = MenuCard.get_item(MenuCard, cart_item.item_id)
+        if item_in_menu.item_quantity - cart_item.quantity < 0:
+            items_to_modify.append(
+                {
+                    "item": item_in_menu.item_name,
+                    "quantity in cart": cart_item.quantity,
+                    "quantity available in menu": item_in_menu.item_quantity
+                }
+            )
+    if items_to_modify:
+        print(items_to_modify)
+        return items_to_modify
     else:
-        return None
-    finally:
-        return items_requiring_modification
+        for cart_item in Cart(user_id).cart.all():
+            database.query(MenuCard).filter_by(item_id=cart_item.item_id).one().item_quantity -= cart_item.quantity
+        database.commit()
 
 
 class Orders(Base):

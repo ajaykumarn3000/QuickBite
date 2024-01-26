@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from controller.token import verify_access_token
 from models.Cart import Cart
+from models.Orders import validate_cart_items
 
 router = APIRouter(
     prefix="/user/api",
@@ -121,7 +122,7 @@ def add_item(item: int, user_data=Depends(check_jwt_token)):
             }
         )
     except Exception as e:
-        return HTTPException(
+        raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(e)
         )
@@ -160,7 +161,7 @@ def remove_item(item: int, user_data=Depends(check_jwt_token)):
             }
         )
     except Exception as e:
-        return HTTPException(
+        raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(e)
         )
@@ -196,7 +197,7 @@ def delete_item(item: int, user_data=Depends(check_jwt_token)):
             content={"message": "Deleted item from cart"}
         )
     except Exception as e:
-        return HTTPException(
+        raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(e)
         )
@@ -204,40 +205,6 @@ def delete_item(item: int, user_data=Depends(check_jwt_token)):
 
 @router.post('/cart/checkout', dependencies=[Depends(check_jwt_token)])
 def checkout(user_data=Depends(check_jwt_token)):
-    """
-    This endpoint checks out the user's cart.
-
-    It uses the HTTP POST method and is located at the path '/cart/checkout'.
-
-    This function is dependent on the check_jwt_token function, which verifies the JWT token in the request header.
-
-    Parameters:
-    user_data (dict): User data obtained from the JWT token. It is expected to contain the user's ID.
-
-    Returns:
-    JSONResponse: A JSON response indicating the status of the operation. If successful, it returns a status code of 200 and a message indicating the order has been placed.
-    If an error occurs, it returns a status code of 400 and a message detailing the error.
-
-    Raises:
-    HTTPException: If an error occurs during the operation, an HTTPException is raised with a status code of 400 and a detail message containing the error.
-    """
-    user_id = user_data['uid']
-    log.info(f"User: {user_id} has requested to checkout their cart")
-    try:
-        checkout(user_id)
-        return JSONResponse(
-            status_code=status.HTTP_200_OK,
-            content={"message": "Order placeable, please pay to confirm order"}
-        )
-    except Exception as e:
-        return HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(e)
-        )
-
-
-@router.get('/cart/pay', dependencies=[Depends(check_jwt_token)])
-def pay(user_data=Depends(check_jwt_token)):
     """
     This endpoint pays for the user's cart.
 
@@ -256,15 +223,18 @@ def pay(user_data=Depends(check_jwt_token)):
     HTTPException: If an error occurs during the operation, an HTTPException is raised with a status code of 400 and a detail message containing the error.
     """
     user_id = user_data['uid']
-    log.info(f"User: {user_id} has requested to pay for their cart")
-    try:
-        checkout(user_id)
+    log.info(f"User: {user_id} has tried to checkout")
+    items_requiring_modification: list = validate_cart_items(user_id)
+    if items_requiring_modification:  # If there are items which require changes
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={
+                "message": "Cart contains items which are unavailable in menu",
+                "items": items_requiring_modification
+            }
+        )
+    else:  # If there are no items which require modifications in their quantity
         return JSONResponse(
             status_code=status.HTTP_200_OK,
-            content={"message": "Order placeable, please pay to confirm order"}
-        )
-    except Exception as e:
-        return HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(e)
+            content="Order is placeable, please pay to place order"
         )
