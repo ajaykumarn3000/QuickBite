@@ -1,8 +1,10 @@
 import os
+import secrets
+
 from models.Users import User
 from models.MenuCard import MenuCard
 from sqlalchemy.orm import declarative_base, Session
-from sqlalchemy import create_engine, Column, Integer, ForeignKey
+from sqlalchemy import create_engine, Column, String, Integer, ForeignKey
 from sqlalchemy.exc import IntegrityError, NoResultFound, InternalError
 
 DB_CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING')
@@ -13,7 +15,7 @@ database = Session(bind=engine)
 
 class Cart(Base):
     __tablename__ = 'cart'
-    cart_id = Column(Integer, primary_key=True, autoincrement=True)
+    cart_id = Column(String, primary_key=True)
     user_id = Column(Integer, ForeignKey(User.uid), nullable=False)
     item_id = Column(Integer, ForeignKey(MenuCard.item_id), nullable=False)
     quantity = Column(Integer, nullable=False)
@@ -30,7 +32,7 @@ class Cart(Base):
         item_id = self.item_id
         quantity = self.quantity
         return (
-            f"<Cart(user_id={user_id}, item_id={item_id}, quantity={quantity})>"
+            f"<Cart(cart_id={self.cart_id})>"
         )
 
     def get_cart(self) -> list[dict]:  # To be only used to display item_id, quantity pair
@@ -58,6 +60,7 @@ class Cart(Base):
             if existing_item:  # If item exists, increment its quantity by 1
                 existing_item.quantity += 1
             else:  # Else, append the item to the cart with quantity 1
+                self.cart_id = secrets.token_hex(3)
                 self.item_id = item
                 self.quantity = 1
                 database.add(self)

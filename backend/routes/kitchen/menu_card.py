@@ -65,7 +65,7 @@ def get_menu():
     log.info("Returning the menu card")
     return JSONResponse(
         status_code=status.HTTP_200_OK,
-        content=MenuCard.get_items(MenuCard)
+        content=MenuCard.get_all_items(MenuCard)
     )
 
 

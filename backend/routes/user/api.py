@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, Depends, HTTPException, Header, status, Request
+from fastapi import APIRouter, Depends, HTTPException, Header, status
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from controller.token import verify_access_token
@@ -194,6 +194,74 @@ def delete_item(item: int, user_data=Depends(check_jwt_token)):
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content={"message": "Deleted item from cart"}
+        )
+    except Exception as e:
+        return HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+
+
+@router.post('/cart/checkout', dependencies=[Depends(check_jwt_token)])
+def checkout(user_data=Depends(check_jwt_token)):
+    """
+    This endpoint checks out the user's cart.
+
+    It uses the HTTP POST method and is located at the path '/cart/checkout'.
+
+    This function is dependent on the check_jwt_token function, which verifies the JWT token in the request header.
+
+    Parameters:
+    user_data (dict): User data obtained from the JWT token. It is expected to contain the user's ID.
+
+    Returns:
+    JSONResponse: A JSON response indicating the status of the operation. If successful, it returns a status code of 200 and a message indicating the order has been placed.
+    If an error occurs, it returns a status code of 400 and a message detailing the error.
+
+    Raises:
+    HTTPException: If an error occurs during the operation, an HTTPException is raised with a status code of 400 and a detail message containing the error.
+    """
+    user_id = user_data['uid']
+    log.info(f"User: {user_id} has requested to checkout their cart")
+    try:
+        checkout(user_id)
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={"message": "Order placeable, please pay to confirm order"}
+        )
+    except Exception as e:
+        return HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+
+
+@router.get('/cart/pay', dependencies=[Depends(check_jwt_token)])
+def pay(user_data=Depends(check_jwt_token)):
+    """
+    This endpoint pays for the user's cart.
+
+    It uses the HTTP GET method and is located at the path '/cart/pay'.
+
+    This function is dependent on the check_jwt_token function, which verifies the JWT token in the request header.
+
+    Parameters:
+    user_data (dict): User data obtained from the JWT token. It is expected to contain the user's ID.
+
+    Returns:
+    JSONResponse: A JSON response indicating the status of the operation. If successful, it returns a status code of 200 and a message indicating the order has been placed.
+    If an error occurs, it returns a status code of 400 and a message detailing the error.
+
+    Raises:
+    HTTPException: If an error occurs during the operation, an HTTPException is raised with a status code of 400 and a detail message containing the error.
+    """
+    user_id = user_data['uid']
+    log.info(f"User: {user_id} has requested to pay for their cart")
+    try:
+        checkout(user_id)
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={"message": "Order placeable, please pay to confirm order"}
         )
     except Exception as e:
         return HTTPException(

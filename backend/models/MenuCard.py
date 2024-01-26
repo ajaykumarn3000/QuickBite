@@ -26,7 +26,7 @@ def get_item_name_by_item_id(item_id: int) -> str:
 
 class MenuCard(Base):
     """Table which represents all the items which can be made in the canteen"""
-    __tablename__ = 'menucard'
+    __tablename__ = 'menu'
     # The uid is created by an auto incrementing the database key
     item_id = Column(Integer, primary_key=True, autoincrement=True)
     # The name of the item on the menu
@@ -47,7 +47,7 @@ class MenuCard(Base):
         self.item_price = price
         self.item_type = category
 
-    def get_items(self) -> list[dict]:
+    def get_all_items(self) -> list[dict]:
         """Get all the items from the database"""
         items = []
         for item in database.query(MenuCard).order_by(MenuCard.item_id).all():
@@ -61,6 +61,9 @@ class MenuCard(Base):
                 }
             )
         return items
+
+    def get_item(self, item_id):
+        return database.query(MenuCard).filter_by(item_id=item_id).one()
 
     def add_item(self) -> None:
         """Add a new item to the database"""
