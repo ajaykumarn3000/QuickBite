@@ -45,35 +45,9 @@ select:active {
 .ShowCartBtn {
   display: none
 }
-.CartList {
-  top: 0;
-  max-height: 0;
-  transition: max-height 0.3s ease-in-out;
-}
-.CartList.Active {
-  max-height: 100%;
-}
-
-.CartInfo {
-  max-height: 0;
-  transition: max-height 0.3s ease-in-out;
-}
-.CartInfo.Active {
-  max-height: 100%;
-}
-
 @media screen and (max-width: 600px) {
   .ShowCartBtn {
     display: block;
-  }
-  .Cart {
-    transition: transform 0.3s ease-in-out;
-    position: absolute;
-    transform: translateX(100%);
-    overflow-x: hidden;
-  }
-  .Cart.Active {
-    transform: translateX(0);
   }
 }
 

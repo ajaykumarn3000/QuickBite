@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import FoodItem from "../FoodItem";
-import useUserContext from "../../hooks/useUserContext";
-import { SERVER_URL } from "../../setup";
+import React from "react";
+import MenuItem from "./MenuItem";
+// import useUserContext from "../../hooks/useUserContext";
 
 // const getMenu = async (token) => {
 //   try {
@@ -22,7 +21,6 @@ import { SERVER_URL } from "../../setup";
 // };
 
 const Menu = () => {
-  const { user } = useUserContext();
   // const [menu, setMenu] = useState([]);
   // useEffect(() => {
   //   getMenu(user.token).then((data) => {
@@ -43,97 +41,97 @@ const Menu = () => {
           selected={false}
         />
       ))} */}
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"
         quantity="14"
       />
-      <FoodItem
+      <MenuItem
         img="chicken-noodles.jpg"
         name="Chicken Noodles"
         price="34"

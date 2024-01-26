@@ -21,13 +21,11 @@ function moveTouch(e) {
   try {
     console.log(e.changedTouches);
     var currentX = e.changedTouches[0].clientX;
-    var currentY = e.changedTouches[0].clientY;
   } catch (error) {
     console.error(error);
   }
 
   var diffX = initialX - currentX;
-  var diffY = initialY - currentY;
 
   if (Math.abs(diffX)) {
     // sliding horizontally

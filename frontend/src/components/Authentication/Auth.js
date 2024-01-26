@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import "./styles.css";
 import Register from "./Register";
 import Login from "./Login";
+import "./Auth.css";
 
-const UserAuth = () => {
+const Auth = () => {
   const [login, setLogin] = useState(true);
-  
+
   return (
     <div className="h-full flex justify-center items-center">
       <div className="UserAuth bg-background shadow-lg rounded-xl">
         <Register {...{ login, setLogin }} />
         <Login {...{ login, setLogin }} />
+
+        {/* Overlay Container */}
         <div className={`OverlayContainer ${!login ? "Active" : ""}`}>
           <div
             className={`Overlay ${!login ? "Active bg-accent" : "bg-primary"}`}
@@ -21,7 +23,7 @@ const UserAuth = () => {
               <button
                 className="GhostButton border-2 border-white px-8 py-2 rounded-full font-semibold hover:underline"
                 onClick={(e) => {
-                  setLogin(!login);
+                  setLogin((prevValue) => !prevValue);
                 }}
               >
                 SignIn
@@ -35,7 +37,7 @@ const UserAuth = () => {
               <button
                 className="GhostButton border-2 border-white px-8 py-2 rounded-full font-semibold hover:underline"
                 onClick={() => {
-                  setLogin(!login);
+                  setLogin((prevValue) => !prevValue);
                 }}
               >
                 Register
@@ -48,4 +50,4 @@ const UserAuth = () => {
   );
 };
 
-export default UserAuth;
+export default Auth;

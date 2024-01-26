@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { startTouch, moveTouch } from "./swipe.js";
-import { SERVER_URL } from "../../../setup.js";
-import useUserContext from "../../../hooks/useUserContext.js";
+import useUserContext from "../../hooks/useUserContext.js";
+import { login as userLogin } from "../../controllers/auth.js";
 
 const Login = ({ login, setLogin }) => {
   const [pid, setPid] = useState("");
@@ -14,35 +14,21 @@ const Login = ({ login, setLogin }) => {
   const [loading, setLoading] = useState(false);
   const { dispatch } = useUserContext();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     setLoading(true);
     setError(null);
     setPidError(false);
     setPasscodeError(false);
     e.preventDefault();
     if (pid && passcode) {
-      try {
-        const res = await fetch(SERVER_URL + "/user/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ uid: pid, passcode: passcode }),
-        });
-        const data = await res.json();
-        if (res.ok) {
-          console.log(data);
-          dispatch({ type: "LOGIN", payload: data.token });
-        } else {
-          if (data.detail.from === "uid") {
-            setPidError(true);
-          } else if (data.detail.from === "passcode") {
-            setPasscodeError(true);
-          }
-          setError(data.detail.message);
-        }
-      } catch (e) {
-        console.log(e);
-        setError(e.message);
-      }
+      userLogin({
+        pid,
+        passcode,
+        setPidError,
+        setPasscodeError,
+        setError,
+        dispatch,
+      });
     } else {
       if (!pid) setPidError(true);
       if (!passcode) setPasscodeError(true);

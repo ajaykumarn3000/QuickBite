@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { startTouch, moveTouch } from "./swipe.js";
-import { SERVER_URL } from "../../../setup.js";
-import useUserContext from "../../../hooks/useUserContext.js";
+import useUserContext from "../../hooks/useUserContext.js";
+import { sendOTP, verifyOTP } from "../../controllers/auth.js";
 
 const Register = ({ login, setLogin }) => {
   const [email, setEmail] = useState("");
@@ -18,73 +18,6 @@ const Register = ({ login, setLogin }) => {
   const [loading, setLoading] = useState(false);
   const { dispatch } = useUserContext();
 
-  const sendOTP = async (e) => {
-    let domain;
-    if (email.includes("@student.sfit.ac.in")) {
-      domain = "student";
-    } else if (email.includes("@sfit.ac.in")) {
-      domain = "others";
-    } else {
-      setEmailError(true);
-      setError("Please provide SFIT email");
-      setLoading(false);
-      return;
-    }
-    try {
-      const res = await fetch(SERVER_URL + "/user/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Set the Content-Type header
-        },
-        body: JSON.stringify({
-          username: email.split("@")[0],
-          passcode: passcode,
-          user_type: domain,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        console.log(data);
-        if (data.detail.from === "email") {
-          setEmailError(true);
-        } else if (data.detail.from === "passcode") {
-          setPasscodeError(true);
-        }
-        setError(data.detail.message);
-      } else {
-        setShowOtp(true);
-      }
-    } catch (e) {
-      console.log(e);
-      setError(e.message);
-    }
-  };
-
-  const verifyOTP = async (e) => {
-    try {
-      const res = await fetch(SERVER_URL + "/user/auth/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email, otp: otp }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        console.log(data);
-        dispatch({ type: "LOGIN", payload: data.token });
-      } else {
-        if (data.detail.from === "otp") {
-          setOtpError(true);
-        } else {
-          setShowOtp(false);
-        }
-        setError(data.detail.message);
-      }
-    } catch (e) {
-      console.log(e);
-      setError(e.message);
-    }
-  };
-
   const handleSubmit = (e) => {
     setLoading(true);
     setError(null);
@@ -95,13 +28,21 @@ const Register = ({ login, setLogin }) => {
 
     if (showOtp) {
       if (otp !== "") {
-        verifyOTP(e);
+        verifyOTP({ email, otp, setOtpError, setShowOtp, setError, dispatch });
       } else {
         setOtpError(true);
       }
     } else {
       if (email && passcode) {
-        sendOTP(e);
+        sendOTP({
+          email,
+          setEmailError,
+          passcode,
+          setPasscodeError,
+          setShowOtp,
+          setError,
+          setLoading,
+        });
       } else {
         if (email === "") {
           setEmailError(true);

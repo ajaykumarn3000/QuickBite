@@ -1,6 +1,6 @@
 import React from "react";
-import PriceTag from "../elements/PriceTag";
-import StockTag from "../elements/StockTag";
+import PriceTag from "../../elements/PriceTag";
+import StockTag from "../../elements/StockTag";
 // import { SERVER_URL } from "../../setup.js";
 
 // const addToCart = async (id) => {
@@ -22,10 +22,12 @@ import StockTag from "../elements/StockTag";
 //   }
 // }
 
-const FoodItem = ({ img, name, price, quantity, selected, id, type }) => {
+const MenuItem = ({ img, name, price, quantity, selected, id, type }) => {
   return (
     <div
-      onClick={() => {console.log("id:"+ id+"FoodItem clicked")}}
+      onClick={() => {
+        console.log("id:" + id + "FoodItem clicked");
+      }}
       className={
         "FoodItem h-fit max-w-40 m-2 relative rounded-lg bg-white shadow" +
         (selected ? " border-2 border-amber-500 shadow-md" : "")
@@ -50,4 +52,4 @@ const FoodItem = ({ img, name, price, quantity, selected, id, type }) => {
   );
 };
 
-export default FoodItem;
+export default MenuItem;

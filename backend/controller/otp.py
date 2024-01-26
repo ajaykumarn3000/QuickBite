@@ -320,6 +320,7 @@ class OTP:
         for user in self.user_data:
             if user['email'] == email:
                 user['otp'] = otp
+                print("OTP:",user["otp"])
                 user['time'] = time.time() + 300
                 break
 

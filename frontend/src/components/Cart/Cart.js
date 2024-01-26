@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import CartItem from "./CartItem";
 import CartInfo from "./CartInfo";
+import "./Cart.css";
 
 const Cart = ({ showCart, setShowCart }) => {
-  const [showInfo, setShowInfo] = useState(true);
+  const [showInfo, setShowInfo] = useState(false);
   return (
     <div
       className={`Cart flex flex-col-reverse relative bg-white rounded-lg mr-2 shadow max-h-full right-0 bottom-0 sm:min-w-auto min-w-max h-full ${
@@ -18,7 +19,7 @@ const Cart = ({ showCart, setShowCart }) => {
 
         <div className="flex mx-4 my-2 font-bold text-2xl items-center">
           <button
-            onClick={() => setShowInfo(!showInfo)}
+            onClick={() => setShowInfo((prev) => !prev)}
             className="flex justify-center items-center w-11 h-11 border-2 text-accent transition-colors border-accent hover:bg-accent hover:text-white rounded-full font-black shadow"
           >
             {showInfo ? "X" : "i"}
@@ -30,6 +31,7 @@ const Cart = ({ showCart, setShowCart }) => {
       </div>
 
       <hr />
+      
       <div
         className={`CartInfo overflow-y-scroll px-2 ${
           showInfo ? "Active" : ""
