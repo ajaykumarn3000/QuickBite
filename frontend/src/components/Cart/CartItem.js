@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useUserContext from "../../hooks/useUserContext";
 import {
   addToCart,
@@ -6,8 +6,13 @@ import {
   deleteFromCart,
 } from "../../controllers/cartController";
 import useCartContext from "../../hooks/useCartContext";
+import useMenuContext from "../../hooks/useMenuContext";
 
 const CartItem = React.memo(({ img, name, price, id, quantity, type }) => {
+  const { menu, dispatch: menuDispatch } = useMenuContext();
+  useEffect(() => {
+    menuDispatch({ type: "SET_SELECTED", payload: { id: id } });
+  }, []);
   const [hover, setHover] = useState(false);
   const { user } = useUserContext();
   const { cart, dispatch } = useCartContext();
@@ -43,9 +48,12 @@ const CartItem = React.memo(({ img, name, price, id, quantity, type }) => {
               removeFromCart(user.token, id)
                 .then((res) => {
                   console.log(res);
-                  cart.find((item) => item.id === id).quantity === 1
-                    ? dispatch({ type: "REMOVE_ITEM", payload: id })
-                    : dispatch({ type: "DECREMENT_ITEM", payload: id });
+                  if (cart.find((item) => item.id === id).quantity === 1) {
+                    dispatch({ type: "REMOVE_ITEM", payload: id });
+                    menuDispatch({ type: "REMOVE_SELECTED", payload: { id: id } })
+                  } else {
+                    dispatch({ type: "DECREMENT_ITEM", payload: id });
+                  }
                 })
                 .catch((err) => {
                   console.log(err);
@@ -103,6 +111,7 @@ const CartItem = React.memo(({ img, name, price, id, quantity, type }) => {
             .then((res) => {
               console.log(res);
               dispatch({ type: "REMOVE_ITEM", payload: id });
+              menuDispatch({ type: "REMOVE_SELECTED", payload: { id: id } })
             })
             .catch((err) => {
               console.log(err);
