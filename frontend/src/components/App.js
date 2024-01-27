@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import React from "react";
 import useUserContext from "../hooks/useUserContext";
 // User
-import UserDashboard from "./Dashboard";
+import UserDashboard from "./UserDashboard";
 import Auth from "./Authentication/Auth";
 
 function App() {

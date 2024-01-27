@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, Session
 
 # The path to the database file
-DB_CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING')
+DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")
 
 # Instantiate the ORM of the database to a python object
 Base = declarative_base()
@@ -26,7 +29,8 @@ def get_item_name_by_item_id(item_id: int) -> str:
 
 class MenuCard(Base):
     """Table which represents all the items which can be made in the canteen"""
-    __tablename__ = 'menu'
+
+    __tablename__ = "menu"
     # The uid is created by an auto incrementing the database key
     item_id = Column(Integer, primary_key=True, autoincrement=True)
     # The name of the item on the menu
@@ -57,7 +61,7 @@ class MenuCard(Base):
                     "item_name": item.item_name,
                     "item_price": item.item_price,
                     "item_quantity": item.item_quantity,
-                    "item_type": item.item_type
+                    "item_type": item.item_type,
                 }
             )
         return items

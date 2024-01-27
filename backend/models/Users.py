@@ -6,16 +6,19 @@ from bcrypt import gensalt, hashpw, checkpw
 from sqlalchemy.orm import declarative_base, Session
 from sqlalchemy import create_engine, Column, Integer, String
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 # Path to the workbook containing the user data (uid, name, email)
-WORKBOOK = './data/Student List 2024.xls'
+WORKBOOK = "./data/Student List 2024.xls"
 # Name of the spreadsheet containing the data
-SPREADSHEET = 'Student List SEITB'
+SPREADSHEET = "Student List SEITB"
 # The connection string to the database
-DB_CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING')
+DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")
 # The domain name of the institution
-DOMAIN = 'sfit.ac.in'
+DOMAIN = "sfit.ac.in"
 
 student_data = read_excel(WORKBOOK, sheet_name=SPREADSHEET)
 
@@ -29,15 +32,15 @@ database = Session(bind=engine)
 
 def get_name_by_email(email: str) -> str:
     """Function which returns the name"""
-    name = student_data[student_data['Email'] == email]['Name'].values[0]
+    name = student_data[student_data["Email"] == email]["Name"].values[0]
     name = name.split()[:2]
     name.reverse()
-    return ' '.join(name).title()
+    return " ".join(name).title()
 
 
 def find_id(email: str) -> list[int]:
     """Function which checks if the sfit email exists or not"""
-    return student_data[student_data['Email'] == email]['PID'].values
+    return student_data[student_data["Email"] == email]["PID"].values
 
 
 def id_exists(uid: int) -> list:
@@ -53,20 +56,22 @@ def user_exists(email: str) -> list:
 def correct_passcode(uid: int, passcode: str) -> bool:
     """Function which checks if passcode is correct for the given uid"""
     user_passcode = passcode.encode()  # Convert it into bytes for bcrypt.
-    database_passcode = (database  # Using the database connection session
-        .query(User)              # Query the staff table in the database
-        .filter_by(uid=uid)        # Filter the staff table by their email
-        .first()                   # Find the first occurrence of the user
-        .passcode                  # Extract the passcode from the user id
-        .encode()                  # Encode the output string into a bytes
+    database_passcode = (
+        database.query(  # Using the database connection session
+            User
+        )  # Query the staff table in the database
+        .filter_by(uid=uid)  # Filter the staff table by their email
+        .first()  # Find the first occurrence of the user
+        .passcode.encode()  # Extract the passcode from the user id  # Encode the output string into a bytes
     )
     return checkpw(user_passcode, database_passcode)
 
 
 class User(Base):
     """Class to represent a user in the database"""
+
     # The name of the table in the database
-    __tablename__ = 'users'
+    __tablename__ = "users"
     # The unique identifier of all users
     uid = Column(Integer, primary_key=True)
     # The name of the user
@@ -81,7 +86,7 @@ class User(Base):
         self.uid = int(uid)
         self.name = get_name_by_email(email=email)
         self.email = email
-        self.passcode = hashpw(passcode.encode('utf-8'), gensalt()).decode()
+        self.passcode = hashpw(passcode.encode("utf-8"), gensalt()).decode()
 
     def save(self) -> None:
         """Save the user to the database"""

@@ -1,6 +1,6 @@
 import React from "react";
 
-const CartInfo = ({name, price, quantity}) => {
+const CartInfo = React.memo(({name, price, quantity}) => {
   return (
     <>
       <hr />
@@ -9,6 +9,6 @@ const CartInfo = ({name, price, quantity}) => {
       </p>
     </>
   );
-};
+});
 
 export default CartInfo;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { startTouch, moveTouch } from "./swipe.js";
 import useUserContext from "../../hooks/useUserContext.js";
-import { sendOTP, verifyOTP } from "../../controllers/auth.js";
+import { sendOTP, verifyOTP } from "../../controllers/authController.js";
 
 const Register = ({ login, setLogin }) => {
   const [email, setEmail] = useState("");

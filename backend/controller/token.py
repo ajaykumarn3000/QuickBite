@@ -3,9 +3,12 @@ from jose import JWTError, jwt
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # replace it with your 64 char secret key
-SECRET_KEY = os.environ.get('JWT_SECRET')
+SECRET_KEY = os.environ.get("JWT_SECRET")
 
 # encryption algorithm
 ALGORITHM = "HS256"

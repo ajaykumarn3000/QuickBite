@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 import secrets
 
 from models.Users import User
@@ -7,14 +10,14 @@ from sqlalchemy.orm import declarative_base, Session
 from sqlalchemy import create_engine, Column, String, Integer, ForeignKey
 from sqlalchemy.exc import IntegrityError, NoResultFound, InternalError
 
-DB_CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING')
+DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")
 Base = declarative_base()
 engine = create_engine(DB_CONNECTION_STRING)
 database = Session(bind=engine)
 
 
 class Cart(Base):
-    __tablename__ = 'cart'
+    __tablename__ = "cart"
     cart_id = Column(String, primary_key=True)
     user_id = Column(Integer, ForeignKey(User.uid), nullable=False)
     item_id = Column(Integer, ForeignKey(MenuCard.item_id), nullable=False)
@@ -31,11 +34,11 @@ class Cart(Base):
         user_id = self.user_id
         item_id = self.item_id
         quantity = self.quantity
-        return (
-            f"<Cart(cart_id={self.cart_id})>"
-        )
+        return f"<Cart(cart_id={self.cart_id})>"
 
-    def get_cart(self) -> list[dict]:  # To be only used to display item_id, quantity pair
+    def get_cart(
+        self,
+    ) -> list[dict]:  # To be only used to display item_id, quantity pair
         items = []
         for cart_item in self.cart.all():
             menu_item = database.get(MenuCard, cart_item.item_id)
@@ -45,7 +48,7 @@ class Cart(Base):
                     "icon": menu_item.item_icon,
                     "name": menu_item.item_name,
                     "price": menu_item.item_price,
-                    "quantity": cart_item.quantity
+                    "quantity": cart_item.quantity,
                 }
             )
         return items

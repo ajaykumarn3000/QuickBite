@@ -7,7 +7,7 @@ const userReducer = (state, action) => {
     case "LOGIN":
 
       localStorage.setItem("user", JSON.stringify({token: action.payload}));
-      return { user: action.payload };
+      return { user: {token: action.payload} };
     case "LOGOUT":
       localStorage.removeItem("user");
       return { user: null };

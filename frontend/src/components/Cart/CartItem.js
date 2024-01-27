@@ -1,7 +1,16 @@
 import React, { useState } from "react";
+import useUserContext from "../../hooks/useUserContext";
+import {
+  addToCart,
+  removeFromCart,
+  deleteFromCart,
+} from "../../controllers/cartController";
+import useCartContext from "../../hooks/useCartContext";
 
-const CartItem = ({ img, name, price, id, quantity, type }) => {
+const CartItem = React.memo(({ img, name, price, id, quantity, type }) => {
   const [hover, setHover] = useState(false);
+  const { user } = useUserContext();
+  const { cart, dispatch } = useCartContext();
   return (
     <div
       onMouseEnter={() => {
@@ -10,12 +19,12 @@ const CartItem = ({ img, name, price, id, quantity, type }) => {
       onMouseLeave={() => {
         setHover(false);
       }}
-      className={`CartItems flex p-2 transition-colors ${
+      className={`CartItems relative flex p-2 transition-colors ${
         hover ? "bg-accent-200" : "bg-white"
       }`}
     >
       <img
-        src={img}
+        src={img || "chicken-noodles.jpg"}
         alt={name}
         className="object-cente object-cover aspect-video max-w-40 rounded-lg shadow"
       />
@@ -28,7 +37,21 @@ const CartItem = ({ img, name, price, id, quantity, type }) => {
           {name}
         </p>
         <div className="flex justify-center items-center w-full">
-          <button className="mx-2 flex items-center">
+          <button
+            className="mx-2 flex items-center"
+            onClick={() => {
+              removeFromCart(user.token, id)
+                .then((res) => {
+                  console.log(res);
+                  cart.find((item) => item.id === id).quantity === 1
+                    ? dispatch({ type: "REMOVE_ITEM", payload: id })
+                    : dispatch({ type: "DECREMENT_ITEM", payload: id });
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }}
+          >
             <span
               className={`material-symbols-rounded text-2xl rounded-full border-2  leading-none ${
                 hover
@@ -48,7 +71,19 @@ const CartItem = ({ img, name, price, id, quantity, type }) => {
           >
             {quantity}
           </p>
-          <button className="mx-2 flex items-center">
+          <button
+            className="mx-2 flex items-center"
+            onClick={() => {
+              addToCart(user.token, id)
+                .then((res) => {
+                  console.log(res);
+                  dispatch({ type: "INCREMENT_ITEM", payload: id });
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }}
+          >
             <span
               className={`material-symbols-rounded text-2xl rounded-full border-2  leading-none ${
                 hover
@@ -61,8 +96,31 @@ const CartItem = ({ img, name, price, id, quantity, type }) => {
           </button>
         </div>
       </div>
+      <button
+        className="m-1 absolute top-0 left-0"
+        onClick={() => {
+          deleteFromCart(user.token, id)
+            .then((res) => {
+              console.log(res);
+              dispatch({ type: "REMOVE_ITEM", payload: id });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }}
+      >
+        <span
+          className={`material-symbols-rounded text-xl rounded-full bg-white/100 text-red-500 font-semibold leading-none ${
+            hover
+              ? "border-gray-800 text-gray-700"
+              : "border-gray-500 text-gray-500"
+          }`}
+        >
+          close
+        </span>
+      </button>
     </div>
   );
-};
+});
 
 export default CartItem;

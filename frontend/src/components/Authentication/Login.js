@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { startTouch, moveTouch } from "./swipe.js";
 import useUserContext from "../../hooks/useUserContext.js";
-import { login as userLogin } from "../../controllers/auth.js";
+import { login as userLogin } from "../../controllers/authController.js";
 
 const Login = ({ login, setLogin }) => {
   const [pid, setPid] = useState("");

@@ -1,9 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CartItem from "./CartItem";
 import CartInfo from "./CartInfo";
 import "./Cart.css";
+import useCartContext from "../../hooks/useCartContext";
+import useUserContext from "../../hooks/useUserContext";
+import useMenuContext from "../../hooks/useMenuContext";
+import { getCart } from "../../controllers/cartController";
 
-const Cart = ({ showCart, setShowCart }) => {
+const Cart = React.memo(({ showCart, setShowCart }) => {
+  const { cart, dispatch } = useCartContext();
+  const { menu } = useMenuContext();
+  const { user } = useUserContext();
+  useEffect(() => {
+    getCart(user.token)
+      .then((res) => {
+        dispatch({ type: "SET_CART", payload: res });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [user.token]);
+
   const [showInfo, setShowInfo] = useState(false);
   return (
     <div
@@ -14,7 +31,13 @@ const Cart = ({ showCart, setShowCart }) => {
       <div className="CartBtn">
         <p className="flex justify-between mx-4 my-2 font-semibold text-xl">
           <span>Total Amount: </span>
-          <span>₹ 69,420</span>
+          <span>
+            ₹{" "}
+            {cart &&
+              cart.reduce((total, item) => {
+                return total + item.price * item.quantity;
+              }, 0)}
+          </span>
         </p>
 
         <div className="flex mx-4 my-2 font-bold text-2xl items-center">
@@ -31,16 +54,13 @@ const Cart = ({ showCart, setShowCart }) => {
       </div>
 
       <hr />
-      
+
       <div
         className={`CartInfo overflow-y-scroll px-2 ${
           showInfo ? "Active" : ""
         }`}
       >
-        <CartInfo name={"Veg Briyani"} price={35} quantity={11} />
-        <CartInfo name={"Veg Briyani"} price={35} quantity={11} />
-        <CartInfo name={"Veg Briyani"} price={35} quantity={11} />
-        <CartInfo name={"Veg Briyani"} price={35} quantity={11} />
+        {cart && cart.map((item) => <CartInfo key={item.id} {...item} />)}
       </div>
 
       <div
@@ -48,69 +68,10 @@ const Cart = ({ showCart, setShowCart }) => {
           showInfo ? "" : "Active"
         }`}
       >
-        <CartItem
-          name={"Veg Briyani"}
-          img={"chicken-noodles.jpg"}
-          quantity={13}
-        />
-        <CartItem
-          name={"Veg Briyani"}
-          img={"chicken-noodles.jpg"}
-          quantity={13}
-        />
-        <CartItem
-          name={"Veg Briyani"}
-          img={"chicken-noodles.jpg"}
-          quantity={13}
-        />
-        <CartItem
-          name={"Veg Briyani"}
-          img={"chicken-noodles.jpg"}
-          quantity={13}
-        />
-        <CartItem
-          name={"Veg Briyani"}
-          img={"chicken-noodles.jpg"}
-          quantity={13}
-        />
-        <CartItem
-          name={"Veg Briyani"}
-          img={"chicken-noodles.jpg"}
-          quantity={13}
-        />
-        <CartItem
-          name={"Veg Briyani"}
-          img={"chicken-noodles.jpg"}
-          quantity={13}
-        />
-        <CartItem
-          name={"Veg Briyani"}
-          img={"chicken-noodles.jpg"}
-          quantity={13}
-        />
-        <CartItem
-          name={"Veg Briyani"}
-          img={"chicken-noodles.jpg"}
-          quantity={13}
-        />
-        <CartItem
-          name={"Veg Briyani"}
-          img={"chicken-noodles.jpg"}
-          quantity={13}
-        />
-        <CartItem
-          name={"Veg Briyani"}
-          img={"chicken-noodles.jpg"}
-          quantity={13}
-        />
-        <CartItem
-          name={"Veg Briyani"}
-          img={"chicken-noodles.jpg"}
-          quantity={13}
-        />
+        {cart && cart.map((item) => <CartItem key={item.id} {...item} />)}
       </div>
     </div>
   );
-};
+});
 
 export default Cart;
