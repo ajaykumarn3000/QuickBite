@@ -22,7 +22,7 @@ const menuReducer = (state, action) => {
         }
         return item;
       });
-      console.warn("State: ", state);
+      
     default:
       return state;
   }
