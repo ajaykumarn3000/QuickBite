@@ -5,7 +5,7 @@ import useUserContext from "../../hooks/useUserContext";
 import { getMenu } from "../../controllers/menuController";
 import useCartContext from "../../hooks/useCartContext";
 
-const Menu = React.memo(() => {
+const Menu = React.memo((() => {
   const { menu, dispatch } = useMenuContext();
   const { cart } = useCartContext();
   const { user } = useUserContext();
@@ -38,6 +38,6 @@ const Menu = React.memo(() => {
       ))}
     </div>
   );
-});
+}));
 
 export default Menu;

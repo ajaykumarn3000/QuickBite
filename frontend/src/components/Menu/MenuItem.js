@@ -5,7 +5,7 @@ import { addToCart } from "../../controllers/cartController";
 import useUserContext from "../../hooks/useUserContext";
 import useCartContext from "../../hooks/useCartContext";
 
-const MenuItem = (({ img, name, price, quantity, selected, id, type }) => {
+const MenuItem = React.memo(({ img, name, price, quantity, selected, id, type }) => {
   const { user } = useUserContext();
   const { cart, dispatch } = useCartContext();
   return (
@@ -35,8 +35,8 @@ const MenuItem = (({ img, name, price, quantity, selected, id, type }) => {
           });
       }}
       className={
-        "FoodItem h-fit max-w-40 m-2 relative rounded-lg bg-white shadow" +
-        (selected ? " border-[3px] border-amber-500 shadow-md" : "")
+        "FoodItem h-fit max-w-40 m-2 relative rounded-lg bg-white shadow border-[3px]" +
+        (selected ? " border-amber-500 shadow-md" : " hover:border-primary-400 border-white")
       }
     >
       <div className="absolute top-[-8px] left-[-8px]">
