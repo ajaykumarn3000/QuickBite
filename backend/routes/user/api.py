@@ -5,7 +5,8 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from controller.token import verify_access_token
 from models.Cart import Cart
-from models.Orders import validate_cart_items
+from models.Cart import validate_cart_items
+from models.Cart import verfy_payment
 
 router = APIRouter(
     prefix="/user/api",
@@ -236,5 +237,22 @@ def checkout(user_data=Depends(check_jwt_token)):
     else:  # If there are no items which require modifications in their quantity
         return JSONResponse(
             status_code=status.HTTP_200_OK,
-            content="Order is placeable, please pay to place order"
+            content=Cart(user_id).pay()
+        )
+
+
+@router.post('/cart/paid', dependencies=[Depends(check_jwt_token)])
+def paid(user_data=Depends(check_jwt_token)):
+    user_id = user_data['uid']
+    log.info(f"User: {user_id} has made a payment")
+    payment_status = verfy_payment()
+    if payment_status == 'Successful':
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content="Payment verified"
+        )
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Payment not from authentic source!"
         )

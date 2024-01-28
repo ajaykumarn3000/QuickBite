@@ -1,9 +1,6 @@
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
 import secrets
-
+import razorpay
 from models.Users import User
 from models.MenuCard import MenuCard
 from sqlalchemy.orm import declarative_base, Session
@@ -14,6 +11,35 @@ DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")
 Base = declarative_base()
 engine = create_engine(DB_CONNECTION_STRING)
 database = Session(bind=engine)
+
+
+def validate_cart_items(user_id: int) -> list[dict]:
+    """Verify whether the items in the cart are available in the menu or not"""
+    items_to_modify = []
+    for cart_item in Cart(user_id).cart.all():
+        item_in_menu = MenuCard.get_item(MenuCard, cart_item.item_id)
+        if item_in_menu.item_quantity - cart_item.quantity < 0:
+            items_to_modify.append(
+                {
+                    "id": cart_item.item_id,
+                    "item": item_in_menu.item_name,
+                    "quantity in cart": cart_item.quantity,
+                    "quantity available in menu": item_in_menu.item_quantity,
+                }
+            )
+    if items_to_modify:
+        return items_to_modify
+    else:
+        for cart_item in Cart(user_id).cart.all():
+            database.query(MenuCard).filter_by(
+                item_id=cart_item.item_id
+            ).one().item_quantity -= cart_item.quantity
+        database.commit()
+
+
+def verify_payment(user_id: int):
+    """Verify the payment"""
+    pass
 
 
 class Cart(Base):
@@ -36,22 +62,42 @@ class Cart(Base):
         quantity = self.quantity
         return f"<Cart(cart_id={self.cart_id})>"
 
-    def get_cart(
-        self,
-    ) -> list[dict]:  # To be only used to display item_id, quantity pair
+    def get_cart(self) -> list[dict]:  # To be only used to display item_id, quantity pair
         items = []
         for cart_item in self.cart.all():
             menu_item = database.get(MenuCard, cart_item.item_id)
             items.append(
                 {
                     "id": cart_item.item_id,
-                    "icon": menu_item.item_icon,
                     "name": menu_item.item_name,
-                    "price": menu_item.item_price,
                     "quantity": cart_item.quantity,
+                    "price": menu_item.item_price,
+                    "icon": menu_item.item_icon
                 }
             )
         return items
+
+    def pay(self):
+        """Pay for the items in cart"""
+        amount = 0
+        order_details = dict()
+        for cart_item in self.cart.all():
+            menu_item = MenuCard.get_item(item_id=cart_item.item_id)
+            amount += menu_item.item_price * cart_item.quantity
+            order_details[menu_item.item_name] = cart_item.quantity
+        client = razorpay.Client(
+            auth=(os.environ['KEY_ID'], os.environ['KEY_SECRET'])
+        )
+        client.set_app_details(
+            { "title": "QuickBite CMS - SFIT", "version": "1.0.0" }
+        )
+        data = {
+            "amount": amount,
+            "currency": "INR",
+            "receipt": secrets.token_hex(3),
+            "notes": order_details
+        }
+        return client.order.create(data=data)
 
     def item_exists(self, item_id: int):
         """Check if an item exists in the database, for that particular user"""
