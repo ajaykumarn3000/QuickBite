@@ -16,6 +16,7 @@ const Menu = React.memo((() => {
           element.selected = false;
         });
         dispatch({ type: "SET_MENU", payload: data });
+        console.log(data)
       })
       .catch((err) => {
         console.log(err);
@@ -28,7 +29,7 @@ const Menu = React.memo((() => {
         <MenuItem
           key={item.item_id}
           id={item.item_id}
-          img={"chicken-noodles.jpg"}
+          img={item.item_icon || "chicken-noodles.jpg"}
           name={item.item_name}
           price={item.item_price}
           quantity={item.item_quantity}

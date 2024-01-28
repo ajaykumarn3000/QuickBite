@@ -4,7 +4,7 @@ import CartInfo from "./CartInfo";
 import "./Cart.css";
 import useCartContext from "../../hooks/useCartContext";
 import useUserContext from "../../hooks/useUserContext";
-import { getCart } from "../../controllers/cartController";
+import { getCart, checkoutCart } from "../../controllers/cartController";
 
 const Cart = ({ showCart, setShowCart }) => {
   const { cart, dispatch } = useCartContext();
@@ -12,6 +12,7 @@ const Cart = ({ showCart, setShowCart }) => {
   useEffect(() => {
     getCart(user.token)
       .then((res) => {
+        console.log(res)
         dispatch({ type: "SET_CART", payload: res });
       })
       .catch((err) => {
@@ -45,7 +46,7 @@ const Cart = ({ showCart, setShowCart }) => {
           >
             {showInfo ? "X" : "i"}
           </button>
-          <button className="grow bg-primary hover:bg-primary-450 transition-colors ml-2 py-2 rounded text-white shadow">
+          <button onClick={()=>checkoutCart(user.token)} className="grow bg-primary hover:bg-primary-450 transition-colors ml-2 py-2 rounded text-white shadow">
             CHECKOUT
           </button>
         </div>
