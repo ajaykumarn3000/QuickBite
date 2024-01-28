@@ -11,6 +11,9 @@ DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")
 Base = declarative_base()
 engine = create_engine(DB_CONNECTION_STRING)
 database = Session(bind=engine)
+client = razorpay.Client(
+    auth=(os.environ['KEY_ID'], os.environ['KEY_SECRET'])
+)
 
 
 def validate_cart_items(user_id: int) -> list[dict]:
@@ -37,11 +40,6 @@ def validate_cart_items(user_id: int) -> list[dict]:
         database.commit()
 
 
-def verify_payment(user_id: int):
-    """Verify the payment"""
-    pass
-
-
 class Cart(Base):
     __tablename__ = "cart"
     cart_id = Column(String, primary_key=True)
@@ -53,6 +51,7 @@ class Cart(Base):
         self.user_id = user_id
         self.item_id = item_id
         self.quantity = quantity
+        self.latest_razorpay_order_id = None
         # TODO: Update self.cart after every operation
         self.cart = database.query(Cart).filter_by(user_id=self.user_id)
 
@@ -82,7 +81,7 @@ class Cart(Base):
         amount = 0
         order_details = dict()
         for cart_item in self.cart.all():
-            menu_item = MenuCard.get_item(item_id=cart_item.item_id)
+            menu_item = MenuCard.get_item(MenuCard, item_id=cart_item.item_id)
             amount += menu_item.item_price * cart_item.quantity
             order_details[menu_item.item_name] = cart_item.quantity
         client = razorpay.Client(
@@ -97,7 +96,17 @@ class Cart(Base):
             "receipt": secrets.token_hex(3),
             "notes": order_details
         }
-        return client.order.create(data=data)
+        payment = client.order.create(data=data)
+        self.latest_razorpay_order_id = payment['id']
+        return payment
+
+    def verify_payment(self, user_id: int, payment_id: str, payment_signature: str):
+        """Verify the payment"""
+        return client.utility.verify_payment_signature({
+            'razorpay_order_id': self.latest_razorpay_order_id,
+            'razorpay_payment_id': payment_id,
+            'razorpay_signature': payment_signature
+        })
 
     def item_exists(self, item_id: int):
         """Check if an item exists in the database, for that particular user"""
