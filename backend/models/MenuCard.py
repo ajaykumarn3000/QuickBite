@@ -62,6 +62,7 @@ class MenuCard(Base):
                     "item_price": item.item_price,
                     "item_quantity": item.item_quantity,
                     "item_type": item.item_type,
+                    "item_icon": item.item_icon
                 }
             )
         return items
