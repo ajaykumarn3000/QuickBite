@@ -4,12 +4,10 @@ import CartInfo from "./CartInfo";
 import "./Cart.css";
 import useCartContext from "../../hooks/useCartContext";
 import useUserContext from "../../hooks/useUserContext";
-import useMenuContext from "../../hooks/useMenuContext";
 import { getCart } from "../../controllers/cartController";
 
 const Cart = ({ showCart, setShowCart }) => {
   const { cart, dispatch } = useCartContext();
-  const { menu } = useMenuContext();
   const { user } = useUserContext();
   useEffect(() => {
     getCart(user.token)
@@ -19,7 +17,7 @@ const Cart = ({ showCart, setShowCart }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, [user.token]);
+  }, [user.token, dispatch]);
 
   const [showInfo, setShowInfo] = useState(false);
   return (
