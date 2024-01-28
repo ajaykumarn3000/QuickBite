@@ -84,4 +84,25 @@ const deleteFromCart = async (token, id) => {
   }
 };
 
-export { getCart, addToCart, removeFromCart, deleteFromCart };
+const checkoutCart = async (token) => {
+  console.log("Checkout clicked");
+  try {
+    const res = await fetch(SERVER_URL + "/user/api/cart/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    if (res.ok) {
+      console.log(data);
+    } else {
+      console.log(data);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export { getCart, addToCart, removeFromCart, deleteFromCart, checkoutCart };

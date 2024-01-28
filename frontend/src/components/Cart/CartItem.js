@@ -8,7 +8,7 @@ import {
 import useCartContext from "../../hooks/useCartContext";
 import useMenuContext from "../../hooks/useMenuContext";
 
-const CartItem = React.memo(({ img, name, price, id, quantity, type }) => {
+const CartItem = React.memo(({ icon, name, price, id, quantity, type }) => {
   const { menu, dispatch: menuDispatch } = useMenuContext();
   useEffect(() => {
     menuDispatch({ type: "SET_SELECTED", payload: { id: id } });
@@ -29,7 +29,7 @@ const CartItem = React.memo(({ img, name, price, id, quantity, type }) => {
       }`}
     >
       <img
-        src={img || "chicken-noodles.jpg"}
+        src={icon || "chicken-noodles.jpg"}
         alt={name}
         className="object-cente object-cover aspect-video max-w-40 rounded-lg shadow"
       />

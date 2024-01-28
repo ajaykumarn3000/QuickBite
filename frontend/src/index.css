@@ -42,6 +42,10 @@ select:active {
   outline: none;
 }
 
+.DropdownMenu {
+  z-index: 100;
+}
+
 .ShowCartBtn {
   display: none
 }
