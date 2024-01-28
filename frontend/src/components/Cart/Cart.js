@@ -7,7 +7,7 @@ import useUserContext from "../../hooks/useUserContext";
 import useMenuContext from "../../hooks/useMenuContext";
 import { getCart } from "../../controllers/cartController";
 
-const Cart = React.memo(({ showCart, setShowCart }) => {
+const Cart = ({ showCart, setShowCart }) => {
   const { cart, dispatch } = useCartContext();
   const { menu } = useMenuContext();
   const { user } = useUserContext();
@@ -72,6 +72,6 @@ const Cart = React.memo(({ showCart, setShowCart }) => {
       </div>
     </div>
   );
-});
+};
 
 export default Cart;
