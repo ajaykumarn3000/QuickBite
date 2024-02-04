@@ -60,7 +60,7 @@ const Register = ({ login, setLogin }) => {
     <div className={`Register ${!login ? "Active" : ""}`}>
       <div className="AuthContainer">
         <form
-          className="mobileBox  shadow-lg sm:shadow-none flex flex-col"
+          className="mobileBox shadow-lg sm:shadow-none flex flex-col"
           onSubmit={(e) => {
             handleSubmit(e);
           }}

@@ -69,6 +69,7 @@ const Cart = ({ showCart, setShowCart }) => {
       >
         {cart && cart.map((item) => <CartItem key={item.id} {...item} />)}
       </div>
+      
     </div>
   );
 };

@@ -1,0 +1,207 @@
+
+
+/*Auth*/
+button {
+  background: none;
+}
+
+.UserAuth {
+  position: relative;
+  overflow: hidden;
+  width: 678px;
+  max-width: 100%;
+  height: 400px;
+}
+
+.Register {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.Register.Active {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+}
+
+.Login {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+
+.Login.Active {
+  transform: translateX(100%);
+}
+
+.AuthContainer {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 50px;
+  height: 100%;
+  text-align: center;
+}
+
+input {
+  border: none;
+  padding: 8px 15px;
+  margin: 8px 0;
+  width: 100%;
+}
+
+button.btn {
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 80ms ease-in;
+  &:active {
+    transform: scale(0.95);
+  }
+  &:focus {
+    outline: none;
+  }
+}
+.OverlayContainer {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 100;
+}
+
+.OverlayContainer.Active {
+  transform: translateX(-100%);
+}
+
+.Overlay {
+  /* background: #ff416c;
+  background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
+  background: linear-gradient(to right, #ff4b2b, #ff416c); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 0;
+  color: #ffffff;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: all 0.6s ease-in-out;
+}
+.Overlay.Active {
+  transform: translateX(50%);
+}
+
+.OverlayPanel {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+.Left.OverlayPanel {
+  transform: translateX(-20%);
+}
+.Left.OverlayPanel.Active {
+  transform: translateX(0);
+}
+.Right.OverlayPanel {
+  right: 0;
+  transform: translateX(0);
+}
+.Right.OverlayPanel.Active {
+  transform: translateX(20%);
+}
+
+h5 {
+  line-height: 20px;
+  margin: 20px 0 30px;
+}
+.SwipeArea {
+  display: none;
+}
+
+.inputContainer {
+  position: relative;
+  width: 100%;
+}
+
+.email-password {
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+}
+.email-password.Active {
+  transform: translateX(0);
+  opacity: 1;
+}
+.otp {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+}
+.otp.Active {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Mobile */
+@media screen and (max-width: 500px) {
+  .UserAuth {
+    height: 100dvh;
+  }
+  .OverlayContainer {
+    display: none;
+  }
+  .AuthContainer {
+    padding: 0;
+    background-color: rgb(247, 247, 247);
+  }
+  .Register {
+    transform: translateX(-100%);
+  }.Register.Active {
+    transform: translateX(0)
+  }
+  .Register,
+  .Login {
+    width: 100%;
+  }
+  .SwipeArea {
+    display:block;
+  }
+  .mobileBox {
+    margin: 1rem;
+    padding: 3rem 1rem;
+    border-radius: 20px;
+    background-color: white;
+  }
+}

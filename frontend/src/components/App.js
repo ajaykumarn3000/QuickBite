@@ -4,6 +4,7 @@ import useUserContext from "../hooks/useUserContext";
 // User
 import UserDashboard from "./UserDashboard";
 import Auth from "./Authentication/Auth";
+import AdminPage from "./AdminPage";
 
 function App() {
   const { user } = useUserContext();
@@ -20,6 +21,7 @@ function App() {
             path="/auth"
             element={!user ? <Auth /> : <Navigate to="/" />}
           />
+          <Route path="/admin" element={<AdminPage />} />
 
           {/* Default */}
           <Route path="*" element={<Navigate to="/" />} />

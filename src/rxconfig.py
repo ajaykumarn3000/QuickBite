@@ -1,0 +1,57 @@
+import reflex as rx
+
+config = rx.Config(
+    app_name="src",
+    tailwind={
+        "theme": {
+            "extend": {
+      "colors": {
+        "primary": {
+          "DEFAULT": "#00A878",
+          100: "#E6F8F2",
+          200: "#B3ECD9",
+          300: "#80E0BF",
+          400: "#4DD4A6",
+          450: "#26C993",
+          500: "#00A878",
+          600: "#008262",
+          700: "#00604D",
+          800: "#004037",
+          900: "#002022",
+        },
+        "accent": {
+          "DEFAULT": "#FFB400",
+          100: "#FFF4D8",
+          200: "#FFEAAB",
+          300: "#FFDF7E",
+          400: "#FFD551",
+          500: "#FFB400",
+          600: "#E69C00",
+          700: "#B37A00",
+          800: "#805800",
+          900: "#4D3700",
+        },
+        "background": {
+          "DEFAULT": "#FFFFFF",
+          100: "#FFFFFF",
+          200: "#F2F2F2",
+          300: "#E6E6E6",
+          400: "#D9D9D9",
+          500: "#CCCCCC",
+          600: "#BFBFBF",
+          700: "#B3B3B3",
+          800: "#A6A6A6",
+          900: "#999999",
+        },
+      },
+      "fontFamily": {
+        "roboto": ['Roboto', 'Arial', 'sans-serif'],
+        "opensans": ['Open Sans', 'Arial', 'sans-serif'],
+        "montserrat": ['Montserrat', 'Arial', 'sans-serif'],
+        "lato": ['Lato', 'Arial', 'sans-serif'],
+      },
+    },
+        },
+        "plugins": ["@tailwindcss/typography"],
+    },
+)
