@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>main_window</class>
+ <widget class="QMainWindow" name="main_window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>437</width>
+    <height>602</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>359</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>false</bool>
+  </property>
+  <widget class="QWidget" name="central_widget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="toolbar">
+      <item>
+       <widget class="QLineEdit" name="search_bar">
+        <property name="statusTip">
+         <string>Enter the name of a item to search it</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="search_button">
+        <property name="statusTip">
+         <string>Searches for the item in the search bar</string>
+        </property>
+        <property name="text">
+         <string>Search</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../pyqt5/assets/icon_resource.qrc">
+          <normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/search_button.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/search_button.svg</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QScrollArea" name="scroll_area">
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+      <widget class="QWidget" name="scroll_area_widget_contents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>411</width>
+         <height>482</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QGroupBox" name="menu_item">
+          <property name="minimumSize">
+           <size>
+            <width>111</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Chicken Biryani</string>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <spacer name="left_spacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="price_label">
+             <property name="text">
+              <string>Price:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="price">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="suffix">
+              <string/>
+             </property>
+             <property name="prefix">
+              <string>₹ </string>
+             </property>
+             <property name="maximum">
+              <number>999</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="center_spacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="quantity_label">
+             <property name="text">
+              <string>Quantity:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="quantity">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="suffix">
+              <string> serves</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="right_spacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="vertical_spacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>17</width>
+            <height>302</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>437</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="item">
+    <property name="toolTip">
+     <string/>
+    </property>
+    <property name="statusTip">
+     <string/>
+    </property>
+    <property name="title">
+     <string>Item</string>
+    </property>
+    <addaction name="add_action"/>
+    <addaction name="remove_action"/>
+   </widget>
+   <widget class="QMenu" name="app">
+    <property name="title">
+     <string>App</string>
+    </property>
+    <addaction name="info_action"/>
+    <addaction name="quit_action"/>
+   </widget>
+   <addaction name="app"/>
+   <addaction name="item"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="add_action">
+   <property name="icon">
+    <iconset resource="../../pyqt5/assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/add_button.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/add_button.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Add</string>
+   </property>
+   <property name="statusTip">
+    <string>Add an item to the menu</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+   <property name="shortcutVisibleInContextMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="remove_action">
+   <property name="icon">
+    <iconset resource="../../pyqt5/assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/remove_button.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/remove_button.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Remove</string>
+   </property>
+   <property name="statusTip">
+    <string>Click to remove a menu item</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+   <property name="shortcutVisibleInContextMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="info_action">
+   <property name="icon">
+    <iconset resource="../../pyqt5/assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/info_action.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/info_action.svg</iconset>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="statusTip">
+    <string>Click to learn more about the app</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+   <property name="shortcutVisibleInContextMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="quit_action">
+   <property name="icon">
+    <iconset resource="../../pyqt5/assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/quit_action.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/quit_action.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="statusTip">
+    <string>Click to quit the app</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+   <property name="shortcutVisibleInContextMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../../pyqt5/assets/icon_resource.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>quit_action</sender>
+   <signal>triggered()</signal>
+   <receiver>main_window</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>search_button</sender>
+   <signal>clicked()</signal>
+   <receiver>scroll_area</receiver>
+   <slot>repaint()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>374</x>
+     <y>58</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>416</x>
+     <y>219</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

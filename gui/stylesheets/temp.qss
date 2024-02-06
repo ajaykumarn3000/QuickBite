@@ -1,0 +1,42 @@
+#search_bar {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+#search_button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#search_button:hover {
+    background-color: #45a049;
+}
+
+QLabel {
+    color: #333;
+}
+
+QSpinBox {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+QGroupBox {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+QGroupBox:title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center;
+    padding: 0 3px;
+    background-color: #f0f0f0;
+    border: none;
+}

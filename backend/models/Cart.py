@@ -135,14 +135,15 @@ class Cart(Base):
         try:
             # There should be only one and only one item existing in the cart
             existing = self.cart.filter_by(item_id=item).one()
-            if existing.quantity > 0:
-                existing.quantity -= 1
-                database.commit()
-                self.cart = database.query(Cart).filter_by(user_id=self.user_id)
-            else:  # If the quantity is 0, raise an exception
-                raise Exception("No item left to remove")
+            existing.quantity -= 1
+            print("Before commiting, quantity is ", existing.quantity)
+            database.commit()
+            self.cart = database.query(Cart).filter_by(user_id=self.user_id)
         except NoResultFound:  # if the item does not exist in the cart
             raise Exception("Item does not exist in the cart")
+        except IntegrityError: # if the item quantity in cart is zero
+            database.rollback()
+            self.delete_item(existing.quantity)
 
     def delete_item(self, item: int):
         # TODO: Raise Exception if item does not exist in the cart
