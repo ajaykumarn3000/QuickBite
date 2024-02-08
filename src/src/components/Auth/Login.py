@@ -1,15 +1,19 @@
 import reflex as rx
 from src.components.Auth.FormInput import FormInput
 from src.components.Auth.Button import Button
+from src.controller.authController import login
 
+class LoginState(rx.State):
+    form_data = {}
+    def handle_submit(self, form_data: dict):
+        if form_data["UID"] and form_data["Password"]:
+            data = {"uid": form_data["UID"], "passcode": form_data["Password"]}
+            login(data)
 
 def Login(state) -> rx.Component:
-    uid = FormInput("OTP", "number")
+    uid = FormInput("UID", "number")
     password = FormInput("Password", "password")
     submit_button = Button("Login", "submit")
-
-    def handle_submit(form_data):
-        print("Submitted")
 
     return \
         rx.box(
@@ -33,7 +37,8 @@ def Login(state) -> rx.Component:
                         " rounded-lg transition-colors duration-300 border-1 mt-4 bg-primary-400 shadow-md "
                         "hover:bg-primary-450 active:bg-primary-500 active:shadow-none"
                     ),
-                    class_name="mobileBox shadow-lg sm:shadow-none flex flex-col"
+                    class_name="mobileBox shadow-lg sm:shadow-none flex flex-col",
+                    on_submit=LoginState.handle_submit,
                 ),
                 rx.box(
                     "New to Quickbite? ",
