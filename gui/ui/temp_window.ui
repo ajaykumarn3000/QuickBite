@@ -28,26 +28,97 @@
   <widget class="QWidget" name="central_widget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QHBoxLayout" name="toolbar">
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLineEdit" name="search_bar">
+       <widget class="QLineEdit" name="searchbar">
         <property name="statusTip">
-         <string>Enter the name of a item to search it</string>
+         <string/>
+        </property>
+        <property name="inputMask">
+         <string/>
+        </property>
+        <property name="placeholderText">
+         <string>Search for Items...</string>
+        </property>
+        <property name="clearButtonEnabled">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="search_button">
+       <widget class="QComboBox" name="comboBox">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="statusTip">
-         <string>Searches for the item in the search bar</string>
+         <string>Filter according to Item Type</string>
         </property>
-        <property name="text">
-         <string>Search</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../pyqt5/assets/icon_resource.qrc">
-          <normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/search_button.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/search_button.svg</iconset>
-        </property>
+        <item>
+         <property name="text">
+          <string>All Items</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../assets/icon_resource.qrc">
+           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/all_items.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/all_items.svg</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Breakfast</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../assets/icon_resource.qrc">
+           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_breakfast.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_breakfast.svg</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Lunch</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../assets/icon_resource.qrc">
+           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_lunch.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_lunch.svg</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Snacks</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../assets/icon_resource.qrc">
+           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_snacks.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_snacks.svg</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Soft Drinks</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../assets/icon_resource.qrc">
+           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_softdrinks.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_softdrinks.svg</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Beverages</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../assets/icon_resource.qrc">
+           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_beverages.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_beverages.svg</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Ice Cream</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../assets/icon_resource.qrc">
+           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_icecream.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_icecream.svg</iconset>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>
@@ -66,7 +137,7 @@
          <x>0</x>
          <y>0</y>
          <width>411</width>
-         <height>482</height>
+         <height>483</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -230,14 +301,47 @@
     <addaction name="info_action"/>
     <addaction name="quit_action"/>
    </widget>
+   <widget class="QMenu" name="menuFilter">
+    <property name="title">
+     <string>Filter</string>
+    </property>
+    <addaction name="filter_breakfast"/>
+    <addaction name="filter_lunch"/>
+    <addaction name="separator"/>
+    <addaction name="filter_snacks"/>
+    <addaction name="filter_softdrinks"/>
+    <addaction name="filter_beverages"/>
+    <addaction name="filter_icecream"/>
+   </widget>
+   <widget class="QMenu" name="sync">
+    <property name="title">
+     <string>Refresh</string>
+    </property>
+    <widget class="QMenu" name="auto_sync">
+     <property name="title">
+      <string>Auto Sync</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../assets/icon_resource.qrc">
+       <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/auto_sync.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/auto_sync.svg</iconset>
+     </property>
+     <addaction name="sync_15s"/>
+     <addaction name="sync_30s"/>
+     <addaction name="sync_1m"/>
+    </widget>
+    <addaction name="refresh"/>
+    <addaction name="auto_sync"/>
+   </widget>
    <addaction name="app"/>
    <addaction name="item"/>
+   <addaction name="menuFilter"/>
+   <addaction name="sync"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="add_action">
    <property name="icon">
-    <iconset resource="../../pyqt5/assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/add_button.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/add_button.svg</iconset>
+    <iconset resource="../assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/add_button.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/add_button.svg</iconset>
    </property>
    <property name="text">
     <string>Add</string>
@@ -254,8 +358,8 @@
   </action>
   <action name="remove_action">
    <property name="icon">
-    <iconset resource="../../pyqt5/assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/remove_button.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/remove_button.svg</iconset>
+    <iconset resource="../assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/remove_button.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/remove_button.svg</iconset>
    </property>
    <property name="text">
     <string>Remove</string>
@@ -272,8 +376,8 @@
   </action>
   <action name="info_action">
    <property name="icon">
-    <iconset resource="../../pyqt5/assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/info_action.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/info_action.svg</iconset>
+    <iconset resource="../assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/info_action.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/info_action.svg</iconset>
    </property>
    <property name="text">
     <string>About</string>
@@ -290,8 +394,8 @@
   </action>
   <action name="quit_action">
    <property name="icon">
-    <iconset resource="../../pyqt5/assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/quit_action.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons/icons/quit_action.svg</iconset>
+    <iconset resource="../assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/quit_action.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/quit_action.svg</iconset>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -306,9 +410,134 @@
     <bool>true</bool>
    </property>
   </action>
+  <action name="filter_breakfast">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_breakfast.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_breakfast.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Breakfast</string>
+   </property>
+  </action>
+  <action name="filter_lunch">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_lunch.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_lunch.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Lunch</string>
+   </property>
+  </action>
+  <action name="filter_snacks">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_snacks.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_snacks.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Snacks</string>
+   </property>
+  </action>
+  <action name="filter_softdrinks">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_softdrinks.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_softdrinks.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Soft Drinks</string>
+   </property>
+  </action>
+  <action name="filter_beverages">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_beverages.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_beverages.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Beverages</string>
+   </property>
+  </action>
+  <action name="refresh">
+   <property name="icon">
+    <iconset resource="../assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/action_refresh.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/action_refresh.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="sync_15s">
+   <property name="text">
+    <string>Every 15s</string>
+   </property>
+  </action>
+  <action name="sync_30s">
+   <property name="text">
+    <string>Every 30s</string>
+   </property>
+  </action>
+  <action name="sync_1m">
+   <property name="text">
+    <string>Every 1min</string>
+   </property>
+  </action>
+  <action name="actionEvery_5min">
+   <property name="text">
+    <string>Every 5min</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>Every 10min</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>Every 15min</string>
+   </property>
+  </action>
+  <action name="actionEvery_30min">
+   <property name="text">
+    <string>Every 30min</string>
+   </property>
+  </action>
+  <action name="actionEvery_1hr">
+   <property name="text">
+    <string>Every 1hr</string>
+   </property>
+  </action>
+  <action name="filter_icecream">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../assets/icon_resource.qrc">
+     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_icecream.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_icecream.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Ice Cream</string>
+   </property>
+  </action>
  </widget>
  <resources>
-  <include location="../../pyqt5/assets/icon_resource.qrc"/>
+  <include location="../assets/icon_resource.qrc"/>
+  <include location="../assets/icon_resource.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -322,24 +551,8 @@
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>399</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>search_button</sender>
-   <signal>clicked()</signal>
-   <receiver>scroll_area</receiver>
-   <slot>repaint()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>374</x>
-     <y>58</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>416</x>
-     <y>219</y>
+     <x>218</x>
+     <y>300</y>
     </hint>
    </hints>
   </connection>

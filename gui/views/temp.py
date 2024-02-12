@@ -9,118 +9,6 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from gui.assets import app_icons
-from gui.views.add_dialog import AddDialog
-from gui.controller.main_controller import ItemView
-
-
-# class ItemType(enum):
-#     """Enum to represent a MenuItem Type Enumeration"""
-#     BREAKFAST = "Breakfast"
-#     LUNCH = "Lunch"
-#     SNACKS = "Snacks"
-#     SOFT_DRINKS = "Soft Drinks"
-#     BEVERAGES = "Beverages"
-#     ICECREAM = "Ice Cream"
-
-
-def menu_item(
-        parent_widget: QtWidgets,
-        item_name: str,
-        item_price: int = 0,
-        available: bool = True
-):
-    """Function to add an item to the Main Window"""
-
-    # Initialising a menu item
-    menu_item = QtWidgets.QGroupBox(parent_widget)
-    menu_item.setObjectName("menu_item")
-    menu_item.setMinimumSize(QtCore.QSize(111, 0))
-    menu_item.setFlat(False)
-    menu_item.setCheckable(True)
-    menu_item.setChecked(available)
-
-    # Initialising the layout of a menu item
-    menu_item_layout = QtWidgets.QHBoxLayout(menu_item)
-    menu_item_layout.setObjectName("menu_item_layout")
-
-    # Initialising the left spacer
-    left_spacer = QtWidgets.QSpacerItem(
-        40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
-    )
-    # Add the left spacer to the menu item
-    menu_item_layout.addItem(left_spacer)
-
-    # Initialising the price label
-    price_label = QtWidgets.QLabel(menu_item)
-    price_label.setObjectName("price_label")
-    price_label.setAlignment(
-        QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-    )
-    # Add the price label to the menu item
-    menu_item_layout.addWidget(price_label)
-
-    # Initialising the price spinbox
-    price = QtWidgets.QSpinBox(menu_item)
-    price.setObjectName("price")
-    price.setValue(item_price)
-    _size = QtWidgets.QSizePolicy(
-        QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-    )
-    _size.setHorizontalStretch(0)
-    _size.setVerticalStretch(0)
-    _size.setHeightForWidth(price.sizePolicy().hasHeightForWidth())
-    price.setSizePolicy(_size)
-    price.setMaximum(999)
-    # Add the price spinbox to the menu item layout
-    menu_item_layout.addWidget(price)
-
-    # Initialising the spacer between the price and quantity
-    middle_spacer = QtWidgets.QSpacerItem(
-        40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
-    )
-    # Add the middle spacer to the menu item layout
-    menu_item_layout.addItem(middle_spacer)
-
-    # Initialising the quantity label
-    quantity_label = QtWidgets.QLabel(menu_item)
-    quantity_label.setObjectName("quantity_label")
-    quantity_label.setAlignment(
-        QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-    )
-    # add the quantity label to the menu item layout
-    menu_item_layout.addWidget(quantity_label)
-
-    # Initialising the quantity spinbox
-    quantity = QtWidgets.QSpinBox(menu_item)
-    _size = QtWidgets.QSizePolicy(
-        QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-    )
-    _size.setHorizontalStretch(0)
-    _size.setVerticalStretch(0)
-    _size.setHeightForWidth(quantity.sizePolicy().hasHeightForWidth())
-    quantity.setSizePolicy(_size)
-    quantity.setObjectName("quantity")
-    quantity.setMaximum(999)
-    # Add the quantity spinbox to the menu item layout
-    menu_item_layout.addWidget(quantity)
-
-    # Initialising the right spacer to the menu item
-    right_spacer = QtWidgets.QSpacerItem(
-        40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
-    )
-    # Add the right spacer to the menu item layout
-    menu_item_layout.addSpacerItem(right_spacer)
-
-    # Re translate UI
-    _translate = QtCore.QCoreApplication.translate
-    menu_item.setTitle(_translate("main_window", f"{item_name}"))
-    price_label.setText(_translate("main_window", "Price:"))
-    price.setPrefix(_translate("main_window", "₹ "))
-    quantity_label.setText(_translate("main_window", "Quantity:"))
-    quantity.setSuffix(_translate("main_window", " serves"))
-
-    return menu_item
 
 
 class Ui_main_window(object):
@@ -142,31 +30,31 @@ class Ui_main_window(object):
         self.searchbar.setClearButtonEnabled(True)
         self.searchbar.setObjectName("searchbar")
         self.horizontalLayout.addWidget(self.searchbar)
-        self.comboBox = QtWidgets.QComboBox(self.central_widget)
-        self.comboBox.setMinimumSize(QtCore.QSize(0, 0))
-        self.comboBox.setObjectName("comboBox")
+        self.filter_items = QtWidgets.QComboBox(self.central_widget)
+        self.filter_items.setMinimumSize(QtCore.QSize(0, 0))
+        self.filter_items.setObjectName("filter_items")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/all_items.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.comboBox.addItem(icon, "")
+        icon.addPixmap(QtGui.QPixmap(":/icons/all_items.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.filter_items.addItem(icon, "")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_breakfast.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.comboBox.addItem(icon1, "")
+        icon1.addPixmap(QtGui.QPixmap(":/icons/filter_breakfast.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.filter_items.addItem(icon1, "")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_lunch.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.comboBox.addItem(icon2, "")
+        icon2.addPixmap(QtGui.QPixmap(":/icons/filter_lunch.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.filter_items.addItem(icon2, "")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_snacks.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.comboBox.addItem(icon3, "")
+        icon3.addPixmap(QtGui.QPixmap(":/icons/filter_snacks.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.filter_items.addItem(icon3, "")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_softdrinks.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.comboBox.addItem(icon4, "")
+        icon4.addPixmap(QtGui.QPixmap(":/icons/filter_softdrinks.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.filter_items.addItem(icon4, "")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_beverages.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.comboBox.addItem(icon5, "")
+        icon5.addPixmap(QtGui.QPixmap(":/icons/filter_beverages.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.filter_items.addItem(icon5, "")
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap(":/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_icecream.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.comboBox.addItem(icon6, "")
-        self.horizontalLayout.addWidget(self.comboBox)
+        icon6.addPixmap(QtGui.QPixmap(":/icons/filter_icecream.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.filter_items.addItem(icon6, "")
+        self.horizontalLayout.addWidget(self.filter_items)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.scroll_area = QtWidgets.QScrollArea(self.central_widget)
         self.scroll_area.setWidgetResizable(True)
@@ -237,7 +125,7 @@ class Ui_main_window(object):
         self.sync.setObjectName("sync")
         self.auto_sync = QtWidgets.QMenu(self.sync)
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap(":/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/auto_sync.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon7.addPixmap(QtGui.QPixmap(":/icons/auto_sync.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.auto_sync.setIcon(icon7)
         self.auto_sync.setObjectName("auto_sync")
         main_window.setMenuBar(self.menubar)
@@ -246,25 +134,25 @@ class Ui_main_window(object):
         main_window.setStatusBar(self.statusbar)
         self.add_action = QtWidgets.QAction(main_window)
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(":/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/add_button.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon8.addPixmap(QtGui.QPixmap(":/icons/add_button.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.add_action.setIcon(icon8)
         self.add_action.setShortcutVisibleInContextMenu(True)
         self.add_action.setObjectName("add_action")
         self.remove_action = QtWidgets.QAction(main_window)
         icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap(":/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/remove_button.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon9.addPixmap(QtGui.QPixmap(":/icons/remove_button.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.remove_action.setIcon(icon9)
         self.remove_action.setShortcutVisibleInContextMenu(True)
         self.remove_action.setObjectName("remove_action")
         self.info_action = QtWidgets.QAction(main_window)
         icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap(":/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/info_action.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon10.addPixmap(QtGui.QPixmap(":/icons/info_action.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.info_action.setIcon(icon10)
         self.info_action.setShortcutVisibleInContextMenu(True)
         self.info_action.setObjectName("info_action")
         self.quit_action = QtWidgets.QAction(main_window)
         icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap(":/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/quit_action.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon11.addPixmap(QtGui.QPixmap(":/icons/quit_action.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.quit_action.setIcon(icon11)
         self.quit_action.setShortcutVisibleInContextMenu(True)
         self.quit_action.setObjectName("quit_action")
@@ -290,7 +178,7 @@ class Ui_main_window(object):
         self.filter_beverages.setObjectName("filter_beverages")
         self.refresh = QtWidgets.QAction(main_window)
         icon12 = QtGui.QIcon()
-        icon12.addPixmap(QtGui.QPixmap(":/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/action_refresh.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon12.addPixmap(QtGui.QPixmap(":/icons/action_refresh.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.refresh.setIcon(icon12)
         self.refresh.setObjectName("refresh")
         self.sync_15s = QtWidgets.QAction(main_window)
@@ -334,40 +222,22 @@ class Ui_main_window(object):
         self.menubar.addAction(self.menuFilter.menuAction())
         self.menubar.addAction(self.sync.menuAction())
 
-        # self.menu_item.deleteLater()
-
         self.retranslateUi(main_window)
-        self.quit_action.triggered.connect(main_window.close)  # type: ignore
-        self.statusbar.setStatusTip("as")
-        add_dialog = QtWidgets.QDialog()
-        add_item = AddDialog()
-        add_item.setupUi(add_dialog)
-        add_dialog.accepted.connect(lambda: print(ItemView().items[0].name.text()))
-        self.add_action.triggered.connect(lambda: self.refresh_view(add_dialog))
+        self.quit_action.triggered.connect(main_window.close) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(main_window)
-
-    def refresh_view(self, dialog: QtWidgets.QDialog) -> None:
-        dialog.show()
-        print("ads", ItemView.items)
-        for index, item in enumerate(ItemView.items):
-            print("name is", item.name)
-            self.verticalLayout_2.insertWidget(index + 1,
-                menu_item(self.scroll_area_widget_contents, item.name, item.price)
-            )
-
 
     def retranslateUi(self, main_window):
         _translate = QtCore.QCoreApplication.translate
         main_window.setWindowTitle(_translate("main_window", "MainWindow"))
         self.searchbar.setPlaceholderText(_translate("main_window", "Search for Items..."))
-        self.comboBox.setStatusTip(_translate("main_window", "Filter according to Item Type"))
-        self.comboBox.setItemText(0, _translate("main_window", "All Items"))
-        self.comboBox.setItemText(1, _translate("main_window", "Breakfast"))
-        self.comboBox.setItemText(2, _translate("main_window", "Lunch"))
-        self.comboBox.setItemText(3, _translate("main_window", "Snacks"))
-        self.comboBox.setItemText(4, _translate("main_window", "Soft Drinks"))
-        self.comboBox.setItemText(5, _translate("main_window", "Beverages"))
-        self.comboBox.setItemText(6, _translate("main_window", "Ice Cream"))
+        self.filter_items.setStatusTip(_translate("main_window", "Filter according to Item Type"))
+        self.filter_items.setItemText(0, _translate("main_window", "All Items"))
+        self.filter_items.setItemText(1, _translate("main_window", "Breakfast"))
+        self.filter_items.setItemText(2, _translate("main_window", "Lunch"))
+        self.filter_items.setItemText(3, _translate("main_window", "Snacks"))
+        self.filter_items.setItemText(4, _translate("main_window", "Soft Drinks"))
+        self.filter_items.setItemText(5, _translate("main_window", "Beverages"))
+        self.filter_items.setItemText(6, _translate("main_window", "Ice Cream"))
         self.menu_item.setTitle(_translate("main_window", "Chicken Biryani"))
         self.price_label.setText(_translate("main_window", "Price:"))
         self.price.setPrefix(_translate("main_window", "₹ "))

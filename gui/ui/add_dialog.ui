@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>240</width>
-    <height>203</height>
+    <width>236</width>
+    <height>241</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -34,17 +34,87 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEdit"/>
+       <widget class="QLineEdit" name="name"/>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
+      <item row="1" column="1">
+       <widget class="QComboBox" name="type">
+        <property name="minimumSize">
+         <size>
+          <width>125</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="currentText">
+         <string>Breakfast</string>
+        </property>
+        <property name="placeholderText">
+         <string>Select</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Breakfast</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../assets/icon_resource.qrc">
+           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_breakfast.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_breakfast.svg</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Lunch</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../assets/icon_resource.qrc">
+           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_lunch.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_lunch.svg</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Snacks</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../assets/icon_resource.qrc">
+           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_snacks.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_snacks.svg</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Soft Drinks</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../assets/icon_resource.qrc">
+           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_softdrinks.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_softdrinks.svg</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Beverages</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../assets/icon_resource.qrc">
+           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_beverages.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_beverages.svg</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Ice Cream</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../assets/icon_resource.qrc">
+           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_icecream.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_icecream.svg</iconset>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="price_label">
         <property name="text">
          <string>Price</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="spinBox">
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="price">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -65,15 +135,15 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
+      <item row="3" column="0">
+       <widget class="QLabel" name="quantity_label">
         <property name="text">
          <string>Quantity</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QSpinBox" name="spinBox_2">
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="quantity">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -91,15 +161,15 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label">
+      <item row="4" column="0">
+       <widget class="QLabel" name="available_label">
         <property name="text">
          <string>Available</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
-       <widget class="QCheckBox" name="checkBox">
+      <item row="4" column="1">
+       <widget class="QCheckBox" name="available">
         <property name="text">
          <string/>
         </property>
@@ -108,6 +178,13 @@
         </property>
         <property name="checked">
          <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="type_label">
+        <property name="text">
+         <string>Type</string>
         </property>
        </widget>
       </item>
@@ -123,7 +200,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../assets/icon_resource.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>button_box</sender>

@@ -152,11 +152,12 @@ class MainWindow:
         # Initialising the scroll area layout inside of the scroll area
         self.scroll_area_layout = QtWidgets.QVBoxLayout(self.scroll_area_widget_contents)
         self.scroll_area_layout.setObjectName("scroll_area_layout")
+        item = add_menu_item(self.scroll_area_widget_contents, 'Chips')
 
-        self.scroll_area_layout.addWidget(add_menu_item(self.scroll_area_widget_contents, 'Chips'))
+        self.scroll_area_layout.addWidget(item)
 
         # Add the menu item to the window layout
-        # self.scroll_area_layout.addWidget(self.menu_item)
+        # self.scroll_area_layout.removeWidget(item)
 
         # Initialising the vertical spacer that pushes item to the top of scroll
         self.vertical_spacer = QtWidgets.QSpacerItem(
@@ -178,7 +179,11 @@ class MainWindow:
 
     def on_click(self):
         children = self.scroll_area_layout.count()
-        self.scroll_area_layout.insertWidget(children - 1, add_menu_item(self.scroll_area_widget_contents, 'Poha', 25, False))
+        menu_item = add_menu_item(self.scroll_area_widget_contents, 'Chips')
+        self.scroll_area_layout.insertWidget(children - 1, menu_item)
+        print("Before removal")
+        self.scroll_area_layout.removeWidget(menu_item)
+        print("After removal")
 
     def setup_ui(self, main_window):
         main_window.setObjectName("main_window")

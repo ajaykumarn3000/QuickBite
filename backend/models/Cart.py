@@ -1,6 +1,5 @@
 import os
 import secrets
-import razorpay
 from models.Users import User
 from models.MenuCard import MenuCard
 from sqlalchemy.orm import declarative_base, Session
@@ -11,9 +10,6 @@ DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")
 Base = declarative_base()
 engine = create_engine(DB_CONNECTION_STRING)
 database = Session(bind=engine)
-client = razorpay.Client(
-    auth=(os.environ['KEY_ID'], os.environ['KEY_SECRET'])
-)
 
 
 def validate_cart_items(user_id: int) -> list[dict]:

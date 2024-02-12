@@ -1,10 +1,19 @@
 <RCC>
-  <qresource prefix="/Users/kevin/PycharmProjects/QuickBite/pyqt5/assets/icons">
-    <file>icons/search_button.svg</file>
-    <file>icons/edit_button.svg</file>
-    <file>icons/remove_button.svg</file>
+  <qresource>
     <file>icons/add_button.svg</file>
+    <file>icons/edit_button.svg</file>
+    <file>icons/filter_beverages.svg</file>
+    <file>icons/filter_breakfast.svg</file>
+    <file>icons/filter_icecream.svg</file>
+    <file>icons/filter_lunch.svg</file>
+    <file>icons/filter_snacks.svg</file>
+    <file>icons/filter_softdrinks.svg</file>
     <file>icons/info_action.svg</file>
     <file>icons/quit_action.svg</file>
+    <file>icons/remove_button.svg</file>
+    <file>icons/search_button.svg</file>
+    <file>icons/auto_sync.svg</file>
+    <file>icons/action_refresh.svg</file>
+    <file>icons/all_items.svg</file>
   </qresource>
 </RCC>

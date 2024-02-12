@@ -15,9 +15,14 @@ bcrypt = "^4.1.2"
 pyotp = "^2.9.0"
 pandas = "^2.1.4"
 xlrd = "^2.0.1"
-razorpay = "^1.4.1"
-reflex = "^0.3.9"
 pyqt5 = "^5.15.10"
+python-dotenv = "^1.0.1"
+fastapi = "^0.109.2"
+fastapi-mail = "^1.4.1"
+uvicorn = "^0.27.0.post1"
+setuptools = "^69.0.3"
+requests = "^2.31.0"
+httpx = "^0.26.0"
 
 
 [build-system]
