@@ -120,35 +120,28 @@ def menu_item(
 
 class ItemView:
     """Class which contains the items to display in the Menu Item View"""
-    items = {}
-    breakfast = {}
-    lunch = {}
-    snacks = {}
-    soft_drinks = {}
-    beverages = {}
-    ice_cream = {}
+    item_filters = {
+        "All Items": dict(),
+        "Breakfast": dict(),
+        "Lunch": dict(),
+        "Snacks": dict(),
+        "Drinks": dict(),
+        "Beverages": dict(),
+        "Ice Cream": dict()
+    }
 
     def add_menu_item(self, item_to_add: dict) -> None:
+        print("Received item price is", item_to_add)
         item = MenuItem()
-        item.name = item_to_add["name"],
-        item.quantity = item_to_add["quantity"],
-        item.price = item_to_add["price"],
+        item.name = item_to_add["name"]
+        item.quantity = item_to_add["quantity"]
+        item.price = item_to_add["price"]
         item.type = item_to_add["type"]
 
-        if item.type == "Breakfast":
-            self.breakfast[item.name] = item
-        elif item.type == "Lunch":
-            self.lunch[item.name] = item
-        elif item.type == "Snacks":
-            self.snacks[item.name] = item
-        elif item.type == "Drinks":
-            self.soft_drinks[item.name] = item
-        elif item.type == "Beverages":
-            self.beverages[item.name] = item
-        elif item.type == "Ice Cream":
-            self.ice_cream[item.name] = item
+        item_key = item.name.lower().replace(" ", "")
 
-        self.items[item.name] = item
+        self.item_filters[item.type][item_key] = item
+        self.item_filters["All Items"][item_key] = item
 
     def sync(self):
         response = api.get(url=BASE_URL + ROUTE).json()
@@ -160,18 +153,8 @@ class ItemView:
             menu_item.quantity = item["item_quantity"]
             menu_item.type = item["item_type"]
 
-            if menu_item.type == "Breakfast":
-                self.breakfast[menu_item.name] = menu_item
-            elif menu_item.type == "Lunch":
-                self.lunch[menu_item.name] = menu_item
-            elif menu_item.type == "Snacks":
-                self.snacks[menu_item.name] = menu_item
-            elif menu_item.type == "Drinks":
-                self.soft_drinks[menu_item.name] = menu_item
-            elif menu_item.type == "Beverages":
-                self.beverages[menu_item.name] = menu_item
-            elif menu_item.type == "Ice Cream":
-                self.ice_cream[menu_item.name] = menu_item
+            item_key = menu_item.name.lower().replace(" ", "")
 
-            self.items[menu_item.name] = menu_item
+            self.item_filters[menu_item.type][item_key] = menu_item
+            self.item_filters["All Items"][item_key] = menu_item
 

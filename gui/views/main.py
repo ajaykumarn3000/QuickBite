@@ -1,4 +1,6 @@
 import sys
+from pprint import pprint
+
 import httpx as api
 from PyQt5 import QtWidgets, QtCore
 from gui.views.temp import Ui_main_window
@@ -107,7 +109,6 @@ def menu_item(
 
     return menu_item
 
-
 class AddDialog(QtWidgets.QDialog, Ui_add_dialog):
     def __init__(self, *args, **kwargs):
         super(AddDialog, self).__init__(*args, **kwargs)
@@ -141,13 +142,41 @@ class AddDialog(QtWidgets.QDialog, Ui_add_dialog):
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_main_window):
+
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.add_dialog = None
         self.setupUi(self)
         self.show()
         self.refresh.triggered.connect(self.sync_with_db)
+        self.filter_items.currentTextChanged.connect(self.change_filter)
         self.add_action.triggered.connect(self.launch_add_dialog)
+        self.searchbar.textChanged.connect(self.search_text_changed)
+
+    def search_text_changed(self, text: str):
+        text = text.lower().replace(" ", "") if len(text) >= 2 else ""
+        items = ItemView().item_filters[self.filter_items.currentText()]
+        filtered_items = [items[key] for key in filter(lambda item: item.__contains__(text), items)]
+
+        for index in range(self.verticalLayout_2.count() - 2, -1, -1):
+            item = self.verticalLayout_2.itemAt(index).widget()
+            self.verticalLayout.removeWidget(item)
+            item.setParent(None)
+            del item
+
+        # TODO: Optimize by only refreshing when the filtered_items have changed
+
+        for item in filtered_items:
+            item = menu_item(parent_widget=self.scroll_area_widget_contents,
+                             item_name=item.name,
+                             item_price=item.price,
+                             item_quantity=item.quantity,
+                             item_availability=True
+                             )
+            self.verticalLayout_2.insertWidget(0, item)
+
+    def change_filter(self, current_filter: str):
+        self.search_text_changed(text=self.searchbar.text())
 
     def launch_add_dialog(self):
         self.add_dialog = AddDialog()
@@ -160,8 +189,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_main_window):
             item.setParent(None)
             del item
 
-        for item in ItemView.items.values():
-            print(item.price)
+        for item in ItemView.item_filters[self.filter_items.currentText()].values():
+            print(item)
             item = menu_item(parent_widget=self.scroll_area_widget_contents,
                 item_name=item.name,
                 item_price=item.price,
@@ -180,7 +209,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_main_window):
 
         ItemView().sync()
 
-        for index, item in enumerate(ItemView.items.values()):
+        for index, item in enumerate(ItemView.item_filters[self.filter_items.currentText()].values()):
             item = menu_item(parent_widget=self.scroll_area_widget_contents,
                 item_name=item.name,
                 item_price=item.price,
