@@ -1,1 +1,2 @@
 SERVER_URL = "http://127.0.0.1:5000"
+TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJ1c2VyIiwidWlkIjoiMjIxMDc3IiwiZXhwIjoxNzA4Mjg1MTQ0fQ.V5is7lt8tpRELyMitobFfXlvmeSNDAMcOvZOjuuyXbk"

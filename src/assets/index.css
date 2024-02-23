@@ -1,0 +1,52 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* width */
+::-webkit-scrollbar {
+  display: none;
+}
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+input[name="pid"][type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[name="otp"][type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input,
+input:focus,
+input:hover,
+input:active,
+select,
+select:focus,
+select:hover,
+select:active {
+  outline: none;
+}
+
+.DropdownMenu {
+  z-index: 100;
+}
+
+.ShowCartBtn {
+  display: none
+}
+@media screen and (max-width: 600px) {
+  .ShowCartBtn {
+    display: block;
+  }
+}
