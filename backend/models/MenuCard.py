@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, Session
+from sqlalchemy.exc import IntegrityError
 
 # The path to the database file
 DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")
@@ -75,5 +76,18 @@ class MenuCard(Base):
         database.add(self)
         database.commit()
 
+    def edit_item(self, item_id, item_price=None, item_quantity=None) -> None:
+        """Edit the price and/or quantity of an existing menu item"""
+        print(item_id)
+        menu_item = MenuCard.get_item(self, item_id)
+        try:
+            if item_price is not None:
+                menu_item.item_price = item_price
+            if item_quantity is not None:
+                menu_item.item_quantity = item_quantity
+            database.commit()
+        except IntegrityError:
+            database.rollback()
+            raise Exception("All fields should be non zero")
 
 Base.metadata.create_all(engine, checkfirst=True)

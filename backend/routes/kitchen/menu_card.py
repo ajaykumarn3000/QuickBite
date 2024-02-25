@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import annotations
+
 from models.MenuCard import MenuCard, item_exists
 
 import logging
@@ -135,3 +137,13 @@ def add_item(item: MenuItem):
                 "item": item.name
             }
         )
+
+
+@router.post('/edit/{item_id}')
+def edit_item(
+    item_id: int,
+    item_price: int | None = None,
+    item_quantity: int | None = None
+) -> JSONResponse:
+    """Modifies the price and/r quantity of an existing menu item"""
+    MenuCard.edit_item(MenuCard, item_id, item_price, item_quantity)
