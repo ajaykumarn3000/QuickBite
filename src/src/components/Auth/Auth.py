@@ -3,13 +3,8 @@ import reflex as rx
 # Comp
 import src.components.Auth.Login as Login
 import src.components.Auth.Register as Register
-
-
-class AuthState(rx.State):
-    login = False
-
-    def toggle_login(self):
-        self.login = not self.login
+# state
+from src.state import AuthState
 
 
 def Auth() -> rx.Component:

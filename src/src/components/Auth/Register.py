@@ -2,31 +2,8 @@ import reflex as rx
 from src.components.Auth.FormInput import FormInput
 from src.components.Auth.Button import Button
 
-from src.controller.authController import register, verify_otp
-
-
-class RegisterState(rx.State):
-    otp = False
-    form_data = {}
-
-    def toggle_otp(self):
-        self.otp = not self.otp
-
-    def handle_submit(self, form_data: dict):
-        if not self.otp and form_data["Email"] and form_data["Password"]:
-            data = {"passcode": form_data["Password"]}
-            if "@student.sfit.ac.in" in form_data["Email"]:
-                data["username"] = form_data["Email"].replace("@student.sfit.ac.in", "")
-            elif "@sfit.ac.in" in form_data["Email"]:
-                data["username"] = form_data["Email"].replace("@student.sfit.ac.in", "")
-            else:
-                return
-            if register(data):
-                self.toggle_otp()
-        elif self.otp and form_data["Email"] and form_data["OTP"]:
-            data = {"email": form_data["Email"], "otp": str(form_data["OTP"])}
-            if verify_otp(data):
-                self.toggle_otp()
+# state
+from src.state import RegisterState
 
 
 def Register(state) -> rx.Component:
