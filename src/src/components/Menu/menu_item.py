@@ -6,21 +6,21 @@ from src.state import MenuItemState
 
 
 def MenuItem(item) -> rx.Component:
-    return rx.box(
-        rx.box(
+    return rx.chakra.box(
+        rx.chakra.box(
             PriceTag(item["item_price"]), class_name="absolute top-[-8px] left-[-8px]"
         ),
-        rx.box(
+        rx.chakra.box(
             StockTag(item["item_quantity"]), class_name="absolute top-[-5px] right-[-8px]"
         ),
-        rx.box(
-            rx.image(
+        rx.chakra.box(
+            rx.chakra.image(
                 src=item["item_icon"],
                 class_name="object-cente object-cover aspect-video",
             ),
             class_name="rounded-t-lg overflow-hidden",
         ),
-        rx.text(item["item_name"], class_name="text-gray-600 font-semibold text-center"),
+        rx.chakra.text(item["item_name"], class_name="text-gray-600 font-semibold text-center"),
         class_name=rx.cond(
             MenuItemState.selected,
             "FoodItem h-fit m-2 relative rounded-lg bg-white shadow border-[3px] border-amber-500 shadow-md",

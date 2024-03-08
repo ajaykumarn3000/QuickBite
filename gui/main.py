@@ -1,10 +1,10 @@
 import sys
 import httpx as api
 from PyQt5 import QtWidgets, QtCore
-from gui.views.temp import Ui_main_window
-from gui.views.add_dialog import Ui_add_dialog
-from gui.controller.main_controller import BASE_URL, ROUTE, MenuItem, ItemView
-from gui.assets import app_icons
+from views.temp import Ui_main_window
+from views.add_dialog import Ui_add_dialog
+from controller.main_controller import BASE_URL, ROUTE, MenuItem, ItemView
+from assets import app_icons
 
 
 def edit_item_quantity(item_id: int, item_quantity: int):

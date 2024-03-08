@@ -8,7 +8,7 @@ from src.state import MenuState
 
 def Menu() -> rx.Component:
     # lists = [{"hello": "world"},{"hello": "world"},{"hello": "world"},{"hello": "world"},{"hello": "world"},{"hello": "world"},{"hello": "world"}]
-    return rx.box(
+    return rx.chakra.box(
         rx.foreach(MenuState.menu, MenuItem),
         class_name="Menu grow flex flex-wrap justify-evenly px-2 overflow-y-scroll",
     )

@@ -7,7 +7,7 @@ class Button:
         self.type_ = type_
 
     def render(self, class_name=""):
-        return rx.button(
+        return rx.chakra.button(
             self.label,
                 class_name=class_name,
                 type_=self.type_,
