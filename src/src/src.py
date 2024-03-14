@@ -18,7 +18,7 @@ from src.state import AuthState
 @rx.page(route="/", title="QuickBite")
 def index() -> rx.Component:
     return rx.cond(
-        AuthState.logged_in,
+        AuthState.is_logged_in,
         rx.fragment(
             Navbar(AuthState),
             rx.chakra.box(

@@ -1,4 +1,5 @@
 import reflex as rx
+from src.state import AuthState
 
 
 def CartItem(item: dict) -> rx.Component:
@@ -20,7 +21,8 @@ def CartItem(item: dict) -> rx.Component:
                     ),
                     class_name="mx-2 flex items-center",
                     padding="0px",
-                    background="none"
+                    background="none",
+                    on_click=lambda: AuthState.remove_from_cart(item["id"]),
                 ),
                 rx.chakra.text(
                     item["quantity"],
@@ -33,7 +35,8 @@ def CartItem(item: dict) -> rx.Component:
                     ),
                     class_name="mx-2 flex items-center",
                     padding="0px",
-                    background="none"
+                    background="none",
+                    on_click=lambda: AuthState.add_to_cart(item["id"]),
                 ),
                 class_name="flex justify-center items-center w-full",
             ),
@@ -46,7 +49,8 @@ def CartItem(item: dict) -> rx.Component:
             ),
             class_name="m-1 absolute top-0 left-0",
             padding="0px",
-            background="none"
+            background="none",
+            on_click=lambda: AuthState.delete_from_cart(item["id"]),
         ),
         class_name="CartItems relative flex p-2 transition-colors bg-white",
     )

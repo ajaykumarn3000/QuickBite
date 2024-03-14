@@ -90,7 +90,7 @@ def get_cart(user_data=Depends(check_jwt_token)):
     log.info(f"User: {user_id} requested to view their cart")
     return JSONResponse(
         status_code=status.HTTP_200_OK,
-        content=Cart(user_id).get_cart()
+        content=sorted(Cart(user_id).get_cart(), key=lambda x: x['id'])
     )
 
 
