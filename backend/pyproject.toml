@@ -20,9 +20,11 @@ python-dotenv = "^1.0.1"
 fastapi = "^0.109.2"
 fastapi-mail = "^1.4.1"
 uvicorn = "^0.27.0.post1"
-setuptools = "^69.0.3"
 requests = "^2.31.0"
 httpx = "^0.26.0"
+pytest = "^8.1.1"
+setuptools = "^69.2.0"
+razorpay = "^1.4.1"
 
 
 [build-system]
