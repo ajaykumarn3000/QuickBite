@@ -2,23 +2,22 @@ import reflex as rx
 from src.components.Auth.FormInput import FormInput
 from src.components.Auth.Button import Button
 
-# state
-from src.state import RegisterState
-
 
 def Register(state) -> rx.Component:
     email = FormInput("Email", "email")
     password = FormInput("Password", "password")
     otp = FormInput("OTP", "number")
-    submit_button = Button(rx.cond(RegisterState.otp, "Register", "Send OTP"), "submit")
-    return rx.box(
-        rx.box(
-            rx.form(
-                rx.text(
+    submit_button = Button(
+        rx.cond(state.register_otp, "Register", "Send OTP"), "submit"
+    )
+    return rx.chakra.box(
+        rx.chakra.box(
+            rx.chakra.form(
+                rx.chakra.text(
                     "Register", class_name="text-accent text-3xl mb-2 font-semibold"
                 ),
-                rx.box(
-                    rx.box(
+                rx.chakra.box(
+                    rx.chakra.box(
                         email.render(
                             "text-gray-700 font-semibold tracking-wide text-lg border-solid boder-2 focus:bg-accent-100 focus:border-accent transition-colors duration-300 rounded-md"
                         ),
@@ -26,20 +25,22 @@ def Register(state) -> rx.Component:
                             "text-gray-700 font-semibold tracking-wide text-lg border-solid boder-2 focus:bg-accent-100 focus:border-accent transition-colors duration-300 rounded-md"
                         ),
                         class_name=rx.cond(
-                            RegisterState.otp, "email-password", "email-password Active"
+                            state.register_otp,
+                            "email-password",
+                            "email-password Active",
                         ),
                     ),
-                    rx.box(
+                    rx.chakra.box(
                         otp.render(
                             "text-center tracking-widest text-gray-700 font-semibold text-lg bg-background-200 border-solid boder-2 focus:bg-accent-100 focus:border-accent transition-colors duration-300 rounded-md"
                         ),
-                        rx.button(
+                        rx.chakra.button(
                             "Back",
                             class_name="text-accent-600 font-bold text-lg",
-                            on_click=RegisterState.toggle_otp,
+                            on_click=state.register_toggle_otp,
                         ),
                         class_name=rx.cond(
-                            RegisterState.otp,
+                            state.register_otp,
                             "otp Active flex flex-col justify-center items-center",
                             "otp flex flex-col justify-center items-center",
                         ),
@@ -50,11 +51,11 @@ def Register(state) -> rx.Component:
                     "btn flex relative justify-center items-center self-center text-background font-bold rounded-lg transition-colors duration-300 border-1 mt-4 bg-accent-400 shadow-md hover:bg-accent-450 active:bg-accent-500 active:shadow-none"
                 ),
                 class_name="mobileBox shadow-lg sm:shadow-none flex flex-col",
-                on_submit=RegisterState.handle_submit,
+                on_submit=state.register_handle_submit,
             ),
-            rx.box(
+            rx.chakra.box(
                 "Already have an account? ",
-                rx.button(
+                rx.chakra.button(
                     "Login",
                     class_name="ml-4 text-accent-600",
                     on_click=state.toggle_login,

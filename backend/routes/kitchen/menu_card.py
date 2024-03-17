@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 from models.MenuCard import MenuCard, item_exists
-
+from fastapi import APIRouter, Depends, HTTPException, Header, status
+from controller.token import verify_access_token
 import logging
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse
@@ -31,6 +32,16 @@ def logger_object():
 
 log = logger_object()
 
+# Dependency to check for a valid JWT token in the header
+def check_jwt_token(authorization: str = Header(..., description="JWT token")):
+    token_prefix, token = authorization.split()
+    if token_prefix.lower() != "bearer":
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid token type. Use Bearer authentication.",
+        )
+    return verify_access_token(token)
+
 
 class MenuItem(BaseModel):
     """Model to represent a new item to be added to the menu"""
@@ -40,8 +51,8 @@ class MenuItem(BaseModel):
     type: str
 
 
-@router.get('/')
-def get_menu():
+@router.get('/', dependencies=[Depends(check_jwt_token)])
+def get_menu(decoded_token: dict = Depends(check_jwt_token)):
     """
     Retrieve the menu items.
 
@@ -65,6 +76,8 @@ def get_menu():
     - This function is suitable for situations where a comprehensive view of the menu is needed without specific filtering.
     """
     log.info("Returning the menu card")
+    print(decoded_token)
+
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=MenuCard.get_all_items(MenuCard)

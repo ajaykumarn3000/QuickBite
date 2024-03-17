@@ -11,5 +11,4 @@ def getMenu(token: str):
     )
     if response.ok:
         return response.json()
-    print(response.json())
     return None
