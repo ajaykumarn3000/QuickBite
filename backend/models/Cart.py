@@ -1,15 +1,9 @@
-import os
 import secrets
 from models.Users import User
 from models.MenuCard import MenuCard
-from sqlalchemy.orm import declarative_base, Session
-from sqlalchemy import create_engine, Column, String, Integer, ForeignKey
+from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.exc import IntegrityError, NoResultFound, InternalError
-
-DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")
-Base = declarative_base()
-engine = create_engine(DB_CONNECTION_STRING)
-database = Session(bind=engine)
+from database import conn as database, Base
 
 
 def validate_cart_items(user_id: int) -> list[dict]:
@@ -147,6 +141,3 @@ class Cart(Base):
         existing.delete()
         database.commit()
         self.cart = database.query(Cart).filter_by(user_id=self.user_id)
-
-
-Base.metadata.create_all(engine, checkfirst=True)

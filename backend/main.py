@@ -19,6 +19,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+@app.get("/")
+def root():
+    return {"message": "Connected to QuickBite API"}
+
+
 app.include_router(router=user_auth_router)
 app.include_router(router=staff_auth_router)
 app.include_router(router=user_api_router)

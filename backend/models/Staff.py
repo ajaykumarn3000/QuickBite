@@ -1,21 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
 from bcrypt import hashpw, gensalt, checkpw, hashpw
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.orm import declarative_base, Session
-
-# The path to the database file
-DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")
-
-# Instantiate the ORM of the database to a python object
-Base = declarative_base()
-# Create a connection to a database using its file path
-engine = create_engine(DB_CONNECTION_STRING)
-# A session to connect to the database connection
-database = Session(bind=engine)
+from sqlalchemy import Column, Integer, String
+from database import conn as database, Base
 
 
 def staff_exists(email: str) -> bool:
@@ -60,9 +47,6 @@ class Staff(Base):
 
 
 # Create all the tables defined in the schema if they don't already exist
-Base.metadata.create_all(engine)
-
-# If the Admin doesn't exist in the staff table
 if not database.query(Staff).filter_by(uid=1).all():  # Admin has uid equal to 0
     # Create an instance of an Admin
     admin = Staff(

@@ -1,21 +1,7 @@
 # -*- coding: utf-8 -*-
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.orm import declarative_base, Session
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.exc import IntegrityError
-
-# The path to the database file
-DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")
-
-# Instantiate the ORM of the database to a python object
-Base = declarative_base()
-# Create a connection to a database using its file path
-engine = create_engine(DB_CONNECTION_STRING)
-# A session to connect to the database connection
-database = Session(bind=engine)
+from database import conn as database, Base
 
 
 def item_exists(item_name: str) -> bool:
@@ -89,5 +75,3 @@ class MenuCard(Base):
         except IntegrityError:
             database.rollback()
             raise Exception("All fields should be non zero")
-
-Base.metadata.create_all(engine, checkfirst=True)

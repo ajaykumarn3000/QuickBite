@@ -1,26 +1,13 @@
-import os
-from dotenv import load_dotenv
 from copy import deepcopy
-
+from database import conn as database, Base
 from models.Cart import Cart
-from models.MenuCard import MenuCard
-from sqlalchemy.orm import declarative_base, Session
-# from sqlalchemy.exc import IntegrityError
 from sqlalchemy import (
-    create_engine,
     Column,
     String,
     Integer,
     ForeignKey,
     PrimaryKeyConstraint,
 )
-
-load_dotenv()
-
-DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")
-Base = declarative_base()
-engine = create_engine(DB_CONNECTION_STRING)
-database = Session(bind=engine)
 
 
 class Payments(Base):
@@ -47,6 +34,3 @@ class Orders(Base):
 
     def __repr__(self):
         return f"<Orders(order_id={self.order_id}, cart_id={self.cart_id})>"
-
-
-Base.metadata.create_all(bind=engine, checkfirst=True)

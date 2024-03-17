@@ -1,0 +1,8 @@
+runtime: python39
+entrypoint: gunicorn -k uvicorn.workers.UvicornWorker main:app :8080
+service: backend
+env_variables:
+  DB_CONNECTION_STRING: "postgresql://quickbite-dba:a6QJN`hBdqQR53rv@34.93.246.22:5432/quickbite-sfit"
+  JWT_SECRET: "6bb008c68d32e370a1c7ff4309c75902cda7ee3511103754836bf12b80f4f945"
+  ADMIN_MAIL: "quickbite.sfit@gmail.com"
+  PASSWORD: "nunn vpds vabr shff"

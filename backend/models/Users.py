@@ -1,33 +1,17 @@
 # -*- coding: utf-8 -*-
-# from models.cart import Cart
-
 from pandas import read_excel
 from bcrypt import gensalt, hashpw, checkpw
-from sqlalchemy.orm import declarative_base, Session
-from sqlalchemy import create_engine, Column, Integer, String
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
+from sqlalchemy import Column, Integer, String
+from database import conn as database, Base
 
 # Path to the workbook containing the user data (uid, name, email)
 WORKBOOK = "./data/Student List 2024.xls"
 # Name of the spreadsheet containing the data
 SPREADSHEET = "Student List SEITB"
-# The connection string to the database
-DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")
 # The domain name of the institution
 DOMAIN = "sfit.ac.in"
 
 student_data = read_excel(WORKBOOK, sheet_name=SPREADSHEET)
-
-# Instantiate the ORM of the database to a python object
-Base = declarative_base()
-# Create a connection to a database using its connection string
-engine = create_engine(DB_CONNECTION_STRING)
-# A session to connect to the database connection
-database = Session(bind=engine)
 
 
 def get_name_by_email(email: str) -> str:
@@ -92,7 +76,3 @@ class User(Base):
         """Save the user to the database"""
         database.add(self)
         database.commit()
-
-
-# Create the database/table if not exists, else skip
-Base.metadata.create_all(engine, checkfirst=True)

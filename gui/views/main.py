@@ -22,12 +22,12 @@ def edit_item_price(item_id: int, item_price: int):
 
 
 def menu_item(
-        parent_widget: QtWidgets,
-        item_id: int,
-        item_name: str,
-        item_price: int = 0,
-        item_quantity: int = 0,
-        item_availability: bool = True
+    parent_widget: QtWidgets,
+    item_id: int,
+    item_name: str,
+    item_price: int = 0,
+    item_quantity: int = 0,
+    item_availability: bool = True
 ):
     """Function to add an item to the Main Window"""
 

@@ -1,6 +1,8 @@
+python-dotenv==1.0.1
 fastapi==0.109.0
 fastapi-mail==1.4.1
 uvicorn==0.26.0
+gunicorn==20.1.0
 SQLAlchemy==2.0.25
 python-jose==3.3.0
 psycopg2-binary==2.9.9
