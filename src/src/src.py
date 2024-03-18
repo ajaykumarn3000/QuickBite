@@ -6,6 +6,7 @@ from src.components.Auth.Auth import Auth
 from src.components.Navbar.Navbar import Navbar
 from src.components.Menu.menu import Menu
 from src.components.Cart.cart import Cart
+from src.components.Orders.OrderPage import Orders
 
 # state
 from src.state import AuthState
@@ -13,6 +14,18 @@ from src.state import AuthState
 # @rx.page(route="/auth", title="login to QuickBite")
 # def auth() -> rx.Component:
 #     return Auth()
+
+@rx.page(route="/orders", title="QuickBite")
+def orders() -> rx.Component:
+    return rx.cond(
+        AuthState.is_logged_in,
+        rx.fragment(
+            Navbar(AuthState),
+            Orders(AuthState),
+        ),
+        Auth(AuthState),
+    
+    )
 
 
 @rx.page(route="/", title="QuickBite")

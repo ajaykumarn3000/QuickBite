@@ -27,7 +27,7 @@ def Cart() -> rx.Component:
                     ),
                     rx.chakra.button(
                         "CHECKOUT",
-                        on_click=AuthState.toggle_info,
+                        on_click=rx.redirect("https://www.google.com"), 
                         background="auto",
                         _hover={"background": "auto"},
                         class_name="grow bg-primary hover:bg-primary-450 transition-colors ml-2 py-2 rounded text-white shadow",
