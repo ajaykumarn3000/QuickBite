@@ -155,8 +155,8 @@ def add_item(item: MenuItem):
 @router.post('/edit/{item_id}')
 def edit_item(
     item_id: int,
-    item_price: int | None = None,
-    item_quantity: int | None = None
+    item_price: int = None,
+    item_quantity: int = None
 ) -> JSONResponse:
     """Modifies the price and/r quantity of an existing menu item"""
     MenuCard.edit_item(MenuCard, item_id, item_price, item_quantity)
