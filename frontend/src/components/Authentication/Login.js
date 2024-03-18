@@ -3,7 +3,7 @@ import { startTouch, moveTouch } from "./swipe.js";
 import useUserContext from "../../hooks/useUserContext.js";
 import { login as userLogin } from "../../controllers/authController.js";
 
-const bLogin = ({ login, setLogin }) => {
+const Login = ({ login, setLogin }) => {
   const [pid, setPid] = useState("");
   const [pidError, setPidError] = useState(false);
 

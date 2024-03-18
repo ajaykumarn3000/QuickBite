@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import UserLogout from "../Authentication/Logout";
 import Dropdown from "./Dropdown";
 
 const Navbar = ({ type }) => {

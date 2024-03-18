@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import useUserContext from "../../hooks/useUserContext";
+import { useNavigate } from 'react-router-dom';
 
 const Dropdown = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const { dispatch } = useUserContext();
+  const navigate = useNavigate();
+
   const onLogout = () => {
     dispatch({ type: "LOGOUT" });
   };
@@ -23,7 +26,7 @@ const Dropdown = () => {
           showDropdown ? "block" : "hidden"
         }`}
       >
-        <button className="flex items-center w-full py-1 px-2 hover:text-amber-500">
+        <button className="flex items-center w-full py-1 px-2 hover:text-amber-500" onClick={() => navigate("/orders")}>
           <span className="material-symbols-rounded mr-2">list_alt</span> My Order
         </button>
         <hr />
