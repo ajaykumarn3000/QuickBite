@@ -6,7 +6,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from controller.token import verify_access_token
 from models.Cart import Cart
-from models.Cart import validate_cart_items
+from models.Cart import validate_cart_items, get_order_details
 
 templates = Jinja2Templates(directory="templates")
 
@@ -244,26 +244,14 @@ def checkout(user_data=Depends(check_jwt_token)):
     else:  # If there are no items which require modifications in their quantity
         return JSONResponse(
             status_code=status.HTTP_200_OK,
-            content=Cart(user_id).pay()
+            content=Cart(user_id).pay()["id"]
         )
 
 
-@router.get('/cart/checkout', response_class=HTMLResponse, dependencies=[Depends(check_jwt_token)])
-def checkout(request: Request, user_data=Depends(check_jwt_token)):
-    user_id = user_data['uid']
-    log.info(f"User: {user_id} has tried to checkout")
-    items_requiring_modification: list = validate_cart_items(user_id)
-    if items_requiring_modification:  # If there are items which require changes
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail={
-                "message": "Cart contains items which are unavailable in menu",
-                "items": items_requiring_modification
-            }
-        )
-    else:  # If there are no items which require modifications in their quantity
-        order = Cart(user_id).pay()
-        return templates.TemplateResponse("checkout.html", {"request": request, "order": order})
+@router.get('/cart/checkout/{order_id}')
+def checkout(request: Request, order_id: str):
+    order = get_order_details(order_id)
+    return templates.TemplateResponse("checkout.html", {"request": request, "order": order})
 
 
 @router.get('/cart/paid', dependencies=[Depends(check_jwt_token)])

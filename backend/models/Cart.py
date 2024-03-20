@@ -1,6 +1,7 @@
 import os
 import secrets
 import razorpay
+from dotenv import load_dotenv
 from models.Users import User
 from models.MenuCard import MenuCard
 from datetime import datetime, timedelta
@@ -8,8 +9,18 @@ from database import conn as database, Base
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.exc import IntegrityError, NoResultFound, InternalError
 
-client = razorpay.Client(auth=("rzp_test_Zd9IbsD9shKVOR", "3DXr0zTOTQvaZaVbhkiq9oes"))
+load_dotenv()
+
+RZP_KEY = os.environ["RZP_KEY"]
+RXP_SECRET = os.environ["RZP_SECRET"]
+
+client = razorpay.Client(auth=(RZP_KEY, RXP_SECRET))
 client.set_app_details({"title": "QuickBite CMS - SFIT", "version": "1.0.0"})
+
+
+def get_order_details(order_id: str):
+    """Get the order details"""
+    return client.order.fetch(order_id)
 
 
 def validate_cart_items(user_id: int) -> list[dict]:
@@ -99,8 +110,9 @@ class Cart(Base):
         payment = client.order.create(data=data)
         self.latest_razorpay_order_id = payment['id']
         payment["orderList"] = order_list
-        payment["key"] = "rzp_test_Zd9IbsD9shKVOR"
+        payment["key"] = RZP_KEY
         return payment
+
 
     def verify_payment(self, payment_id: str, payment_signature: str):
         """Verify the payment"""
