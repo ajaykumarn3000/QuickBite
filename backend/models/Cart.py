@@ -8,7 +8,7 @@ from database import conn as database, Base
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.exc import IntegrityError, NoResultFound, InternalError
 
-client = razorpay.Client(auth=(os.environ['KEY_ID'], os.environ['KEY_SECRET']))
+client = razorpay.Client(auth=("rzp_test_Zd9IbsD9shKVOR", "3DXr0zTOTQvaZaVbhkiq9oes"))
 client.set_app_details({"title": "QuickBite CMS - SFIT", "version": "1.0.0"})
 
 
@@ -98,7 +98,8 @@ class Cart(Base):
         }
         payment = client.order.create(data=data)
         self.latest_razorpay_order_id = payment['id']
-        payment['orderList'] = order_list
+        payment["orderList"] = order_list
+        payment["key"] = "rzp_test_Zd9IbsD9shKVOR"
         return payment
 
     def verify_payment(self, payment_id: str, payment_signature: str):

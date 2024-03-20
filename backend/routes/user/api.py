@@ -1,11 +1,14 @@
 import logging
 
-from fastapi import APIRouter, Depends, HTTPException, Header, status
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Depends, HTTPException, Header, status, Request
+from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from controller.token import verify_access_token
 from models.Cart import Cart
 from models.Cart import validate_cart_items
+
+templates = Jinja2Templates(directory="templates")
 
 router = APIRouter(
     prefix="/user/api",
@@ -244,25 +247,9 @@ def checkout(user_data=Depends(check_jwt_token)):
             content=Cart(user_id).pay()
         )
 
-@router.get('/cart/checkout', dependencies=[Depends(check_jwt_token)])
-def checkout(user_data=Depends(check_jwt_token)):
-    """
-    This endpoint pays for the user's cart.
 
-    It uses the HTTP GET method and is located at the path '/cart/pay'.
-
-    This function is dependent on the check_jwt_token function, which verifies the JWT token in the request header.
-
-    Parameters:
-    user_data (dict): User data obtained from the JWT token. It is expected to contain the user's ID.
-
-    Returns:
-    JSONResponse: A JSON response indicating the status of the operation. If successful, it returns a status code of 200 and a message indicating the order has been placed.
-    If an error occurs, it returns a status code of 400 and a message detailing the error.
-
-    Raises:
-    HTTPException: If an error occurs during the operation, an HTTPException is raised with a status code of 400 and a detail message containing the error.
-    """
+@router.get('/cart/checkout', response_class=HTMLResponse, dependencies=[Depends(check_jwt_token)])
+def checkout(request: Request, user_data=Depends(check_jwt_token)):
     user_id = user_data['uid']
     log.info(f"User: {user_id} has tried to checkout")
     items_requiring_modification: list = validate_cart_items(user_id)
@@ -275,10 +262,8 @@ def checkout(user_data=Depends(check_jwt_token)):
             }
         )
     else:  # If there are no items which require modifications in their quantity
-        return JSONResponse(
-            status_code=status.HTTP_200_OK,
-            content=Cart(user_id).pay()["id"]
-        )
+        order = Cart(user_id).pay()
+        return templates.TemplateResponse("checkout.html", {"request": request, "order": order})
 
 
 @router.get('/cart/paid', dependencies=[Depends(check_jwt_token)])
