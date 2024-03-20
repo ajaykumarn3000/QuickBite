@@ -5,6 +5,7 @@ import useUserContext from "../hooks/useUserContext";
 import UserDashboard from "./UserDashboard";
 import Auth from "./Authentication/Auth";
 import AdminPage from "./AdminPage";
+import OrdersPage from "./Orders/OrdersPage";
 
 function App() {
   const { user } = useUserContext();
@@ -16,6 +17,10 @@ function App() {
           <Route
             path="/"
             element={user ? <UserDashboard /> : <Navigate to="/auth" />}
+          />
+          <Route
+            path="/orders"
+            element={user ? <OrdersPage /> : <Navigate to="/auth" />}
           />
           <Route
             path="/auth"

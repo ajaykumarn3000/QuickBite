@@ -30,7 +30,6 @@ class AuthState(rx.State):
 
         if form_data["UID"] and form_data["Password"]:
             data = {"uid": form_data["UID"], "passcode": form_data["Password"]}
-            print("Hello world")
             self.set_token(login(data))
 
     register_otp = False
@@ -75,7 +74,6 @@ class AuthState(rx.State):
         )
 
         if response.ok:
-            print(response.json())
             self.menu = response.json()
             # return response.json()
         # return None
@@ -117,7 +115,6 @@ class AuthState(rx.State):
         return total
 
     def add_to_cart(self, item_id: int):
-        print(item_id)
         response = requests.post(
             f"{SERVER_URL}/user/api/cart/add/{item_id}",
             headers={"Authorization": f"Bearer {self.token}"},
@@ -140,6 +137,81 @@ class AuthState(rx.State):
         )
         if response.ok:
             self.get_cart()
+
+    # ORders
+    orders: list[dict[bool, str, str, list[dict[int, str, int, int]]]] = [
+        {
+            "successful": False,
+            "time": "10:45 AM",
+            "date": "20/01/24",
+            "orderList": [
+                {"id": 1, "name": "Burger", "quantity": 2, "price": 100},
+                {"id": 2, "name": "Pizza", "quantity": 1, "price": 200},
+                {"id": 3, "name": "Pasta", "quantity": 1, "price": 150},
+            ],
+        },
+        {
+            "successful": False,
+            "time": "10:45 AM",
+            "date": "20/01/24",
+            "orderList": [
+                {"id": 1, "name": "Burger", "quantity": 2, "price": 100},
+                {"id": 2, "name": "Pizza", "quantity": 1, "price": 200},
+                {"id": 3, "name": "Pasta", "quantity": 1, "price": 150},
+            ],
+        },
+        {
+            "successful": False,
+            "time": "10:45 AM",
+            "date": "20/01/24",
+            "orderList": [
+                {"id": 1, "name": "Burger", "quantity": 2, "price": 100},
+                {"id": 2, "name": "Pizza", "quantity": 1, "price": 200},
+                {"id": 3, "name": "Pasta", "quantity": 1, "price": 150},
+            ],
+        },
+        {
+            "successful": True,
+            "time": "11:45 AM",
+            "date": "20/01/24",
+            "orderList": [
+                {"id": 1, "name": "Burger", "quantity": 2, "price": 100},
+                {"id": 2, "name": "Pizza", "quantity": 1, "price": 200},
+                {"id": 3, "name": "Pasta", "quantity": 1, "price": 150},
+            ],
+        },
+        {
+            "successful": True,
+            "time": "11:45 AM",
+            "date": "20/01/24",
+            "orderList": [
+                {"id": 1, "name": "Burger", "quantity": 2, "price": 100},
+                {"id": 2, "name": "Pizza", "quantity": 1, "price": 200},
+                {"id": 3, "name": "Pasta", "quantity": 1, "price": 150},
+            ],
+        },
+        {
+            "successful": True,
+            "time": "11:45 AM",
+            "date": "20/01/24",
+            "orderList": [
+                {"id": 1, "name": "Burger", "quantity": 2, "price": 100},
+                {"id": 2, "name": "Pizza", "quantity": 1, "price": 200},
+                {"id": 3, "name": "Pasta", "quantity": 1, "price": 150},
+            ],
+        },
+        {
+            "successful": True,
+            "time": "12:45 AM",
+            "date": "20/01/24",
+            "orderList": [
+                {"id": 1, "name": "Burger", "quantity": 2, "price": 100},
+                {"id": 2, "name": "Pizza", "quantity": 1, "price": 200},
+                {"id": 3, "name": "Pasta", "quantity": 1, "price": 150},
+                {"id": 4, "name": "Pasta", "quantity": 1, "price": 150},
+            ],
+        },
+    ]
 
 
 class CartState(rx.State):

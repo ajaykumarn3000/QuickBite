@@ -3,11 +3,9 @@ import MenuItem from "./MenuItem";
 import useMenuContext from "../../hooks/useMenuContext";
 import useUserContext from "../../hooks/useUserContext";
 import { getMenu } from "../../controllers/menuController";
-import useCartContext from "../../hooks/useCartContext";
 
 const Menu = React.memo((() => {
   const { menu, dispatch } = useMenuContext();
-  const { cart } = useCartContext();
   const { user } = useUserContext();
   useEffect(() => {
     getMenu(user.token)
@@ -21,7 +19,7 @@ const Menu = React.memo((() => {
       .catch((err) => {
         console.log(err);
       });
-  }, [user.token]);
+  }, [user.token, dispatch]);
 
   return (
     <div className="Menu grow flex flex-wrap justify-evenly px-2 overflow-y-scroll">

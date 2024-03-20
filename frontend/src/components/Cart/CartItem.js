@@ -8,11 +8,11 @@ import {
 import useCartContext from "../../hooks/useCartContext";
 import useMenuContext from "../../hooks/useMenuContext";
 
-const CartItem = React.memo(({ icon, name, price, id, quantity, type }) => {
-  const { menu, dispatch: menuDispatch } = useMenuContext();
+const CartItem = React.memo(({ icon, name, id, quantity }) => {
+  const {  dispatch: menuDispatch } = useMenuContext();
   useEffect(() => {
     menuDispatch({ type: "SET_SELECTED", payload: { id: id } });
-  }, []);
+  }, [id, menuDispatch]);
   const [hover, setHover] = useState(false);
   const { user } = useUserContext();
   const { cart, dispatch } = useCartContext();
