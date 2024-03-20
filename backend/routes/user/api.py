@@ -244,8 +244,44 @@ def checkout(user_data=Depends(check_jwt_token)):
             content=Cart(user_id).pay()
         )
 
+@router.get('/cart/checkout', dependencies=[Depends(check_jwt_token)])
+def checkout(user_data=Depends(check_jwt_token)):
+    """
+    This endpoint pays for the user's cart.
 
-@router.post('/cart/paid', dependencies=[Depends(check_jwt_token)])
+    It uses the HTTP GET method and is located at the path '/cart/pay'.
+
+    This function is dependent on the check_jwt_token function, which verifies the JWT token in the request header.
+
+    Parameters:
+    user_data (dict): User data obtained from the JWT token. It is expected to contain the user's ID.
+
+    Returns:
+    JSONResponse: A JSON response indicating the status of the operation. If successful, it returns a status code of 200 and a message indicating the order has been placed.
+    If an error occurs, it returns a status code of 400 and a message detailing the error.
+
+    Raises:
+    HTTPException: If an error occurs during the operation, an HTTPException is raised with a status code of 400 and a detail message containing the error.
+    """
+    user_id = user_data['uid']
+    log.info(f"User: {user_id} has tried to checkout")
+    items_requiring_modification: list = validate_cart_items(user_id)
+    if items_requiring_modification:  # If there are items which require changes
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={
+                "message": "Cart contains items which are unavailable in menu",
+                "items": items_requiring_modification
+            }
+        )
+    else:  # If there are no items which require modifications in their quantity
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content=Cart(user_id).pay()["id"]
+        )
+
+
+@router.get('/cart/paid', dependencies=[Depends(check_jwt_token)])
 def paid(payment=Payment, user_data=Depends(check_jwt_token)):
     user_id = user_data['uid']
     log.info(f"User: {user_id} has made a payment")

@@ -1,13 +1,12 @@
 import os
 import secrets
-from datetime import datetime
-
 import razorpay
 from models.Users import User
 from models.MenuCard import MenuCard
+from datetime import datetime, timedelta
+from database import conn as database, Base
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.exc import IntegrityError, NoResultFound, InternalError
-from database import conn as database, Base
 
 client = razorpay.Client(auth=(os.environ['KEY_ID'], os.environ['KEY_SECRET']))
 client.set_app_details({"title": "QuickBite CMS - SFIT", "version": "1.0.0"})
@@ -77,7 +76,7 @@ class Cart(Base):
         """Pay for the items in cart"""
         amount = 0
         order_list = []
-        now = datetime.now()
+        now = datetime.utcnow() + timedelta(hours=5, minutes=30)
         for cart_item in self.cart.all():
             menu_item = MenuCard.get_item(MenuCard, item_id=cart_item.item_id)
             total_item_price = menu_item.item_price * cart_item.quantity
