@@ -100,6 +100,7 @@ class AuthState(rx.State):
             for item in data:
                 item["total"] = item["price"] * item["quantity"]
             self.cart = data
+            self.order_id = ""
 
     def toggle_cart(self):
         self.show_cart = not self.show_cart
@@ -213,33 +214,22 @@ class AuthState(rx.State):
         },
     ]
 
+    order_id: str = ""
 
+    @rx.var
+    def is_orders(self) -> bool:
+        return self.order_id != ""
+
+    def get_order_id(self):
+        response = requests.post(
+            f"{SERVER_URL}/user/api/cart/checkout",
+            headers={"Authorization": f"Bearer {self.token}"},
+        )
+        if response.ok:
+            self.order_id = response.json()
+
+    @rx.var
+    def get_payment_url(self) -> str:
+        return f"{SERVER_URL}/user/api/cart/checkout/{self.order_id}"
 class CartState(rx.State):
     pass
-
-
-#     show_info = False
-#     show_cart = False
-#     cart: list[dict] = getCart(token)
-
-#     def toggle_cart(self):
-#         self.show_cart = not self.show_cart
-
-#     def toggle_info(self):
-#         self.show_info = not self.show_info
-
-#     def add_to_cart(self, item: dict):
-#         self.cart.append(item)
-
-#     def remove_from_cart(self, item: dict):
-#         self.cart.remove(item)
-
-#     def clear_cart(self):
-#         self.cart = []
-
-#     @rx.var
-#     def total(self):
-#         total = 0
-#         for item in self.cart:
-#             total += item["price"] * item["quantity"]
-#         return total

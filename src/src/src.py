@@ -43,11 +43,6 @@ def index() -> rx.Component:
         Auth(AuthState),
     )
 
-    # return rx.box(
-    #     rx.cond(TestState.test, rx.text("Hello"), rx.text("World")),
-    #     rx.button("Toggle", on_click=TestState.toggle_test)
-    # )
-
 
 # Create app instance and add index page.
 app = rx.App(stylesheets=["Auth.css", "Cart.css", "index.css"])

@@ -1,36 +1,45 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
     <title>QuickBite Checkout</title>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-</head>
-<body>
-{#    <h1>Payment Details:</h1>#}
-{#    <p>Order ID: {{ order.id }}</p>#}
-{#    <p>Amount: {{ order.amount / 100 }} {{ order.currency }}</p>#}
+  </head>
+  <body>
+    {#
+    <h1>Payment Details:</h1>
+    #} {#
+    <p>Order ID: {{ order.id }}</p>
+    #} {#
+    <p>Amount: {{ order.amount / 100 }} {{ order.currency }}</p>
+    #}
     <script>
-        var options = {
-            "key": "{{ order.key }}",
-            "amount": "{{ order.amount / 100 }}",
-            "currency": "{{ order.currency }}",
-            "order_id": "{{ order.id }}",
-            "name": "QuickBite SFIT",
-            "description": "Payment for Order #{{ order.id }}",
-            "image": "https://cscita.sfit.ac.in/images/engg.png",
-            "handler": function (response){
-                alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
-            },
-            "modal": {
-                "backdrop_close": true,
-                "confirm_close": true,
-            },
-        };
-        var rzp1 = new Razorpay(options);
-        rzp1.on('payment.failed', function (response){
-            alert("Payment Failed! Error: " + response.error.description);
-        });
-        rzp1.open();
+      var options = {
+        key: "{{ order.key }}",
+        amount: "{{ order.amount / 100 }}",
+        currency: "{{ order.currency }}",
+        order_id: "{{ order.id }}",
+        name: "QuickBite SFIT",
+        description: "Payment for Order #{{ order.id }}",
+        image: "https://cscita.sfit.ac.in/images/engg.png",
+        handler: function (response) {
+          alert(
+            "Payment Successful! Payment ID: " + response.razorpay_payment_id
+          );
+        },
+        modal: {
+          backdrop_close: true,
+          confirm_close: true,
+        },
+        callback_url: "http://localhost:5000/{{ order.id }}/successful",
+        redirect: true,
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.on("payment.failed", function (response) {
+        alert("Payment Failed! Error: " + response.error.description);
+      });
+      rzp1.open();
     </script>
-</body>
+  </body>
 </html>

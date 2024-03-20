@@ -25,12 +25,22 @@ def Cart() -> rx.Component:
                         _hover={"background": "auto"},
                         border_radius="50%",
                     ),
-                    rx.chakra.button(
-                        "CHECKOUT",
-                        on_click=rx.redirect("https://www.google.com"), 
-                        background="auto",
-                        _hover={"background": "auto"},
-                        class_name="grow bg-primary hover:bg-primary-450 transition-colors ml-2 py-2 rounded text-white shadow",
+                    rx.cond(
+                        AuthState.is_orders,
+                        rx.chakra.button(
+                            "PROCEED TO PAY",
+                            on_click=rx.redirect(AuthState.get_payment_url),
+                            background="auto",
+                            _hover={"background": "auto"},
+                            class_name="grow bg-primary hover:bg-primary-450 transition-colors ml-2 py-2 rounded text-white shadow",
+                        ),
+                        rx.chakra.button(
+                            "CHECKOUT",
+                            on_click=AuthState.get_order_id,
+                            background="auto",
+                            _hover={"background": "auto"},
+                            class_name="grow bg-primary hover:bg-primary-450 transition-colors ml-2 py-2 rounded text-white shadow",
+                        ),
                     ),
                     class_name="flex mx-4 my-2 font-bold text-2xl items-center",
                 ),
