@@ -260,11 +260,9 @@ def payment_successful(order_id: str, payment_id: str, payment_signature: str):
     redirect = verify_payment(order_id, payment_id, payment_signature)
     order_details = get_order_details(order_id)
     cart_details = get_order_details(order_id)["notes"]
-    print(get_order_details(order_id))
-    # Uncomment the following line to clear the cart after successful payment
-    # Cart(user_id=cart_details["user_id"]).clear_cart()
+    Orders(user_id=cart_details["user_id"], order_id=order_id)
+    Cart(user_id=cart_details["user_id"]).clear_cart()
     Cart(cart_details["user_id"]).create_order_from_cart()
-
     if redirect:
         Payments(
             order_id=order_id,
