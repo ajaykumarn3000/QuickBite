@@ -1,6 +1,7 @@
 import reflex as rx
 from src.setup import SERVER_URL
 import requests
+import time
 
 
 # Auth
@@ -214,11 +215,18 @@ class AuthState(rx.State):
         },
     ]
 
-    order_id: str = ""
+    order_id: str
+
+    def set_order_id(self, order_id:str):
+        print(order_id)
+        self.order_id = order_id
+        print(self.order_id)
 
     @rx.var
     def is_orders(self) -> bool:
-        return self.order_id != ""
+        print("isorder", self.order_id)
+        print(bool(self.order_id))
+        return bool(self.order_id)
 
     def get_order_id(self):
         response = requests.post(
@@ -226,10 +234,13 @@ class AuthState(rx.State):
             headers={"Authorization": f"Bearer {self.token}"},
         )
         if response.ok:
-            self.order_id = response.json()
+            self.set_order_id(response.json())
 
     @rx.var
     def get_payment_url(self) -> str:
+        print(f"{SERVER_URL}/user/api/cart/checkout/{self.order_id}")
         return f"{SERVER_URL}/user/api/cart/checkout/{self.order_id}"
+
+
 class CartState(rx.State):
     pass
