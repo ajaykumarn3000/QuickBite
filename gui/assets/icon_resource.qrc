@@ -16,5 +16,6 @@
     <file>icons/action_refresh.svg</file>
     <file>icons/all_items.svg</file>
     <file>icons/fetch_orders.svg</file>
+    <file>icons/app_icon.svg</file>
   </qresource>
 </RCC>
