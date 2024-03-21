@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>437</width>
-    <height>602</height>
+    <width>1068</width>
+    <height>686</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -28,7 +28,7 @@
   <widget class="QWidget" name="central_widget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="top_horizontal_layout">
       <item>
        <widget class="QLineEdit" name="searchbar">
         <property name="statusTip">
@@ -46,7 +46,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QComboBox" name="filter_items">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -62,7 +62,7 @@
          </property>
          <property name="icon">
           <iconset resource="../assets/icon_resource.qrc">
-           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/all_items.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/all_items.svg</iconset>
+           <normaloff>:/icons/all_items.svg</normaloff>:/icons/all_items.svg</iconset>
          </property>
         </item>
         <item>
@@ -71,7 +71,7 @@
          </property>
          <property name="icon">
           <iconset resource="../assets/icon_resource.qrc">
-           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_breakfast.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_breakfast.svg</iconset>
+           <normaloff>:/icons/filter_breakfast.svg</normaloff>:/icons/filter_breakfast.svg</iconset>
          </property>
         </item>
         <item>
@@ -80,7 +80,7 @@
          </property>
          <property name="icon">
           <iconset resource="../assets/icon_resource.qrc">
-           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_lunch.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_lunch.svg</iconset>
+           <normaloff>:/icons/filter_lunch.svg</normaloff>:/icons/filter_lunch.svg</iconset>
          </property>
         </item>
         <item>
@@ -89,7 +89,7 @@
          </property>
          <property name="icon">
           <iconset resource="../assets/icon_resource.qrc">
-           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_snacks.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_snacks.svg</iconset>
+           <normaloff>:/icons/filter_snacks.svg</normaloff>:/icons/filter_snacks.svg</iconset>
          </property>
         </item>
         <item>
@@ -98,7 +98,7 @@
          </property>
          <property name="icon">
           <iconset resource="../assets/icon_resource.qrc">
-           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_softdrinks.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_softdrinks.svg</iconset>
+           <normaloff>:/icons/filter_softdrinks.svg</normaloff>:/icons/filter_softdrinks.svg</iconset>
          </property>
         </item>
         <item>
@@ -107,7 +107,7 @@
          </property>
          <property name="icon">
           <iconset resource="../assets/icon_resource.qrc">
-           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_beverages.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_beverages.svg</iconset>
+           <normaloff>:/icons/filter_beverages.svg</normaloff>:/icons/filter_beverages.svg</iconset>
          </property>
         </item>
         <item>
@@ -116,7 +116,7 @@
          </property>
          <property name="icon">
           <iconset resource="../assets/icon_resource.qrc">
-           <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_icecream.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_icecream.svg</iconset>
+           <normaloff>:/icons/filter_icecream.svg</normaloff>:/icons/filter_icecream.svg</iconset>
          </property>
         </item>
        </widget>
@@ -124,151 +124,168 @@
      </layout>
     </item>
     <item>
-     <widget class="QScrollArea" name="scroll_area">
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-      </property>
-      <widget class="QWidget" name="scroll_area_widget_contents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>411</width>
-         <height>483</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QGroupBox" name="menu_item">
-          <property name="minimumSize">
-           <size>
-            <width>111</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="title">
-           <string>Chicken Biryani</string>
-          </property>
-          <property name="flat">
-           <bool>false</bool>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <spacer name="left_spacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QLabel" name="price_label">
-             <property name="text">
-              <string>Price:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QSpinBox" name="price">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="suffix">
-              <string/>
-             </property>
-             <property name="prefix">
-              <string>₹ </string>
-             </property>
-             <property name="maximum">
-              <number>999</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="center_spacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QLabel" name="quantity_label">
-             <property name="text">
-              <string>Quantity:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QSpinBox" name="quantity">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="suffix">
-              <string> serves</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="right_spacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <spacer name="vertical_spacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>17</width>
-            <height>302</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </widget>
-     </widget>
+     <layout class="QHBoxLayout" name="centra_horizontal_layout">
+      <item>
+       <widget class="QScrollArea" name="scroll_area">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        </property>
+        <widget class="QWidget" name="scroll_area_widget_contents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>432</width>
+           <height>576</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QGroupBox" name="menu_item">
+            <property name="minimumSize">
+             <size>
+              <width>111</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="title">
+             <string>Chicken Biryani</string>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <spacer name="left_spacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="price_label">
+               <property name="text">
+                <string>Price:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="price">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="suffix">
+                <string/>
+               </property>
+               <property name="prefix">
+                <string>₹ </string>
+               </property>
+               <property name="maximum">
+                <number>999</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="center_spacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="quantity_label">
+               <property name="text">
+                <string>Quantity:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="quantity">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="suffix">
+                <string> serves</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="right_spacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <spacer name="vertical_spacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>17</width>
+              <height>302</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTableView" name="display_orders">
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -277,8 +294,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>437</width>
-     <height>24</height>
+     <width>1068</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="item">
@@ -323,7 +340,7 @@
      </property>
      <property name="icon">
       <iconset resource="../assets/icon_resource.qrc">
-       <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/auto_sync.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/auto_sync.svg</iconset>
+       <normaloff>:/icons/auto_sync.svg</normaloff>:/icons/auto_sync.svg</iconset>
      </property>
      <addaction name="sync_15s"/>
      <addaction name="sync_30s"/>
@@ -331,6 +348,7 @@
     </widget>
     <addaction name="refresh"/>
     <addaction name="auto_sync"/>
+    <addaction name="fetch_orders"/>
    </widget>
    <addaction name="app"/>
    <addaction name="item"/>
@@ -341,7 +359,7 @@
   <action name="add_action">
    <property name="icon">
     <iconset resource="../assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/add_button.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/add_button.svg</iconset>
+     <normaloff>:/icons/add_button.svg</normaloff>:/icons/add_button.svg</iconset>
    </property>
    <property name="text">
     <string>Add</string>
@@ -359,7 +377,7 @@
   <action name="remove_action">
    <property name="icon">
     <iconset resource="../assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/remove_button.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/remove_button.svg</iconset>
+     <normaloff>:/icons/remove_button.svg</normaloff>:/icons/remove_button.svg</iconset>
    </property>
    <property name="text">
     <string>Remove</string>
@@ -377,7 +395,7 @@
   <action name="info_action">
    <property name="icon">
     <iconset resource="../assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/info_action.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/info_action.svg</iconset>
+     <normaloff>:/icons/info_action.svg</normaloff>:/icons/info_action.svg</iconset>
    </property>
    <property name="text">
     <string>About</string>
@@ -395,7 +413,7 @@
   <action name="quit_action">
    <property name="icon">
     <iconset resource="../assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/quit_action.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/quit_action.svg</iconset>
+     <normaloff>:/icons/quit_action.svg</normaloff>:/icons/quit_action.svg</iconset>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -416,7 +434,7 @@
    </property>
    <property name="icon">
     <iconset resource="../assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_breakfast.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_breakfast.svg</iconset>
+     <normaloff>:/icons/filter_breakfast.svg</normaloff>:/icons/filter_breakfast.svg</iconset>
    </property>
    <property name="text">
     <string>Breakfast</string>
@@ -428,7 +446,7 @@
    </property>
    <property name="icon">
     <iconset resource="../assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_lunch.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_lunch.svg</iconset>
+     <normaloff>:/icons/filter_lunch.svg</normaloff>:/icons/filter_lunch.svg</iconset>
    </property>
    <property name="text">
     <string>Lunch</string>
@@ -440,7 +458,7 @@
    </property>
    <property name="icon">
     <iconset resource="../assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_snacks.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_snacks.svg</iconset>
+     <normaloff>:/icons/filter_snacks.svg</normaloff>:/icons/filter_snacks.svg</iconset>
    </property>
    <property name="text">
     <string>Snacks</string>
@@ -452,7 +470,7 @@
    </property>
    <property name="icon">
     <iconset resource="../assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_softdrinks.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_softdrinks.svg</iconset>
+     <normaloff>:/icons/filter_softdrinks.svg</normaloff>:/icons/filter_softdrinks.svg</iconset>
    </property>
    <property name="text">
     <string>Soft Drinks</string>
@@ -464,7 +482,7 @@
    </property>
    <property name="icon">
     <iconset resource="../assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_beverages.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_beverages.svg</iconset>
+     <normaloff>:/icons/filter_beverages.svg</normaloff>:/icons/filter_beverages.svg</iconset>
    </property>
    <property name="text">
     <string>Beverages</string>
@@ -473,7 +491,7 @@
   <action name="refresh">
    <property name="icon">
     <iconset resource="../assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/action_refresh.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/action_refresh.svg</iconset>
+     <normaloff>:/icons/action_refresh.svg</normaloff>:/icons/action_refresh.svg</iconset>
    </property>
    <property name="text">
     <string>Refresh</string>
@@ -497,41 +515,28 @@
     <string>Every 1min</string>
    </property>
   </action>
-  <action name="actionEvery_5min">
-   <property name="text">
-    <string>Every 5min</string>
-   </property>
-  </action>
-  <action name="action_2">
-   <property name="text">
-    <string>Every 10min</string>
-   </property>
-  </action>
-  <action name="action">
-   <property name="text">
-    <string>Every 15min</string>
-   </property>
-  </action>
-  <action name="actionEvery_30min">
-   <property name="text">
-    <string>Every 30min</string>
-   </property>
-  </action>
-  <action name="actionEvery_1hr">
-   <property name="text">
-    <string>Every 1hr</string>
-   </property>
-  </action>
   <action name="filter_icecream">
    <property name="checkable">
     <bool>false</bool>
    </property>
    <property name="icon">
     <iconset resource="../assets/icon_resource.qrc">
-     <normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_icecream.svg</normaloff>:/Users/kevin/PycharmProjects/QuickBite/gui/assets/icons/icons/filter_icecream.svg</iconset>
+     <normaloff>:/icons/filter_icecream.svg</normaloff>:/icons/filter_icecream.svg</iconset>
    </property>
    <property name="text">
     <string>Ice Cream</string>
+   </property>
+  </action>
+  <action name="fetch_orders">
+   <property name="icon">
+    <iconset resource="../assets/icon_resource.qrc">
+     <normaloff>:/icons/fetch_orders.svg</normaloff>:/icons/fetch_orders.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Fetch Orders</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+R</string>
    </property>
   </action>
  </widget>

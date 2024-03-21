@@ -1,8 +1,9 @@
 import sys
 import httpx as api
 from PyQt5 import QtWidgets, QtCore
-from views.temp import Ui_main_window
+from views.main_window import Ui_main_window
 from views.add_dialog import Ui_add_dialog
+from controller.database_controller import orders_model
 from controller.main_controller import BASE_URL, ROUTE, MenuItem, ItemView
 from assets import app_icons
 
@@ -178,6 +179,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_main_window):
         self.setupUi(self)
         self.show()
         self.setWindowTitle("QuickBite Admin App")
+        self.display_orders.setModel(orders_model)
+        self.fetch_orders.triggered.connect(lambda: orders_model.select())
         self.refresh.triggered.connect(self.sync_with_db)
         self.filter_items.currentTextChanged.connect(self.refresh_items)
         self.add_action.triggered.connect(self.launch_add_dialog)
