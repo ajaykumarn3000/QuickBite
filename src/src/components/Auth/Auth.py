@@ -13,7 +13,7 @@ def Auth(AuthState) -> rx.Component:
             Overlay(AuthState),
             class_name="UserAuth bg-background shadow-lg rounded-xl",
         ),
-        class_name="h-screen flex justify-center items-center bg-gray-100",
+        class_name="Auth-BG h-screen flex justify-center items-center bg-gray-100",
     )
 
 

@@ -7,6 +7,7 @@ from src.components.Navbar.Navbar import Navbar
 from src.components.Menu.menu import Menu
 from src.components.Cart.cart import Cart
 from src.components.Orders.OrderPage import Orders
+from src.components.Cart.success import Success
 
 # state
 from src.state import AuthState
@@ -27,9 +28,9 @@ def orders() -> rx.Component:
     
     )
 
-
-@rx.page(route="/", title="QuickBite")
+@rx.page(route="/", title="QuickBite", on_load=[AuthState.get_cart, AuthState.get_menu] )
 def index() -> rx.Component:
+    
     return rx.cond(
         AuthState.is_logged_in,
         rx.fragment(
@@ -42,6 +43,10 @@ def index() -> rx.Component:
         ),
         Auth(AuthState),
     )
+
+@rx.page(route="/success", title="QuickBite")
+def success() -> rx.Component:
+    return Success()
 
 
 # Create app instance and add index page.

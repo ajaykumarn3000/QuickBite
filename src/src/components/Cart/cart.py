@@ -69,5 +69,5 @@ def Cart() -> rx.Component:
                 "Cart flex flex-col-reverse relative bg-white rounded-lg mr-2 shadow max-h-full right-0 bottom-0 sm:min-w-auto min-w-max h-full",
             ),
         ),
-        rx.text("Loading..."),
+        rx.text(),
     )

@@ -280,8 +280,3 @@ def payment_successful(order_id: str, payment_id: str, payment_signature: str):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Payment verification failed"
         )
-
-
-@router.get("/test")
-def demo():
-    Orders(user_id=221072, order_id="order_Np7WiFwNSZYSjm")

@@ -1,5 +1,3 @@
-
-
 /*Auth*/
 button {
   background: none;
@@ -11,6 +9,20 @@ button {
   width: 678px;
   max-width: 100%;
   height: 400px;
+  box-shadow: 2px 2px 15px 3px rgba(0, 0, 0, 0.74);
+}
+
+.Auth-BG {
+  background-image: url("/images/bg-img.jfif");
+  background-size: contain;
+  background-position: center;
+  background-repeat: repeat;
+}
+.Auth-BG {
+  background-image: url("/images/bg-img.jfif");
+  background-size: contain;
+  background-position: center;
+  background-repeat: repeat;
 }
 
 .Register {
@@ -188,15 +200,16 @@ h5 {
   }
   .Register {
     transform: translateX(-100%);
-  }.Register.Active {
-    transform: translateX(0)
+  }
+  .Register.Active {
+    transform: translateX(0);
   }
   .Register,
   .Login {
     width: 100%;
   }
   .SwipeArea {
-    display:block;
+    display: block;
   }
   .mobileBox {
     margin: 1rem;

@@ -215,9 +215,9 @@ class AuthState(rx.State):
         },
     ]
 
-    order_id: str
+    order_id: str = ""
 
-    def set_order_id(self, order_id:str):
+    def set_order_id(self, order_id: str):
         print(order_id)
         self.order_id = order_id
         print(self.order_id)
