@@ -23,6 +23,15 @@ def get_order_details(order_id: str):
     return client.order.fetch(order_id)
 
 
+def verify_payment(order_id: str, payment_id: str, payment_signature: str):
+    """Verify the payment"""
+    return client.utility.verify_payment_signature({
+        'razorpay_order_id': order_id,
+        'razorpay_payment_id': payment_id,
+        'razorpay_signature': payment_signature
+    })
+
+
 def validate_cart_items(user_id: int) -> list[dict]:
     """Verify whether the items in the cart are available in the menu or not"""
     items_to_modify = []
@@ -113,14 +122,6 @@ class Cart(Base):
         payment["key"] = RZP_KEY
         return payment
 
-
-    def verify_payment(self, payment_id: str, payment_signature: str):
-        """Verify the payment"""
-        return client.utility.verify_payment_signature({
-            'razorpay_order_id': self.latest_razorpay_order_id,
-            'razorpay_payment_id': payment_id,
-            'razorpay_signature': payment_signature
-        })
 
     def item_exists(self, item_id: int):
         """Check if an item exists in the database, for that particular user"""

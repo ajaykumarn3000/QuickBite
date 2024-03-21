@@ -177,6 +177,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_main_window):
         self.add_dialog = None
         self.setupUi(self)
         self.show()
+        self.setWindowTitle("QuickBite Admin App")
         self.refresh.triggered.connect(self.sync_with_db)
         self.filter_items.currentTextChanged.connect(self.refresh_items)
         self.add_action.triggered.connect(self.launch_add_dialog)

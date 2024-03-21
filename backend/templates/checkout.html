@@ -7,13 +7,6 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   </head>
   <body>
-    {#
-    <h1>Payment Details:</h1>
-    #} {#
-    <p>Order ID: {{ order.id }}</p>
-    #} {#
-    <p>Amount: {{ order.amount / 100 }} {{ order.currency }}</p>
-    #}
     <script>
       var options = {
         key: "{{ order.key }}",
@@ -24,16 +17,17 @@
         description: "Payment for Order #{{ order.id }}",
         image: "https://cscita.sfit.ac.in/images/engg.png",
         handler: function (response) {
-          alert(
-            "Payment Successful! Payment ID: " + response.razorpay_payment_id
-          );
+          const queryParams = new URLSearchParams({
+            order_id: "{{ order.id }}",
+            payment_id: `${response.razorpay_payment_id}`,
+            payment_signature: `${response.razorpay_signature}`
+          });
+          window.location.href = `http://localhost:5000/user/api/verify_payment?${queryParams}`
         },
         modal: {
           backdrop_close: true,
           confirm_close: true,
         },
-        callback_url: "http://localhost:5000/{{ order.id }}/successful",
-        redirect: true,
       };
       var rzp1 = new Razorpay(options);
       rzp1.on("payment.failed", function (response) {

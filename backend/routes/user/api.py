@@ -1,12 +1,12 @@
 import logging
 
 from fastapi import APIRouter, Depends, HTTPException, Header, status, Request
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.responses import JSONResponse, HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from controller.token import verify_access_token
 from models.Cart import Cart
-from models.Cart import validate_cart_items, get_order_details
+from models.Cart import validate_cart_items, get_order_details, verify_payment
 
 templates = Jinja2Templates(directory="templates")
 
@@ -253,6 +253,18 @@ def checkout(request: Request, order_id: str):
     order = get_order_details(order_id)
     return templates.TemplateResponse("checkout.html", {"request": request, "order": order})
 
+@router.post("/cart/paid")
+def checked_out_cart(request: Request):
+    return RedirectResponse(url="/")
+
+@router.get("/verify_payment")
+def payment_successfull(order_id: str, payment_id: str, payment_signature: str):
+    redirect = verify_payment(order_id, payment_id, payment_signature)
+    print(redirect)
+    if redirect:
+        return RedirectResponse(url="/")
+    else:
+        return JSONResponse(content={"messagge": "verification failed"})
 
 @router.get('/cart/paid', dependencies=[Depends(check_jwt_token)])
 def paid(payment=Payment, user_data=Depends(check_jwt_token)):
