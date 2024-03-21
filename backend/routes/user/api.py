@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from controller.token import verify_access_token
 from models.Cart import Cart
 from models.Cart import validate_cart_items, get_order_details, verify_payment
+from models.Orders import Payments, Orders
 
 templates = Jinja2Templates(directory="templates")
 
@@ -253,34 +254,34 @@ def checkout(request: Request, order_id: str):
     order = get_order_details(order_id)
     return templates.TemplateResponse("checkout.html", {"request": request, "order": order})
 
-@router.post("/cart/paid")
-def checked_out_cart(request: Request):
-    return RedirectResponse(url="/")
 
 @router.get("/verify_payment")
-def payment_successfull(order_id: str, payment_id: str, payment_signature: str):
+def payment_successful(order_id: str, payment_id: str, payment_signature: str):
     redirect = verify_payment(order_id, payment_id, payment_signature)
-    print(redirect)
-    if redirect:
-        return RedirectResponse(url="/")
-    else:
-        return JSONResponse(content={"messagge": "verification failed"})
+    order_details = get_order_details(order_id)
+    cart_details = get_order_details(order_id)["notes"]
+    print(get_order_details(order_id))
+    # Uncomment the following line to clear the cart after successful payment
+    # Cart(user_id=cart_details["user_id"]).clear_cart()
+    Cart(cart_details["user_id"]).create_order_from_cart()
 
-@router.get('/cart/paid', dependencies=[Depends(check_jwt_token)])
-def paid(payment=Payment, user_data=Depends(check_jwt_token)):
-    user_id = user_data['uid']
-    log.info(f"User: {user_id} has made a payment")
-    payment_successful = Cart(user_id=user_id).verify_payment(
-        payment_id=Payment.payment_id,
-        payment_signature=Payment.payment_signature
-    )
-    if payment_successful:
-        return JSONResponse(
-            status_code=status.HTTP_200_OK,
-            content="Payment verified"
+    if redirect:
+        Payments(
+            order_id=order_id,
+            payment_id=payment_id,
+            payment_amount=order_details["amount"],
+            payment_status=order_details["status"],
+            payment_method="razorpay",
+            payment_timestamp=order_details["created_at"],
         )
+        return RedirectResponse(url="/")
     else:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Payment not from authentic source!"
+            detail="Payment verification failed"
         )
+
+
+@router.get("/test")
+def demo():
+    Orders(user_id=221072, order_id="order_Np7WiFwNSZYSjm")

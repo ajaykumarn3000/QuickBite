@@ -1,6 +1,7 @@
 import os
 import secrets
 import razorpay
+from razorpay.errors import SignatureVerificationError
 from dotenv import load_dotenv
 from models.Users import User
 from models.MenuCard import MenuCard
@@ -25,11 +26,18 @@ def get_order_details(order_id: str):
 
 def verify_payment(order_id: str, payment_id: str, payment_signature: str):
     """Verify the payment"""
-    return client.utility.verify_payment_signature({
-        'razorpay_order_id': order_id,
-        'razorpay_payment_id': payment_id,
-        'razorpay_signature': payment_signature
-    })
+    try:
+        return client.utility.verify_payment_signature(
+            {
+                'razorpay_order_id': order_id,
+                'razorpay_payment_id': payment_id,
+                'razorpay_signature': payment_signature
+            }
+        )
+    except SignatureVerificationError:
+        return False
+
+
 
 
 def validate_cart_items(user_id: int) -> list[dict]:
@@ -95,33 +103,22 @@ class Cart(Base):
     def pay(self):
         """Pay for the items in cart"""
         amount = 0
-        order_list = []
+        order_details = dict()
+        order_details["user_id"] = self.user_id
         now = datetime.utcnow() + timedelta(hours=5, minutes=30)
         for cart_item in self.cart.all():
             menu_item = MenuCard.get_item(MenuCard, item_id=cart_item.item_id)
             total_item_price = menu_item.item_price * cart_item.quantity
             amount += total_item_price
-            order_details = dict()
-            order_details["id"] = cart_item.item_id
-            order_details["name"] = menu_item.item_name
-            order_details["quantity"] = cart_item.quantity
-            order_details["price"] = total_item_price
-            order_list.append(order_details)
+            order_details[cart_item.item_id] = cart_item.quantity
         data = {
             "amount": amount * 100,
             "currency": "INR",
             "receipt": secrets.token_hex(3),
-            "notes": {
-                "time": now.strftime("%I:%M %p"),
-                "date": now.strftime("%d/%m/%y")
-            }
+            "notes": order_details
         }
         payment = client.order.create(data=data)
-        self.latest_razorpay_order_id = payment['id']
-        payment["orderList"] = order_list
-        payment["key"] = RZP_KEY
         return payment
-
 
     def item_exists(self, item_id: int):
         """Check if an item exists in the database, for that particular user"""
@@ -166,3 +163,14 @@ class Cart(Base):
         existing.delete()
         database.commit()
         self.cart = database.query(Cart).filter_by(user_id=self.user_id)
+
+    def clear_cart(self):
+        self.cart.delete()
+        database.commit()
+        self.cart = database.query(Cart).filter_by(user_id=self.user_id)
+        return True
+
+    def create_order_from_cart(self):
+        """Add the order to the database"""
+        for item in self.cart:
+            print(item.item_id, item.quantity, item.user_id, item.cart_id)

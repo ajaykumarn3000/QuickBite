@@ -22,7 +22,7 @@
             payment_id: `${response.razorpay_payment_id}`,
             payment_signature: `${response.razorpay_signature}`
           });
-          window.location.href = `http://localhost:5000/user/api/verify_payment?${queryParams}`
+          window.location.href = `http://127.0.0.1:5000/user/api/verify_payment?${queryParams}`
         },
         modal: {
           backdrop_close: true,
