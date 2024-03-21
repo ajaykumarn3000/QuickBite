@@ -262,7 +262,7 @@ def payment_successfull(order_id: str, payment_id: str, payment_signature: str):
     redirect = verify_payment(order_id, payment_id, payment_signature)
     print(redirect)
     if redirect:
-        return RedirectResponse(url="/")
+        return RedirectResponse(url="http://localhost:3000/success")
     else:
         return JSONResponse(content={"messagge": "verification failed"})
 
