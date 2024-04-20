@@ -62,3 +62,6 @@ class Orders(Base):
 
     def __repr__(self):
         return f"<Orders(order_id={self.order_id}, cart_id={self.cart_id})>"
+
+
+Base.metadata.create_all(bind=engine, checkfirst=True)

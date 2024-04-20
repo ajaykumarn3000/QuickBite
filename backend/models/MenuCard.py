@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.exc import IntegrityError
-from database import conn as database, Base
+from database import conn as database, Base, engine
 
 
 def item_exists(item_name: str) -> bool:
@@ -75,3 +75,5 @@ class MenuCard(Base):
         except IntegrityError:
             database.rollback()
             raise Exception("All fields should be non zero")
+
+Base.metadata.create_all(bind=engine, checkfirst=True)

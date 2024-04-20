@@ -1,2 +1,2 @@
-SERVER_URL = "http://127.0.0.1:5000"
+SERVER_URL = "https://quickbite-backend.azurewebsites.net"
 TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJ1c2VyIiwidWlkIjoiMjIxMDc3IiwiZXhwIjoxNzEwNzcwMjI1fQ.owgkPR5s47zqVjL5BHOM2n5ZT819c1Erp--vUoAFdME"

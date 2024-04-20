@@ -2,7 +2,7 @@
 from pandas import read_excel
 from bcrypt import gensalt, hashpw, checkpw
 from sqlalchemy import Column, Integer, String
-from database import conn as database, Base
+from database import conn as database, Base, engine
 
 # Path to the workbook containing the user data (uid, name, email)
 WORKBOOK = "./data/Student List 2024.xls"
@@ -76,3 +76,6 @@ class User(Base):
         """Save the user to the database"""
         database.add(self)
         database.commit()
+
+
+Base.metadata.create_all(bind=engine, checkfirst=True)

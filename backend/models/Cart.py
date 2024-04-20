@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from models.Users import User
 from models.MenuCard import MenuCard
 from datetime import datetime, timedelta
-from database import conn as database, Base
+from database import conn as database, Base, engine
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.exc import IntegrityError, NoResultFound, InternalError
 
@@ -174,3 +174,5 @@ class Cart(Base):
         """Add the order to the database"""
         for item in self.cart:
             print(item.item_id, item.quantity, item.user_id, item.cart_id)
+
+Base.metadata.create_all(bind=engine, checkfirst=True)
