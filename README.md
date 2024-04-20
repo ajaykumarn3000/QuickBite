@@ -29,7 +29,7 @@ The implementation of QuickBite has led to reduced wait times, improved customer
 
 ## Conclusion
 
-QuickBite sets a commendable example of leveraging technology to enhance student life and address critical concerns related to campus dining. By introducing pre-orders, real-time updates, and online payments, QuickBite streamlines the dining process, catering to the preferences of tech-savvy students.
+QuickBite sets a commendable example of leveraging technology to enhance student life and address critical concerns related to campus dining. By introducing pre-orders, real-time updates, and online payments, QuickBite streamlines the dining process, catering to the preferences of tech-savvy students and teachers.
 
 ## Future Scope
 
