@@ -175,4 +175,5 @@ class Cart(Base):
         for item in self.cart:
             print(item.item_id, item.quantity, item.user_id, item.cart_id)
 
+
 Base.metadata.create_all(bind=engine, checkfirst=True)

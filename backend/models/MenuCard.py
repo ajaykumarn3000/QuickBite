@@ -76,4 +76,5 @@ class MenuCard(Base):
             database.rollback()
             raise Exception("All fields should be non zero")
 
+
 Base.metadata.create_all(bind=engine, checkfirst=True)

@@ -21,7 +21,7 @@ app.add_middleware(
 
 @app.get("/")
 def root():
-    return {"message": "Connected to QuickBite API"}
+    return {"message": "Connected to QuickBite CMS"}
 
 
 app.include_router(router=user_auth_router)
