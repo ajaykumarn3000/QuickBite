@@ -51,8 +51,8 @@ class MenuItem(BaseModel):
     type: str
 
 
-@router.get('/', dependencies=[Depends(check_jwt_token)])
-def get_menu(decoded_token: dict = Depends(check_jwt_token)):
+@router.get('/')
+def get_menu():
     """
     Retrieve the menu items.
 
@@ -76,8 +76,6 @@ def get_menu(decoded_token: dict = Depends(check_jwt_token)):
     - This function is suitable for situations where a comprehensive view of the menu is needed without specific filtering.
     """
     log.info("Returning the menu card")
-    print(decoded_token)
-
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=MenuCard.get_all_items(MenuCard)
