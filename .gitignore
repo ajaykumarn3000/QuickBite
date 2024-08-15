@@ -174,3 +174,4 @@ frontend/node_modules
 .idea/
 .run/
 */setup.js
+quickbite.code-workspace
