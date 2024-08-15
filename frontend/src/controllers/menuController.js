@@ -1,8 +1,8 @@
-// import { SERVER_URL } from "../setup";
+import { SERVER_URL } from "../setup";
 
 const getMenu = async (token) => {
   try {
-    const res = await fetch("https://quickbite-backend-r4mlunp2sa-el.a.run.app/ajay/kitchen/menu", {
+    const res = await fetch(SERVER_URL + "/kitchen/menu", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
