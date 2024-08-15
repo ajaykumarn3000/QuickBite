@@ -9,7 +9,7 @@ import useCartContext from "../../hooks/useCartContext";
 import useMenuContext from "../../hooks/useMenuContext";
 
 const CartItem = React.memo(({ icon, name, id, quantity }) => {
-  const {  dispatch: menuDispatch } = useMenuContext();
+  const { dispatch: menuDispatch } = useMenuContext();
   useEffect(() => {
     menuDispatch({ type: "SET_SELECTED", payload: { id: id } });
   }, [id, menuDispatch]);
@@ -50,7 +50,10 @@ const CartItem = React.memo(({ icon, name, id, quantity }) => {
                   console.log(res);
                   if (cart.find((item) => item.id === id).quantity === 1) {
                     dispatch({ type: "REMOVE_ITEM", payload: id });
-                    menuDispatch({ type: "REMOVE_SELECTED", payload: { id: id } })
+                    menuDispatch({
+                      type: "REMOVE_SELECTED",
+                      payload: { id: id },
+                    });
                   } else {
                     dispatch({ type: "DECREMENT_ITEM", payload: id });
                   }
@@ -111,7 +114,7 @@ const CartItem = React.memo(({ icon, name, id, quantity }) => {
             .then((res) => {
               console.log(res);
               dispatch({ type: "REMOVE_ITEM", payload: id });
-              menuDispatch({ type: "REMOVE_SELECTED", payload: { id: id } })
+              menuDispatch({ type: "REMOVE_SELECTED", payload: { id: id } });
             })
             .catch((err) => {
               console.log(err);
