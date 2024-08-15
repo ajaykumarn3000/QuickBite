@@ -2,7 +2,7 @@
 
 const getMenu = async (token) => {
   try {
-    const res = await fetch("https://quickbite-backend-r4mlunp2sa-el.a.run.app/kitchen/menu", {
+    const res = await fetch("https://quickbite-backend-r4mlunp2sa-el.a.run.app/ajay/kitchen/menu", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
