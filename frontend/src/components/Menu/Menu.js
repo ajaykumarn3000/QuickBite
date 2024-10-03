@@ -14,7 +14,6 @@ const Menu = React.memo(() => {
           element.selected = false;
         });
         dispatch({ type: "SET_MENU", payload: data });
-        console.log(data);
       })
       .catch((err) => {
         console.log(err);

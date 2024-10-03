@@ -35,7 +35,6 @@ const sendOTP = async ({
     });
     const data = await res.json();
     if (!res.ok) {
-      console.log(data);
       if (data.detail.from === "email") {
         setEmailError(true);
       } else if (data.detail.from === "passcode") {
@@ -67,7 +66,6 @@ const verifyOTP = async ({
     });
     const data = await res.json();
     if (res.ok) {
-      console.log(data);
       dispatch({ type: "LOGIN", payload: data.token });
     } else {
       if (data.detail.from === "otp") {
@@ -99,7 +97,6 @@ const login = async ({
     });
     const data = await res.json();
     if (res.ok) {
-      console.log(data);
       dispatch({ type: "LOGIN", payload: data.token });
     } else {
       if (data.detail.from === "uid") {

@@ -21,8 +21,6 @@ const UserProvider = ({ children }) => {
   const prevUser = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
   const [ state, dispatch ] = useReducer(userReducer, { user: prevUser});
 
-  console.log("UserContext state:",state);
-
   return (
     <userContext.Provider value={{ ...state, dispatch }}>
       {children}

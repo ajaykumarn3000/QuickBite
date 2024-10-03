@@ -4,7 +4,7 @@ import useUserContext from "../hooks/useUserContext";
 // User
 import UserDashboard from "./UserDashboard";
 import Auth from "./Authentication/Auth";
-import AdminPage from "./AdminPage";
+import AdminPage from "./Admin/AdminPage";
 import OrdersPage from "./Orders/OrdersPage";
 
 function App() {

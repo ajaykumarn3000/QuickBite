@@ -5,7 +5,6 @@ const cartContext = createContext();
 const cartReducer = (state, action) => {
   switch (action.type) {
     case "SET_CART":
-      console.log(action.payload);
       return action.payload;
 
     case "ADD_ITEM":

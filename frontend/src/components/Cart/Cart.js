@@ -12,7 +12,6 @@ const Cart = ({ showCart, setShowCart }) => {
   useEffect(() => {
     getCart(user.token)
       .then((res) => {
-        console.log(res);
         dispatch({ type: "SET_CART", payload: res });
       })
       .catch((err) => {

@@ -75,7 +75,7 @@ const Register = ({ login, setLogin }) => {
                     ? "border-red-500 bg-red-200"
                     : "border-white bg-background-200"
                 }`}
-                type="email"
+                type="text"
                 placeholder="SFIT Email"
                 name="email"
                 onChange={(e) => {

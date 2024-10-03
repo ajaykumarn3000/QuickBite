@@ -14,7 +14,6 @@ const getMenu = async (token) => {
       });
       return data;
     } else {
-      console.log(data);
     }
   } catch (err) {
     console.log(err);
