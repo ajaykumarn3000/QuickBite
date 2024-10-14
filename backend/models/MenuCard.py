@@ -76,5 +76,12 @@ class MenuCard(Base):
             database.rollback()
             raise Exception("All fields should be non zero")
 
+    def delete_item(self, item_id: int) -> None:
+        try:
+            database.query(MenuCard).filter_by(item_id=item_id).delete()
+            database.commit()
+        except Exception as e:
+            database.rollback()
+            raise e
 
 Base.metadata.create_all(bind=engine, checkfirst=True)
