@@ -1,18 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuCard from "./MenuCard";
 import Editor from "./Editor/Editor";
 import clsx from "clsx";
 import { useMenuContext } from "../context/menuContext";
-
+import AddIcon from "@mui/icons-material/Add";
+import NewItem from "./NewItem/NewItem";
 
 const Menu = ({ open }) => {
   console.log("MENU");
   const [onMenu, setOnMenu] = useState(true);
-  const { menu } = useMenuContext();
+  const { menu, currentItem } = useMenuContext();
+  const [newItem, setNewItem] = useState(false);
+
+useEffect(()=> {
+  if (currentItem) {
+    setNewItem(false);
+  }
+}, [currentItem])
 
   return (
     <>
-      <div className="flex h-full grow bg-white shadow">
+      <div className="flex h-full grow bg-white shadow relative">
         <div className="p-4 overflow-auto">
           <h1
             className="cursor-pointer select-none"
@@ -105,8 +113,14 @@ const Menu = ({ open }) => {
             </div>
           )}
         </div>
+        <button
+          className="absolute bottom-4 right-4 h-12 w-12 rounded-full bg-white shadow border flex justify-center items-center transition-transform hover:scale-105 active:scale-95"
+          onClick={() => setNewItem(true)}
+        >
+          <AddIcon className="text-black text-lg font-semibold" />
+        </button>
       </div>
-      <Editor/>
+      {newItem ? <NewItem /> : <Editor />}
     </>
   );
 };

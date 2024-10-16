@@ -19,22 +19,52 @@ export const getMenu = async () => {
   }
 };
 
-export const editMenuItem = async (item) => {
+export const addMenuItem = async (item) => {
   try {
-    const response = await fetch(`${SERVER_URL}/kitchen/menu/edit/${item.id}?item_name=${item.name}&item_price=${item.price}`, {
+    const response = await fetch(`${SERVER_URL}/kitchen/menu/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-      }
-      // body: JSON.stringify({
-      //   item_name: item.name,
-      //   item_price: item.price,
-      //   item_quantity: item.quantity,
-      // }),
+      },
+      body: JSON.stringify({
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        icon: item.src,
+        type: item.type
+      }),
     });
     if (response.ok) {
       const data = await response.json();
-      console.log(data)
+      console.log(data);
+      return data;
+    } else {
+      throw new Error("Request failed");
+    }
+  } catch {
+    console.error("Request failed");
+  }
+};
+
+export const editMenuItem = async (item) => {
+  try {
+    const response = await fetch(
+      `${SERVER_URL}/kitchen/menu/edit/${item.id}?item_name=${item.name}&item_price=${item.price}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // body: JSON.stringify({
+        //   item_name: item.name,
+        //   item_price: item.price,
+        //   item_quantity: item.quantity,
+        // }),
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
       return data;
     } else {
       throw new Error("Request failed");
@@ -46,20 +76,23 @@ export const editMenuItem = async (item) => {
 
 export const editItemQuantity = async (item) => {
   try {
-    const response = await fetch(`${SERVER_URL}/kitchen/menu/edit/${item.id}?item_quantity=${item.quantity}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${SERVER_URL}/kitchen/menu/edit/${item.id}?item_quantity=${item.quantity}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // body: JSON.stringify({
+        //   item_name: item.name,
+        //   item_price: item.price,
+        //   item_quantity: item.quantity,
+        // }),
       }
-      // body: JSON.stringify({
-      //   item_name: item.name,
-      //   item_price: item.price,
-      //   item_quantity: item.quantity,
-      // }),
-    });
+    );
     if (response.ok) {
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       return data;
     } else {
       throw new Error("Request failed");
