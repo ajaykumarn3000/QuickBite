@@ -2,10 +2,10 @@
 from __future__ import annotations
 
 from models.MenuCard import MenuCard, item_exists
+from pydantic import BaseModel
 from fastapi import APIRouter, Depends, HTTPException, Header, status
 from controller.token import verify_access_token
 import logging
-from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 from fastapi import APIRouter, status, HTTPException
 
@@ -46,9 +46,10 @@ def check_jwt_token(authorization: str = Header(..., description="JWT token")):
 class MenuItem(BaseModel):
     """Model to represent a new item to be added to the menu"""
     name: str
-    quantity: int
-    price: int
     type: str
+    icon: str
+    price: int
+    quantity: int
 
 
 @router.get('/')
@@ -135,9 +136,10 @@ def add_item(item: MenuItem):
     else:  # If the item does not exist, add it to the menu card database table
         new_item = MenuCard(
             item.name,
-            item.quantity,
+            item.type,
+            item.icon,
             item.price,
-            item.type
+            item.quantity
         )
         MenuCard.add_item(new_item)
         log.info(f"Added a new item to the menu: {item.name}")
@@ -150,15 +152,10 @@ def add_item(item: MenuItem):
         )
 
 
-@router.post('/edit/{item_id}')
-def edit_item(
-    item_id: int,
-    item_name: str = None,
-    item_price: int = None,
-    item_quantity: int = None
-) -> JSONResponse:
+@router.patch('/edit/{item_id}')
+def edit_item(item_id: int, item_details: dict) -> JSONResponse:
     """Modifies the price and/r quantity of an existing menu item"""
-    MenuCard.edit_item(MenuCard, item_id, item_price, item_quantity)
+    MenuCard.edit_item(MenuCard, item_id, item_details)
 
 @router.delete("/delete/{item_id}")
 def delete_item(item_id: int = None):

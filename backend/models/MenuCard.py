@@ -31,9 +31,19 @@ class MenuCard(Base):
     # The image of the item on the menu
     item_icon = Column(String)
 
-    def __init__(self, name: str, quantity: int, price: int, category: str):
+    def __init__(
+            self,
+            name: str,
+            type: str,
+            icon: str,
+            quantity: int,
+            price: int,
+            category: str
+    ):
         """Code to be executed when a new item is instantiated"""
         self.item_name = name
+        self.item_type = type
+        self.item_icon = icon
         self.item_quantity = quantity
         self.item_price = price
         self.item_type = category
@@ -46,10 +56,10 @@ class MenuCard(Base):
                 {
                     "item_id": item.item_id,
                     "item_name": item.item_name,
-                    "item_price": item.item_price,
-                    "item_quantity": item.item_quantity,
                     "item_type": item.item_type,
-                    "item_icon": item.item_icon
+                    "item_icon": item.item_icon,
+                    "item_price": item.item_price,
+                    "item_quantity": item.item_quantity
                 }
             )
         return items
@@ -62,15 +72,12 @@ class MenuCard(Base):
         database.add(self)
         database.commit()
 
-    def edit_item(self, item_id, item_price=None, item_quantity=None) -> None:
+    def edit_item(self, item_id, item_details: dict) -> None:
         """Edit the price and/or quantity of an existing menu item"""
-        print(item_id)
         menu_item = MenuCard.get_item(self, item_id)
         try:
-            if item_price is not None:
-                menu_item.item_price = item_price
-            if item_quantity is not None:
-                menu_item.item_quantity = item_quantity
+            for key, value in item_details.items():
+                setattr(menu_item, key, value)
             database.commit()
         except IntegrityError:
             database.rollback()
@@ -83,5 +90,6 @@ class MenuCard(Base):
         except Exception as e:
             database.rollback()
             raise e
+
 
 Base.metadata.create_all(bind=engine, checkfirst=True)

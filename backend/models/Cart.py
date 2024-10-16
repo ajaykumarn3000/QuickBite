@@ -38,8 +38,6 @@ def verify_payment(order_id: str, payment_id: str, payment_signature: str):
         return False
 
 
-
-
 def validate_cart_items(user_id: int) -> list[dict]:
     """Verify whether the items in the cart are available in the menu or not"""
     items_to_modify = []
