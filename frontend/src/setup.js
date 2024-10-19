@@ -1,2 +1,2 @@
-const SERVER_URL = "http://127.0.0.1:5000"
+const SERVER_URL = "http://localhost:8000"
 export {SERVER_URL}
