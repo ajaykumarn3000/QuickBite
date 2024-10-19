@@ -3,13 +3,13 @@ from fastapi import FastAPI, APIRouter, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from routes.kitchen.menu_card import router as menu_card_router
 from routes.user.api import router as user_api_router
 from routes.user.auth import router as user_auth_router
+from routes.kitchen.menu_card import router as menu_card_router
 
 app = FastAPI()
 
-version = "v2"
+version = "v1"
 
 app.add_middleware(
     CORSMiddleware,
