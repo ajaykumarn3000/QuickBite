@@ -272,7 +272,7 @@ def payment_successful(order_id: str, payment_id: str, payment_signature: str):
             payment_method="razorpay",
             payment_timestamp=order_details["created_at"],
         )
-        return RedirectResponse(url="/")
+        return RedirectResponse(url="http://localhost:3000")
     else:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

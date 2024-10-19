@@ -4,7 +4,6 @@ function startTouch(e) {
   try {
     initialX = e.touches[0].clientX;
     initialY = e.touches[0].clientY;
-    console.warn(initialX, initialY);
   } catch (error) {
     console.log(error);
   }
@@ -17,9 +16,7 @@ function moveTouch(e) {
   if (initialY === null) {
     return;
   }
-  console.log(e);
   try {
-    console.log(e.changedTouches);
     var currentX = e.changedTouches[0].clientX;
   } catch (error) {
     console.error(error);
@@ -30,14 +27,8 @@ function moveTouch(e) {
   if (Math.abs(diffX)) {
     // sliding horizontally
     if (diffX > 0) {
-      console.log("Swipe left");
-      // swiped left
-      // setLogin(true);
       return "left";
     } else {
-      console.log("Swipe right");
-      // swiped right
-      // setLogin(false);
       return "right";
     }
   }

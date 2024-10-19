@@ -9,12 +9,11 @@ const getMenu = async (token) => {
     });
     const data = await res.json();
     if (res.ok) {
-      data.forEach(element => {
+      data.forEach((element) => {
         element.selected = false;
       });
       return data;
     } else {
-      console.log(data);
     }
   } catch (err) {
     console.log(err);

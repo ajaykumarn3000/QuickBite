@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useUserContext from "../../hooks/useUserContext";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Dropdown = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -10,7 +10,7 @@ const Dropdown = () => {
   const onLogout = () => {
     dispatch({ type: "LOGOUT" });
   };
-  
+
   return (
     <div className="Dropdown relative">
       <button
@@ -26,15 +26,23 @@ const Dropdown = () => {
           showDropdown ? "block" : "hidden"
         }`}
       >
-        <button className="flex items-center w-full py-1 px-2 hover:text-amber-500" onClick={() => navigate("/orders")}>
-          <span className="material-symbols-rounded mr-2">list_alt</span> My Order
+        <button
+          className="flex items-center w-full py-1 px-2 hover:text-amber-500"
+          onClick={() => navigate("/orders")}
+        >
+          <span className="material-symbols-rounded mr-2">list_alt</span> My
+          Order
         </button>
         <hr />
         <button className="flex items-center w-full py-1 px-2 hover:text-amber-500">
-          <span className="material-symbols-rounded mr-2">settings</span> Setting
+          <span className="material-symbols-rounded mr-2">settings</span>{" "}
+          Setting
         </button>
         <hr />
-        <button className="flex items-center w-full py-1 px-2  hover:text-red-500" onClick={onLogout}>
+        <button
+          className="flex items-center w-full py-1 px-2  hover:text-red-500"
+          onClick={onLogout}
+        >
           <span className="material-symbols-rounded mr-2">logout</span> Logout
         </button>
       </div>

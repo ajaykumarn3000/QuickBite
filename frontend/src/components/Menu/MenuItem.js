@@ -11,7 +11,6 @@ const MenuItem = React.memo(({ img, name, price, quantity, selected, id, type })
   return (
     <div
       onClick={() => {
-        console.log("id:" + id + "FoodItem clicked");
         addToCart(user.token, id)
           .then((res) => {
             if (cart.find((item) => item.id === id)) {
@@ -28,7 +27,6 @@ const MenuItem = React.memo(({ img, name, price, quantity, selected, id, type })
                 },
               });
             }
-            console.log(res);
           })
           .catch((err) => {
             console.log(err);

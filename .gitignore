@@ -161,7 +161,8 @@ dmypy.json
 cython_debug/
 
 # Node modules
-frontend/node_modules
+*/node_modules
+
 
 # Ignore macos directory files
 .DS_Store
@@ -174,3 +175,4 @@ frontend/node_modules
 .idea/
 .run/
 */setup.js
+quickbite.code-workspace
