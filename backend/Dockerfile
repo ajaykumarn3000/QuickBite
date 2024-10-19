@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.9-alpine
 
 # Set the current working directory to /app
 WORKDIR /app
@@ -10,4 +10,4 @@ RUN pip install -r requirements.txt --no-cache-dir
 
 EXPOSE 8000
 
-CMD ["fastapi", "run", "--workers", "4", "main.py"]
+CMD ["fastapi", "run"]
