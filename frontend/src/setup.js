@@ -1,2 +1,2 @@
-const SERVER_URL = "http://quickbite.ddns.net:8000"
+const SERVER_URL = "https://quickbite.ddns.net/v1"
 export {SERVER_URL}
