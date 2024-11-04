@@ -26,7 +26,7 @@ const Cart = ({ showCart, setShowCart }) => {
         showCart ? "Active" : ""
       }`}
     >
-      {cart.length === 0 ? (
+      {cart && cart.length === 0 ? (
         <div className="px-6 h-full flex flex-col items-center justify-center">
           <span className="material-symbols-rounded text-[80px] text-gray-400">
             shopping_cart_off

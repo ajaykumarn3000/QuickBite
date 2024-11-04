@@ -34,7 +34,7 @@ const QuantityControl = () => {
           {[1, 2, 5, 10, 15, 20].map((item, index) => (
             <QuantityButton
               key={index}
-              onClick={() => setQuantity((prev) => prev + item)}
+              onClick={() => setQuantity((prev) => parseInt(prev) + parseInt(item))}
               quantity={item}
               add
             />

@@ -23,18 +23,19 @@ const Menu = React.memo(() => {
   return (
     <div className="Menu grow px-2 overflow-y-auto">
       <div className="flex flex-wrap justify-evenly overflow-y-scroll">
-        {menu.map((item) => (
-          <MenuItem
-            key={item.item_id}
-            id={item.item_id}
-            img={item.item_icon || "chicken-noodles.jpg"}
-            name={item.item_name}
-            price={item.item_price}
-            quantity={item.item_quantity}
-            type={item.item_type}
-            selected={item.selected}
-          />
-        ))}
+        {menu &&
+          menu.map((item) => (
+            <MenuItem
+              key={item.item_id}
+              id={item.item_id}
+              img={item.item_icon || "chicken-noodles.jpg"}
+              name={item.item_name}
+              price={item.item_price}
+              quantity={item.item_quantity}
+              type={item.item_type}
+              selected={item.selected}
+            />
+          ))}
       </div>
     </div>
   );

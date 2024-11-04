@@ -12,11 +12,11 @@ const Menu = ({ open }) => {
   const { menu, currentItem } = useMenuContext();
   const [newItem, setNewItem] = useState(false);
 
-useEffect(()=> {
-  if (currentItem) {
-    setNewItem(false);
-  }
-}, [currentItem])
+  useEffect(() => {
+    if (currentItem) {
+      setNewItem(false);
+    }
+  }, [currentItem]);
 
   return (
     <>
@@ -48,68 +48,60 @@ useEffect(()=> {
           </h1>
           {onMenu ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 mt-4 gap-4">
-              {menu.map(
-                (
-                  {
-                    item_id,
-                    item_name,
-                    item_price,
-                    item_quantity,
-                    item_type,
-                    item_icon,
-                  },
-                  index
-                ) =>
-                  item_quantity > 0 && (
-                    <MenuCard
-                      id={item_id}
-                      name={item_name}
-                      price={item_price}
-                      quantity={item_quantity}
-                      type={item_type}
-                      src={item_icon}
-                      key={index}
-                    />
-                  )
-              )}
-              {/* {[
-                1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 33, 35,
-              ].map((item, index) => (
-                <MenuCard
-                  quantity={item}
-                  name={"Cheese Burger"}
-                  src={randomSrc()}
-                  key={index}
-                />
-              ))} */}
+              {menu &&
+                menu.map(
+                  (
+                    {
+                      item_id,
+                      item_name,
+                      item_price,
+                      item_quantity,
+                      item_type,
+                      item_icon,
+                    },
+                    index
+                  ) =>
+                    item_quantity > 0 && (
+                      <MenuCard
+                        id={item_id}
+                        name={item_name}
+                        price={item_price}
+                        quantity={item_quantity}
+                        type={item_type}
+                        src={item_icon}
+                        key={index}
+                      />
+                    )
+                )}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 mt-4 gap-4">
-              {menu.map(
-                (
-                  {
-                    item_id,
-                    item_name,
-                    item_price,
-                    item_quantity,
-                    item_type,
-                    item_icon,
-                  },
-                  index
-                ) =>
-                  item_quantity === 0 && (
-                    <MenuCard
-                      id={item_id}
-                      name={item_name}
-                      price={item_price}
-                      quantity={item_quantity}
-                      type={item_type}
-                      src={item_icon}
-                      key={index}
-                      disabled
-                    />
-                  )
-              )}
+              {menu &&
+                menu.map(
+                  (
+                    {
+                      item_id,
+                      item_name,
+                      item_price,
+                      item_quantity,
+                      item_type,
+                      item_icon,
+                    },
+                    index
+                  ) =>
+                    item_quantity === 0 && (
+                      <MenuCard
+                        id={item_id}
+                        name={item_name}
+                        price={item_price}
+                        quantity={item_quantity}
+                        type={item_type}
+                        src={item_icon}
+                        key={index}
+                        disabled
+                      />
+                    )
+                )}
             </div>
           )}
         </div>

@@ -80,9 +80,8 @@ const OrdersPage = () => {
     <div className="OrdersPage">
       <Navbar type="user" />
       <div className="Orders flex flex-wrap p-4 pt-2 gap-4">
-        {orders.map((order, index) => (
-          <Order order={order} key={index} />
-        ))}
+        {orders &&
+          orders.map((order, index) => <Order order={order} key={index} />)}
       </div>
     </div>
   );
