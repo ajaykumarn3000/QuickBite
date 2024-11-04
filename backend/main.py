@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from routes.kitchen.menu_card import router as menu_card_router
+from routes.kitchen.orders import router as orders_router
 from routes.user.api import router as user_api_router
 from routes.user.auth import router as user_auth_router
 
@@ -37,6 +38,8 @@ api_router = APIRouter(prefix=f"/{version}")
 api_router.include_router(user_auth_router)
 api_router.include_router(user_api_router)
 api_router.include_router(menu_card_router)
+
+api_router.include_router(orders_router)
 
 # Include the API router in the FastAPI app
 app.include_router(api_router)

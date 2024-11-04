@@ -1,14 +1,15 @@
 from copy import deepcopy
-from database import conn as database, Base, engine
-from models.Cart import Cart
-from models.MenuCard import get_item_name_by_item_id
+
 from sqlalchemy import (
     Column,
     String,
     Integer,
-    ForeignKey,
     PrimaryKeyConstraint,
 )
+
+from database import conn as database, Base, engine
+from models.Cart import Cart
+from models.MenuCard import get_item_name_by_item_id
 
 
 class Payments(Base):
@@ -37,6 +38,36 @@ class Payments(Base):
         self.payment_timestamp = payment_timestamp
         database.add(self)
         database.commit()
+
+
+def get_all_orders(user_id: int = None):
+    if user_id is None:
+        records = database.query(Orders).all()
+        orders = list()
+        for record in records:
+            order = {
+                "order_id": record.order_id,
+                "cart_id": record.cart_id,
+                "user_id": record.user_id,
+                "item_id": record.item_id,
+                "item_name": record.name,
+                "item_quantity": record.quantity
+            }
+            orders.append(order)
+        return orders
+    records = database.query(Orders).filter_by(user_id=user_id).all()
+    orders = list()
+    for record in records:
+        order = {
+            "order_id": record.order_id,
+            "cart_id": record.cart_id,
+            "user_id": record.user_id,
+            "item_id": record.item_id,
+            "item_name": record.name,
+            "item_quantity": record.quantity
+        }
+        orders.append(order)
+    return orders
 
 
 class Orders(Base):
