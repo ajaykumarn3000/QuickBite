@@ -10,6 +10,7 @@ from sqlalchemy import (
 from database import conn as database, Base, engine
 from models.Cart import Cart
 from models.MenuCard import get_item_name_by_item_id
+from models.Users import User
 
 
 class Payments(Base):
@@ -22,13 +23,13 @@ class Payments(Base):
     order_id = Column(String, nullable=False, unique=True)
 
     def __init__(
-        self,
-        order_id: str,
-        payment_id: str,
-        payment_amount: str,
-        payment_status: str,
-        payment_method: str,
-        payment_timestamp: str
+            self,
+            order_id: str,
+            payment_id: str,
+            payment_amount: str,
+            payment_status: str,
+            payment_method: str,
+            payment_timestamp: str
     ):
         self.order_id = order_id
         self.payment_id = payment_id
@@ -41,27 +42,26 @@ class Payments(Base):
 
 
 def get_all_orders(user_id: int = None):
-    if user_id is None:
-        records = database.query(Orders).all()
-        orders = list()
-        for record in records:
-            order = {
-                "order_id": record.order_id,
-                "cart_id": record.cart_id,
-                "user_id": record.user_id,
-                "item_id": record.item_id,
-                "item_name": record.name,
-                "item_quantity": record.quantity
-            }
-            orders.append(order)
-        return orders
-    records = database.query(Orders).filter_by(user_id=user_id).all()
     orders = list()
+    if user_id is None:
+        users = database.query(User).all()
+        user_orders = list()
+        for user in users:
+            print(user)
+            records = database.query(Orders).filter_by(user_id=user.uid).all()
+            orders = list()
+            for record in records:
+                order = {
+                    "item_id": record.item_id,
+                    "item_name": record.name,
+                    "item_quantity": record.quantity
+                }
+                orders.append(order)
+            user_orders.append({"user_id": user.uid, "items": orders})
+        return user_orders
+    records = database.query(Orders).filter_by(user_id=user_id).all()
     for record in records:
         order = {
-            "order_id": record.order_id,
-            "cart_id": record.cart_id,
-            "user_id": record.user_id,
             "item_id": record.item_id,
             "item_name": record.name,
             "item_quantity": record.quantity
@@ -69,6 +69,15 @@ def get_all_orders(user_id: int = None):
         orders.append(order)
     return orders
 
+
+def serve_order(user_id: int):
+    try:
+        database.query(Orders).filter_by(user_id=user_id).delete()
+        database.commit()
+        return f"All orders of {user_id} has been served!"
+    except Exception as e:
+        database.rollback()
+        raise e
 
 class Orders(Base):
     __tablename__ = "orders"

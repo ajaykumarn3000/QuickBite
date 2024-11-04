@@ -6,6 +6,7 @@ from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
 
 from models.Orders import get_all_orders
+from models.Orders import serve_order
 
 # FastAPI app router
 router = APIRouter(prefix="/kitchen")
@@ -37,4 +38,12 @@ def get_orders(user_id: int = None):
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=orders
+    )
+
+
+@router.post("/serve")
+def serve_orders(user_id: int):
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=serve_order(user_id)
     )
