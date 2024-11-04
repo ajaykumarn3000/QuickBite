@@ -155,11 +155,11 @@ def add_item(item: MenuItem):
 
 
 @router.patch('/edit/{item_id}')
-def edit_item(item_id: int, item_details: dict) -> JSONResponse:
+def edit_item(item_id: str, item_details: dict) -> JSONResponse:
     """Modifies the price and/r quantity of an existing menu item"""
     MenuCard.edit_item(MenuCard, item_id, item_details)
 
 @router.delete("/delete/{item_id}")
-def delete_item(item_id: int = None):
+def delete_item(item_id: str = None):
     """Deletes an item existing in the Menu"""
     MenuCard.delete_item(MenuCard, item_id)

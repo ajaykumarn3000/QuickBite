@@ -1,9 +1,10 @@
 import logging
 
 from fastapi import APIRouter, Depends, HTTPException, Header, status, Request
-from fastapi.responses import JSONResponse, HTMLResponse, RedirectResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
+
 from controller.token import verify_access_token
 from models.Cart import Cart
 from models.Cart import validate_cart_items, get_order_details, verify_payment
@@ -99,7 +100,7 @@ def get_cart(user_data=Depends(check_jwt_token)):
 
 
 @router.post('/cart/add/{item}', dependencies=[Depends(check_jwt_token)])
-def add_item(item: int, user_data=Depends(check_jwt_token)):
+def add_item(item: str, user_data=Depends(check_jwt_token)):
     """
     This endpoint adds an item to the user's cart.
 
@@ -138,7 +139,7 @@ def add_item(item: int, user_data=Depends(check_jwt_token)):
 
 
 @router.post('/cart/remove/{item}', dependencies=[Depends(check_jwt_token)])
-def remove_item(item: int, user_data=Depends(check_jwt_token)):
+def remove_item(item: str, user_data=Depends(check_jwt_token)):
     """
     This endpoint removes an item from the user's cart.
 
@@ -177,7 +178,7 @@ def remove_item(item: int, user_data=Depends(check_jwt_token)):
 
 
 @router.delete('/cart/delete/{item}', dependencies=[Depends(check_jwt_token)])
-def delete_item(item: int, user_data=Depends(check_jwt_token)):
+def delete_item(item: str, user_data=Depends(check_jwt_token)):
     """
     This endpoint deletes an item from the user's cart.
 

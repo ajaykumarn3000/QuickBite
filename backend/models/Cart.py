@@ -1,14 +1,16 @@
 import os
 import secrets
-import razorpay
-from razorpay.errors import SignatureVerificationError
-from dotenv import load_dotenv
-from models.Users import User
-from models.MenuCard import MenuCard
 from datetime import datetime, timedelta
-from database import conn as database, Base, engine
+
+import razorpay
+from dotenv import load_dotenv
+from razorpay.errors import SignatureVerificationError
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.exc import IntegrityError, NoResultFound, InternalError
+
+from database import conn as database, Base, engine
+from models.MenuCard import MenuCard
+from models.Users import User
 
 load_dotenv()
 
@@ -66,10 +68,10 @@ class Cart(Base):
     __tablename__ = "cart"
     cart_id = Column(String, primary_key=True)
     user_id = Column(Integer, ForeignKey(User.uid), nullable=False)
-    item_id = Column(Integer, ForeignKey(MenuCard.item_id), nullable=False)
+    item_id = Column(String, ForeignKey(MenuCard.item_id), nullable=False)
     quantity = Column(Integer, nullable=False)
 
-    def __init__(self, user_id: int, item_id: int = None, quantity: int = None):
+    def __init__(self, user_id: int, item_id: str = None, quantity: int = None):
         self.user_id = user_id
         self.item_id = item_id
         self.quantity = quantity
@@ -118,11 +120,11 @@ class Cart(Base):
         payment = client.order.create(data=data)
         return payment
 
-    def item_exists(self, item_id: int):
+    def item_exists(self, item_id: str):
         """Check if an item exists in the database, for that particular user"""
         return self.cart.filter_by(item_id=item_id).first()
 
-    def add_item(self, item: int):
+    def add_item(self, item: str):
         try:
             existing_item = self.item_exists(item)
             if existing_item:  # If item exists, increment its quantity by 1
@@ -141,7 +143,7 @@ class Cart(Base):
             database.rollback()
             raise Exception("Quantity exceeds available quantity in Menu!")
 
-    def remove_item(self, item: int):
+    def remove_item(self, item: str):
         try:
             # There should be only one and only one item existing in the cart
             existing = self.cart.filter_by(item_id=item).one()
@@ -155,7 +157,7 @@ class Cart(Base):
             database.rollback()
             self.delete_item(existing.quantity)
 
-    def delete_item(self, item: int):
+    def delete_item(self, item: str):
         # TODO: Raise Exception if item does not exist in the cart
         existing = self.cart.filter_by(item_id=item)
         existing.delete()
