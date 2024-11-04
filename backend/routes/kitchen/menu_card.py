@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from models.MenuCard import MenuCard, item_exists
-from pydantic import BaseModel
-from fastapi import APIRouter, Depends, HTTPException, Header, status
-from controller.token import verify_access_token
 import logging
-from fastapi.responses import JSONResponse
+
 from fastapi import APIRouter, status, HTTPException
+from fastapi import Header
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+
+from controller.token import verify_access_token
+from models.MenuCard import MenuCard, item_exists
 
 # FastAPI app router
 router = APIRouter(prefix="/kitchen/menu")
@@ -136,10 +138,10 @@ def add_item(item: MenuItem):
     else:  # If the item does not exist, add it to the menu card database table
         new_item = MenuCard(
             item.name,
-            item.type,
             item.icon,
+            item.quantity,
             item.price,
-            item.quantity
+            item.type
         )
         MenuCard.add_item(new_item)
         log.info(f"Added a new item to the menu: {item.name}")

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+from secrets import token_hex
+
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.exc import IntegrityError
+
 from database import conn as database, Base, engine
 
 
@@ -19,7 +22,7 @@ class MenuCard(Base):
 
     __tablename__ = "menu"
     # The uid is created by an auto incrementing the database key
-    item_id = Column(Integer, primary_key=True, autoincrement=True)
+    item_id = Column(String, primary_key=True)
     # The name of the item on the menu
     item_name = Column(String, unique=True, nullable=False)
     # The quantity of the item on the menu, empty if the item was not made today
@@ -34,15 +37,14 @@ class MenuCard(Base):
     def __init__(
             self,
             name: str,
-            type: str,
             icon: str,
             quantity: int,
             price: int,
             category: str
     ):
         """Code to be executed when a new item is instantiated"""
+        self.item_id = token_hex(3)
         self.item_name = name
-        self.item_type = type
         self.item_icon = icon
         self.item_quantity = quantity
         self.item_price = price
