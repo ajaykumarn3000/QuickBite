@@ -27,19 +27,6 @@ const Dropdown = () => {
         }`}
       >
         <button
-          className="flex items-center w-full py-1 px-2 hover:text-amber-500"
-          onClick={() => navigate("/orders")}
-        >
-          <span className="material-symbols-rounded mr-2">list_alt</span> My
-          Order
-        </button>
-        <hr />
-        <button className="flex items-center w-full py-1 px-2 hover:text-amber-500">
-          <span className="material-symbols-rounded mr-2">settings</span>{" "}
-          Setting
-        </button>
-        <hr />
-        <button
           className="flex items-center w-full py-1 px-2  hover:text-red-500"
           onClick={onLogout}
         >

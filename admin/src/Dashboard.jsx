@@ -22,7 +22,6 @@ const Dashboard = ({ children }) => {
           {[
             ["Menu", LunchDiningIcon, "/"],
             ["Orders", ListAltRoundedIcon, "/orders"],
-            ["Settings", SettingsRoundedIcon, "/settings"],
           ].map(([item, Icon, path], index) => (
             <div
               key={index}

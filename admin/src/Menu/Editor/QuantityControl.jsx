@@ -6,7 +6,10 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { SERVER_URL } from "../../setup";
 import { useMenuContext } from "../../context/menuContext";
 import InputLabel, { inputStyle } from "../../component/InputLabel";
-import { editItemQuantity } from "../../controller/menuController";
+import {
+  deleteMenuItem,
+  editItemQuantity,
+} from "../../controller/menuController";
 
 const QuantityControl = () => {
   console.log("QUANTITY CONTROL");
@@ -20,10 +23,17 @@ const QuantityControl = () => {
   }, [currentItem]);
 
   const handleConfirm = () => {
-    editItemQuantity({ id: currentItem?.id, quantity: quantity }).then(() =>{setRefresh((prev) => !prev)
-      setCurrentItem((prev) => ({ ...prev, quantity }))
-    }
-    );
+    editItemQuantity({ id: currentItem?.id, quantity: quantity }).then(() => {
+      setRefresh((prev) => !prev);
+      setCurrentItem((prev) => ({ ...prev, quantity }));
+    });
+  };
+
+  const handleDelete = () => {
+    deleteMenuItem(currentItem?.id).then(() => {
+      setRefresh((prev) => !prev);
+      setCurrentItem(null);
+    });
   };
 
   return (
@@ -34,7 +44,9 @@ const QuantityControl = () => {
           {[1, 2, 5, 10, 15, 20].map((item, index) => (
             <QuantityButton
               key={index}
-              onClick={() => setQuantity((prev) => parseInt(prev) + parseInt(item))}
+              onClick={() =>
+                setQuantity((prev) => parseInt(prev) + parseInt(item))
+              }
               quantity={item}
               add
             />
@@ -126,6 +138,12 @@ const QuantityControl = () => {
           CONFIRM
         </button>
       </div>
+      <button
+        onClick={handleDelete}
+        className="bg-red-500 text-white py-1 px-3 mt-4 "
+      >
+        DELETE
+      </button>
     </div>
   );
 };
