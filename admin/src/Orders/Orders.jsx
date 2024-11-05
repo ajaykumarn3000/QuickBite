@@ -18,13 +18,19 @@ const Orders = () => {
         <h1 className="text-xl font-semibold">Orders</h1>
         <div className="mt-4 w-full flex flex-wrap gap-4">
           {orders &&
-            orders.map((order) => (
-              <OrderCard
-                key={order.user_id}
-                data={order}
-                setRefresh={setRefresh}
-              />
-            ))}
+            orders.map((order) => {
+              if (order.items.length > 0) {
+                return (
+                  <OrderCard
+                    key={order.user_id}
+                    data={order}
+                    setRefresh={setRefresh}
+                  />
+                );
+              } else {
+                return null;
+              }
+            })}
         </div>
       </div>
     </div>
