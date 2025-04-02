@@ -81,29 +81,29 @@ const deleteFromCart = async (token, id) => {
   }
 };
 
-const payForCart = async (token, id) => {
-  if (!id) {
-    return;
-  }
-  try {
-    window.location.href = SERVER_URL + `/user/api/cart/checkout/${id}`;
-    // const res = await fetch(SERVER_URL + `/user/api/cart/checkout/${id}`, {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
-    // const data = await res.json();
-    // if (res.ok) {
-    //   console.log(String(data));
-    // } else {
-    //   console.log(data);
-    // }
-  } catch (e) {
-    console.log(e);
-  }
-};
+// const payForCart = async (token, id) => {
+//   if (!id) {
+//     return;
+//   }
+//   try {
+//     window.location.href = SERVER_URL + `/user/api/cart/checkout/${id}`;
+//     // const res = await fetch(SERVER_URL + `/user/api/cart/checkout/${id}`, {
+//     //   method: "GET",
+//     //   headers: {
+//     //     "Content-Type": "application/json",
+//     //     Authorization: `Bearer ${token}`,
+//     //   },
+//     // });
+//     // const data = await res.json();
+//     // if (res.ok) {
+//     //   console.log(String(data));
+//     // } else {
+//     //   console.log(data);
+//     // }
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
 
 const checkoutCart = async (token) => {
   console.log("Checkout clicked");
@@ -118,7 +118,7 @@ const checkoutCart = async (token) => {
     const data = await res.json();
     if (res.ok) {
       console.log(data);
-      await payForCart(token, data);
+      return data;
     } else {
       console.log(data);
     }

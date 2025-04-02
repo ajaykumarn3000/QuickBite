@@ -2,7 +2,6 @@ import React from "react";
 import clsx from "clsx";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import ListAltRoundedIcon from "@mui/icons-material/ListAltRounded";
-import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = ({ children }) => {

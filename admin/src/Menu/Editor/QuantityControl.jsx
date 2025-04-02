@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import QuantityButton from "../../component/QuantityButton";
 import clsx from "clsx";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import { SERVER_URL } from "../../setup";
 import { useMenuContext } from "../../context/menuContext";
 import InputLabel, { inputStyle } from "../../component/InputLabel";
 import {
@@ -19,7 +16,6 @@ const QuantityControl = () => {
 
   useEffect(() => {
     setQuantity(currentItem?.quantity);
-    console.log("QUANTITY CONTROL useEffect", quantity);
   }, [currentItem]);
 
   const handleConfirm = () => {

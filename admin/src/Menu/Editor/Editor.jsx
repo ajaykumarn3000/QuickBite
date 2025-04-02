@@ -1,4 +1,3 @@
-import { useState } from "react";
 import ItemDetails from "./ItemDetails";
 import QuantityControl from "./QuantityControl";
 import { useMenuContext } from "../../context/menuContext";

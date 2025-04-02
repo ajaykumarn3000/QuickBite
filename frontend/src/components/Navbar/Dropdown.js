@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import useUserContext from "../../hooks/useUserContext";
-import { useNavigate } from "react-router-dom";
 
 const Dropdown = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const { dispatch } = useUserContext();
-  const navigate = useNavigate();
 
   const onLogout = () => {
     dispatch({ type: "LOGOUT" });
