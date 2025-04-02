@@ -1,2 +1,2 @@
-const SERVER_URL = "http://localhost:5000/v1";
+const SERVER_URL = "https://quickbite-server.onrender.com";
 export { SERVER_URL };
