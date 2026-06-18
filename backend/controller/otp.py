@@ -356,7 +356,7 @@ class OTP:
                         status_code=status.HTTP_406_NOT_ACCEPTABLE,
                         detail={"from": "otp", "message": "OTP is incorrect"},
                     )
-            log.info(f'Email: {email} not requested OTP', user['uid'])
+        log.info(f'Email: {email} did not request an OTP')
         raise HTTPException(  # If the user is not found in the user data
             status_code=status.HTTP_404_NOT_FOUND,
             detail={"from": None, "message": "OTP not requested"}

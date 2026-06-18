@@ -1,4 +1,5 @@
 import logging
+from os import environ
 
 from fastapi import APIRouter, Depends, HTTPException, Header, status, Request
 from fastapi.responses import JSONResponse, RedirectResponse
@@ -251,7 +252,7 @@ def checkout(user_data=Depends(check_jwt_token)):
 
 
 @router.get('/cart/checkout/{order_id}')
-def checkout(request: Request, order_id: str):
+def checkout_page(request: Request, order_id: str):
     order = get_order_details(order_id)
     return templates.TemplateResponse("checkout.html", {"request": request, "order": order})
 
@@ -273,7 +274,9 @@ def payment_successful(order_id: str, payment_id: str, payment_signature: str):
             payment_method="razorpay",
             payment_timestamp=order_details["created_at"],
         )
-        return RedirectResponse(url="http://localhost:3000")
+        return RedirectResponse(
+            url=environ.get("FRONTEND_URL", "https://quickbite-sfit.vercel.app")
+        )
     else:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

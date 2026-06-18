@@ -54,7 +54,7 @@ class MenuItem(BaseModel):
     quantity: int
 
 
-@router.get('/')
+@router.get('')
 def get_menu():
     """
     Retrieve the menu items.
